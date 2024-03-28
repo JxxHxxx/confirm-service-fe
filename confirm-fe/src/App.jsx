@@ -7,21 +7,31 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import { Test } from './components/test/Test';
 
 const router = createBrowserRouter([
   {
-    path: "/confirm",
-    element: <Confirm />,
+    path: '/',
+    element: <Header />,
     children: [
       {
-        path: "/test",
-        element: <Test />,
+        path: 'confirm',
+        element: <Confirm/>,
       },
+      {
+        path: 'vacation',
+        element : <div>휴가 페이지</div>
+      },
+      {
+        path: 'schedule',
+        element : <div>스케줄 페이지</div>
+      }
     ],
   },
+  {
+    path: '/login',
+    element: <Login />
+  }
 ]);
-
 
 
 
