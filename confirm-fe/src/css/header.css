@@ -1,0 +1,23 @@
+
+.header-container {
+    background-color: burlywood;
+    /* display: flex; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 수직 정렬 */
+    height: 50px;
+    width: 99vw;
+}
+
+.header-container button {
+    padding: 5px;
+    margin: 2px;
+    background-color: palevioletred;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+.header-container button:hover,
+.header-container button:focus {
+    filter: brightness(0.9);
+}
