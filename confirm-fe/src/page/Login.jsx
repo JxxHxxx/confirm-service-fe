@@ -3,9 +3,9 @@ import { LoginForm } from "../components/login/LoginForm";
 import { useEffect } from "react";
 import { checkMemberAuthentication } from "../api/authApi";
 
-// 왜 두번 호출되지?
 export function Login() {
     const navigate = useNavigate();
+    
     // 인증 로직 - 현재는 테스트
     const checkAuth = async () => {
         const authForm = {

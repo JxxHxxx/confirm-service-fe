@@ -3,6 +3,7 @@ import axios from "axios";
 const instance = axios.create({
     baseURL: 'http://localhost:8080',
     timeout: 3000,
+    withCredentials: true
   });
 
 export const signIn = function(loginForm) {
@@ -13,7 +14,13 @@ export const signIn = function(loginForm) {
     };
 
     return instance.post(`/api/auth/login`, requestBody ,{
-        withCredentials: true
+
+    }).then((res) => res.data);
+}
+
+export const logout = function() {
+    return instance.post(`/api/auth/logout`, {
+        
     }).then((res) => res.data);
 }
 
