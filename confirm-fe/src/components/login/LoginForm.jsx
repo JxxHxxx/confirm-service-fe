@@ -1,11 +1,13 @@
 import { Fragment, useContext, useState } from "react";
 import { signIn } from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
-import { LoginContext } from "../../context/AuthContext";
+import { CommonContext } from "../../context/CommonProvider";
 
-
+const tag = '[LoginForm] COMPONENT'
 export function LoginForm() {
-    const { login } = useContext(LoginContext);
+    console.log(tag);
+    const { setLogin } = useContext(CommonContext);
+
     const navigaate = useNavigate();
     const [loginInfo, setLoginInfo] = useState({
         id: '',
@@ -25,6 +27,7 @@ export function LoginForm() {
 
         if (loginResponse.status === 200) {
             navigaate("/confirm");
+            setLogin(true);
         }
     }
 

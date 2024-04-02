@@ -1,15 +1,21 @@
 import { Fragment, useContext } from "react";
-import { LoginContext } from "../../context/AuthContext";
+import { logout } from "../../api/authApi";
+import { CommonContext } from "../../context/CommonProvider";
 
+const tag = '[LoginButton] COMPONENT'
 
-export function LoginButtion() {
-    const login = useContext(LoginContext);
-
-    console.log('login context', login);
+export function LoginButton() {
+    console.log(tag);
+    const { login, setLogin } = useContext(CommonContext);
+    console.log('login', login);
+    const handleLogout = async () => {
+        setLogin(false);
+        await logout();
+    }
 
     return (
         <Fragment>
-                <button>{login ? 'logout' : 'login'}</button>
+                <button onClick={handleLogout}>{login ? 'logout' : 'login'}</button>
         </Fragment>
     )
 }

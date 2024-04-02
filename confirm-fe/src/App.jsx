@@ -7,6 +7,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { CommonProvider } from './context/CommonProvider';
 
 const router = createBrowserRouter([
   {
@@ -15,15 +16,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'confirm',
-        element: <Confirm/>,
+        element: <Confirm />,
       },
       {
         path: 'vacation',
-        element : <div>휴가 페이지</div>
+        element: <div>휴가 페이지</div>
       },
       {
         path: 'schedule',
-        element : <div>스케줄 페이지</div>
+        element: <div>스케줄 페이지</div>
       }
     ],
   },
@@ -39,7 +40,9 @@ function App() {
 
   return (
     <Fragment>
-      <RouterProvider router={router} />
+      <CommonProvider>
+        <RouterProvider router={router} />
+      </CommonProvider>
     </Fragment>
   )
 }

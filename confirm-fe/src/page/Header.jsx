@@ -1,17 +1,10 @@
-import { Fragment, useContext } from 'react'
+import { Fragment } from 'react'
 import '../css/header.css'
 import { Link, Outlet } from 'react-router-dom'
-import { logout } from '../api/authApi'
-import { LoginButtion } from '../components/login/LoginButton'
-import { LoginContext } from '../context/AuthContext'
+import { LoginButton } from '../components/login/LoginButton'
 
 
 export function Header() {
-    const { login } = useContext(LoginContext);
-
-    const handleLogout = async () => {
-        await logout();
-    }
 
     return (
         <Fragment>
@@ -27,22 +20,11 @@ export function Header() {
                         <button className='menu-schedule'>schedule</button>
                     </Link>
                 </div>
-                <LoginContext.Provider value={login}>
                     <div className='login-button'>
-                        <Link to={'login'} >
-                            <LoginButtion />
+                        <Link to={'login'}>
+                            <LoginButton/>
                         </Link>
                     </div>
-                </LoginContext.Provider>
-
-                {/* <div className='login-button'>
-                    <Link to={'login'} >
-                        <button>login</button>
-                    </Link>
-                </div>
-                <div className='logout-button'>
-                    <button onClick={handleLogout}>logout</button>
-                </div> */}
             </div>
             <Outlet />
         </Fragment>

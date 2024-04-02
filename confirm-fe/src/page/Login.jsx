@@ -3,9 +3,13 @@ import { LoginForm } from "../components/login/LoginForm";
 import { useEffect } from "react";
 import { checkMemberAuthentication } from "../api/authApi";
 
-export function Login() {
+const tag = '[Login] COMPONENT'
+
+export function Login( { props } ) {
+    console.log(tag);
+
     const navigate = useNavigate();
-    
+
     // 인증 로직 - 현재는 테스트
     const checkAuth = async () => {
         const authForm = {
@@ -16,6 +20,7 @@ export function Login() {
 
         const responseStatusCode = await checkMemberAuthentication(authForm);
         if(responseStatusCode === 200) {
+
             navigate("/confirm");
         }
     }
