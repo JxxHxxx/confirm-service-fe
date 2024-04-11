@@ -11,13 +11,13 @@ export function Header() {
             <div className='header-container'>
                 <div className='header-menu'>
                     <Link to={'confirm'}>
-                        <button className='menu-confirm-document'>confirm-document</button>
+                        <button className='menu-confirm-document'>결재함</button>
                     </Link>
                     <Link to={'vacation'}>
-                        <button className='menu-vacation'>vacation</button>
+                        <button className='menu-vacation'>휴가</button>
                     </Link>
                     <Link to={'schedule'}>
-                        <button className='menu-schedule'>schedule</button>
+                        <button className='menu-schedule'>일정</button>
                     </Link>
                 </div>
                     <div className='login-button'>

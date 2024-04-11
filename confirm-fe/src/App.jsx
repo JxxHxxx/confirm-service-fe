@@ -1,6 +1,6 @@
 // import './App.css'
 import { Fragment } from 'react';
-import { Confirm } from './page/Confirm'
+import { Vacation } from './page/Vacation'
 import { Header } from './page/Header';
 import { Login } from './page/Login'
 import {
@@ -16,11 +16,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'confirm',
-        element: <Confirm />,
+        element: <div>결재함</div>,
       },
       {
         path: 'vacation',
-        element: <div>휴가 페이지</div>
+        element: <Vacation />
       },
       {
         path: 'schedule',
