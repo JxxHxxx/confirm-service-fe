@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import "../../css/Table.css";
+import { convertDate } from "../../converter/DateTimeConvert";
 
 export function VacationSearchResult({ vacations }) {
     const vacationTypeConst = {
@@ -14,8 +15,9 @@ export function VacationSearchResult({ vacations }) {
         REJECT: '반려',
         ONGOING: '휴가 중',
         COMPLETED: '휴가 종료'
-
     }
+
+
 
     function convertVacationType(vacation) {
         return vacationTypeConst[vacation.vacationType] || '그외휴가';
@@ -27,31 +29,29 @@ export function VacationSearchResult({ vacations }) {
 
     return (
         <Fragment>
-            {vacations && (
-                <table className="vacation_table">
-                    <thead>
-                        <tr>
-                            <td>부서</td>
-                            <td>이름</td>
-                            <td>시작일</td>
-                            <td>종료일</td>
-                            <td>휴가 진행 상태</td>
-                            <td>휴가 유형</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {vacations && vacations.map(vacation =>
-                        (<tr key={vacation.vacationId}>
-                            <td>{vacation.departmentName}</td>
-                            <td>{vacation.name}</td>
-                            <td>{vacation.startDateTime}</td>
-                            <td>{vacation.endDateTime}</td>
-                            <td>{convertVacationStatus(vacation)}</td>
-                            <td>{convertVacationType(vacation)} </td>
-                        </tr>))}
-                    </tbody>
-                </table>
-            )}
+            <table className="vacation_table">
+                <thead>
+                    <tr>
+                        <td>부서</td>
+                        <td>이름</td>
+                        <td>시작일</td>
+                        <td>종료일</td>
+                        <td>휴가 진행 상태</td>
+                        <td>휴가 유형</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {vacations.length > 0 && vacations.map(vacation =>
+                    (<tr key={vacation.vacationId}>
+                        <td>{vacation.departmentName}</td>
+                        <td>{vacation.name}</td>
+                        <td>{convertDate(vacation.startDateTime)}</td>
+                        <td>{convertDate(vacation.endDateTime)}</td>
+                        <td>{convertVacationStatus(vacation)}</td>
+                        <td>{convertVacationType(vacation)} </td>
+                    </tr>))}
+                </tbody>
+            </table>
         </Fragment>
     )
 } 

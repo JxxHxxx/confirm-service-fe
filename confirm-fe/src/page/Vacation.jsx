@@ -31,6 +31,7 @@ export function Vacation() {
     return (
         <Fragment>
             {/* <VacationSearch onHandleSearch={handleSearch} onHandleInputValue={handleInputValue}/> */}
+            <h1>Vacation Page</h1>
             <VacationSearchResult vacations={vacations} />
         </Fragment>
     )
