@@ -6,7 +6,6 @@ const instance = axios.create({
   });
 
 export const getVacations = function(searchForm) {
-
     const params = {
         companyId : sessionStorage.getItem('companyId'),
         departmentId : sessionStorage.getItem('departmentId')

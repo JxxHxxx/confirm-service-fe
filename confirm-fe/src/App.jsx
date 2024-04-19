@@ -8,6 +8,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { CommonProvider } from './context/CommonProvider';
+import { Confirm } from './page/Confirm';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'confirm',
-        element: <div>결재함</div>,
+        element: <Confirm />,
       },
       {
         path: 'vacation',

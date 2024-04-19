@@ -1,0 +1,21 @@
+.vacation_table {
+    color : black;
+}
+
+.vacation_table td {
+    padding: 8px; /* 내부 여백 설정 */
+}
+
+.vacation_table thead tr {
+    color : white;
+    background-color: navy;
+}
+
+
+.vacation_table tbody tr {
+    background-color: azure;
+}
+
+.vacation_table tbody tr:hover {
+    filter: brightness(0.9);
+}
