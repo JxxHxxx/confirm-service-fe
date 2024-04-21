@@ -1,0 +1,21 @@
+.chip-clicked, .chip-unclicked {
+    border: 1px solid transparent;
+    border-radius: 20px; /* 원하는 정도로 조절 가능 */
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.chip-unclicked:hover, .chip-clicked:hover {
+    filter: brightness(90%);
+}
+
+.chip-clicked {
+    border: 1px solid skyblue;
+    background-color : navy;
+    color : skyblue;
+}
+
+.chip-unclicked {
+    background-color : whitesmoke;
+}

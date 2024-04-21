@@ -1,15 +1,15 @@
 
 
-export function Radio({children, value, name, checked, onClick}) {
+export function Radio({ children, value, name, checked, onChange }) {
 
     return (
         <label>
-            <input 
-            type="radio"
-            value={value}
-            name={name}
-            checked={checked}
-            onClick={onClick}
+            <input
+                type="radio"
+                value={value}
+                name={name}
+                checked={checked}
+                onChange={onChange}
             />
             {children}
         </label>

@@ -15,7 +15,7 @@ export function Vacation() {
         setVacationId(value);
     }
 
-    const handleSearch =  async () => {
+    const handleSearch = async () => {
         const findConfirmDocument = await getConfirmDocumentOne(vacationId);
         setVacations(findConfirmDocument);
     }
@@ -36,7 +36,7 @@ export function Vacation() {
             <h2>휴가 신청</h2>
             <VacationApply />
             <h2>부서 휴가자</h2>
-            <VacationSearchResult vacations={vacations} />
+            <VacationSearchResult vacations={vacations} setVacations={setVacations} />
         </Fragment>
     )
 }

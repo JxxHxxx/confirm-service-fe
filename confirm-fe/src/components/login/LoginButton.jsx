@@ -7,7 +7,6 @@ const tag = '[LoginButton] COMPONENT'
 export function LoginButton() {
     console.log(tag);
     const { login, setLogin } = useContext(CommonContext);
-    console.log('login', login);
     const handleLogout = async () => {
         setLogin(false);
         await logout();
@@ -15,7 +14,7 @@ export function LoginButton() {
 
     return (
         <Fragment>
-                <button onClick={handleLogout}>{login ? 'logout' : 'login'}</button>
+            <button onClick={handleLogout}>{login ? 'logout' : 'login'}</button>
         </Fragment>
     )
 }
