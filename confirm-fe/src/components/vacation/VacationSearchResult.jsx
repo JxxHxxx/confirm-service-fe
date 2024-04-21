@@ -9,6 +9,24 @@ const tag = "[vacationSearchResult]"
 export function VacationSearchResult({ vacations }) {
     console.log(tag);
 
+    const [chip, setChip] = useState({
+        className: {
+            myVacation: 'chip-unclicked',
+            request: 'chip-unclicked',
+            approved: 'chip-unclicked',
+            ongoing: 'chip-unclicked',
+        },
+
+        condition: {
+            request: false,
+            approved: false,
+            ongoing: false
+        },
+
+        myVacation: false
+
+    });
+
     const vacationTypeConst = {
         MORE_DAY: '유급휴가',
         COMMON_VACATION: '공동연차'
@@ -31,24 +49,6 @@ export function VacationSearchResult({ vacations }) {
     function convertVacationStatus(vacation) {
         return vacationStatusConst[vacation.vacationStatus] || '';
     }
-
-    const [chip, setChip] = useState({
-        className: {
-            myVacation: 'chip-unclicked',
-            request: 'chip-unclicked',
-            approved: 'chip-unclicked',
-            ongoing: 'chip-unclicked',
-        },
-
-        condition: {
-            request: false,
-            approved: false,
-            ongoing: false
-        },
-
-        myVacation: false
-
-    });
 
     const handleChipClick = (className, conditionValue) => {
         setChip(prev => ({
