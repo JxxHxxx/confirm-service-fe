@@ -13,5 +13,11 @@ export const getVacations = function () {
 
     return instance.get(`/api/vacations`, { params })
         .then((res) => res.data)
-        .catch((err) => err)
+        .catch((err) => alert(err))
+}
+
+export const applyVacation = function ( requestVacationForm ) {
+    return instance.post(`/api/vacations`, requestVacationForm)
+    .then(res => res)
+    .catch(err => err)
 }
