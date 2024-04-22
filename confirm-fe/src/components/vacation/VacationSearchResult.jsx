@@ -1,8 +1,11 @@
 import { Fragment, useState } from "react";
 import "../../css/Table.css";
 import "../../css/Button.css";
+import '../../css/layout/Grid.css';
 
 import { convertDate } from "../../converter/DateTimeConvert";
+
+import VacationSidebar from "../../layout/VacationSidebar";
 
 const tag = "[vacationSearchResult]"
 
@@ -94,36 +97,39 @@ export function VacationSearchResult({ vacations }) {
 
     return (
         <Fragment>
-            <button className={chip.className.myVacation} onClick={() => handleMyVacationChipClick('myVacation', 'myVacation')}>내 휴가</button>
-            <button className={chip.className.request} onClick={() => handleChipClick('request', 'request')}>상신</button>
-            <button className={chip.className.approved} onClick={() => handleChipClick('approved', 'approved')}>승인</button>
-            <button className={chip.className.ongoing} onClick={() => handleChipClick('ongoing', 'ongoing')}>휴가중인</button>
-            <table className="vacation_table">
-                <thead>
-                    <tr>
-                        <td>휴가ID</td>
-                        <td>부서</td>
-                        <td>이름</td>
-                        <td>시작일</td>
-                        <td>종료일</td>
-                        <td>휴가 진행 상태</td>
-                        <td>휴가 유형</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filterVacations().length > 0 && filterVacations().map(vacation => {
-                        return (<tr id={vacation.vacationDurationId} key={vacation.vacationDurationId}>
-                            <td>{vacation.vacationId}</td>
-                            <td>{vacation.departmentName}</td>
-                            <td>{vacation.name}</td>
-                            <td>{convertDate(vacation.startDateTime)}</td>
-                            <td>{convertDate(vacation.endDateTime)}</td>
-                            <td>{convertVacationStatus(vacation)}</td>
-                            <td>{convertVacationType(vacation)} </td>
-                        </tr>)
-                    })}
-                </tbody>
-            </table>
+            <VacationSidebar>
+                <h2>부서 휴가자</h2>
+                <button className={chip.className.myVacation} onClick={() => handleMyVacationChipClick('myVacation', 'myVacation')}>내 휴가</button>
+                <button className={chip.className.request} onClick={() => handleChipClick('request', 'request')}>상신</button>
+                <button className={chip.className.approved} onClick={() => handleChipClick('approved', 'approved')}>승인</button>
+                <button className={chip.className.ongoing} onClick={() => handleChipClick('ongoing', 'ongoing')}>휴가중인</button>
+                <table className="vacation_table">
+                    <thead>
+                        <tr>
+                            <td>휴가ID</td>
+                            <td>부서</td>
+                            <td>이름</td>
+                            <td>시작일</td>
+                            <td>종료일</td>
+                            <td>휴가 진행 상태</td>
+                            <td>휴가 유형</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filterVacations().length > 0 && filterVacations().map(vacation => {
+                            return (<tr id={vacation.vacationDurationId} key={vacation.vacationDurationId}>
+                                <td>{vacation.vacationId}</td>
+                                <td>{vacation.departmentName}</td>
+                                <td>{vacation.name}</td>
+                                <td>{convertDate(vacation.startDateTime)}</td>
+                                <td>{convertDate(vacation.endDateTime)}</td>
+                                <td>{convertVacationStatus(vacation)}</td>
+                                <td>{convertVacationType(vacation)} </td>
+                            </tr>)
+                        })}
+                    </tbody>
+                </table>
+            </VacationSidebar>
         </Fragment>
     )
 }

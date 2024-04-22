@@ -1,12 +1,14 @@
 import { Fragment } from "react";
 import { VacationApplyForm } from "./VacationApplyForm";
+import VacationSidebar from "../../layout/VacationSidebar";
 
 export function VacationApply() {
 
     return (
         <Fragment>
-            <div>부서 신청 폼</div>
-            <VacationApplyForm />
+            <VacationSidebar>
+                <VacationApplyForm />
+            </VacationSidebar>
         </Fragment>
     )
 }

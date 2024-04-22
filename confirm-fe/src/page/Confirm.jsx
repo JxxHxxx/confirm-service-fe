@@ -17,7 +17,6 @@ export function Confirm() {
 
     return (
         <>
-            <h1>Confirm Page</h1>
             <ConfirmSearchResult confirms={confirms}/>
         </>
     )

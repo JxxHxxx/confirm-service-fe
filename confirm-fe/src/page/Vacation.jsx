@@ -1,9 +1,8 @@
 import { Fragment, useEffect, useState } from "react";
 import { getConfirmDocumentOne } from "../api/confirmApi";
-import { VacationSearch } from "../components/vacation/VacationSearch";
 import { VacationSearchResult } from "../components/vacation/VacationSearchResult";
 import { getVacations } from "../api/vacationApi";
-import { VacationApply } from "../components/vacation/VacationApply";
+import '../css/layout/Grid.css';
 
 
 export function Vacation() {
@@ -31,11 +30,6 @@ export function Vacation() {
 
     return (
         <Fragment>
-            {/* <VacationSearch onHandleSearch={handleSearch} onHandleInputValue={handleInputValue}/> */}
-            <h1>Vacation Page</h1>
-            <h2>휴가 신청</h2>
-            <VacationApply />
-            <h2>부서 휴가자</h2>
             <VacationSearchResult vacations={vacations} setVacations={setVacations} />
         </Fragment>
     )

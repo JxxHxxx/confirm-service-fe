@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { CommonProvider } from './context/CommonProvider';
 import { Confirm } from './page/Confirm';
+import { VacationApply } from './components/vacation/VacationApply';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: 'vacation',
         element: <Vacation />
+      },
+      {
+        path: '/vacation/apply',
+        element: <VacationApply />,
       },
       {
         path: 'schedule',

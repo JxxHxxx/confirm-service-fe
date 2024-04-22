@@ -1,0 +1,6 @@
+
+.content {
+    display: grid;
+    margin-left: 200px; /* 사이드바 너비만큼 오른쪽으로 밀어줌 */
+    padding: 20px;
+}
