@@ -21,3 +21,9 @@ export const applyVacation = function ( requestVacationForm ) {
     .then(res => res)
     .catch(err => err)
 }
+
+export const raiseConfirmDoucment = function (vacationId) {
+    return instance.post(`/api/vacations/${vacationId}/raise`)
+    .then(res => res)
+    .catch(err => err)
+}

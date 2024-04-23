@@ -5,8 +5,14 @@
 }
 
 .list-item {
+    display: flex;
+    justify-content: space-between;
     background-color: #ffffff;
     border: black 1px solid;
     padding: 16px;
     margin-bottom: 1px;
+}
+
+.list-item-align-right {
+    padding-left: auto;
 }

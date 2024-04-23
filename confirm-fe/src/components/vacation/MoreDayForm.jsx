@@ -14,9 +14,11 @@ export default function MoreDayForm({ vacationType }) {
         }
     });
 
+    const [vacationId, setVactionId] = useState('');
+
     const [applyStep, setApplyStep] = useState({
-        'vacationDuration': false,
-        'approvalLine': true,
+        'vacationDuration': true,
+        'approvalLine': false,
     })
 
     const handleOnSubmmit = async (event) => {
@@ -37,6 +39,8 @@ export default function MoreDayForm({ vacationType }) {
         const requestResult = await applyVacation(requestVacationForm);
 
         if (requestResult.status === 200) {
+            setVactionId(requestResult.data.vacationId)
+
             setApplyStep(prev => ({
                 ...prev,
                 'vacationDuration': false,
@@ -89,7 +93,7 @@ export default function MoreDayForm({ vacationType }) {
     return (
         <Fragment>
             {applyStep.vacationDuration && tempVacationDurationComponent()}
-            {applyStep.approvalLine && <ApprovalLine departmentMembers={deparmentMenbers}/>}
+            {applyStep.approvalLine && <ApprovalLine departmentMembers={deparmentMenbers} vacationId={vacationId}/>}
         </Fragment>
 
     )
