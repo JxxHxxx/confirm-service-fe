@@ -6,7 +6,7 @@ import MoreDayForm from "./MoreDayForm";
 
 export function VacationApplyForm() {
     const [vacationType, setVacationType] = useState('')
-
+    
     const handleOnChange = (event) => {
         setVacationType(event.target.value);
     }

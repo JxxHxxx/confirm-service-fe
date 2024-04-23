@@ -7,11 +7,28 @@
 .list-item {
     display: flex;
     justify-content: space-between;
-    background-color: #ffffff;
+    background-color: whitesmoke;
     border: black 1px solid;
     padding: 16px;
     margin-bottom: 1px;
 }
+
+.list-item-selected {
+    display: flex;
+    justify-content: space-between;
+    background-color: slateblue;
+    border: black 1px solid;
+    padding: 16px;
+    margin-bottom: 1px;
+}
+
+
+.list-item:hover {
+    filter: brightness(0.9);
+}
+
+
+
 
 .list-item-align-right {
     padding-left: auto;

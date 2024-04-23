@@ -74,7 +74,7 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
             <ul className="list">
                 {(selectedMembers.length > 0 && !approvalLineSubmitted) ? selectedMembers.map(member => {
                     return (
-                        <li className="list-item"
+                        <li className="list-item-selected"
                             key={member.memberPk}
                             value={member.memberId}
                             onClick={handleExceptAprovalLineMember}>
@@ -86,7 +86,7 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
             </ul>
             <h3>부서원</h3>
             <ul className="list">
-                {(selectedMembers.length > 0 && !approvalLineSubmitted) && departmentMembers.map(member => {
+                {(departmentMembers.length > 0 && !approvalLineSubmitted) && departmentMembers.map(member => {
                     return (
                         <li className="list-item"
                             key={member.memberPk}
