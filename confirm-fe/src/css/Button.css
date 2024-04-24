@@ -10,8 +10,11 @@
     filter: brightness(90%);
 }
 
+.chip-group {
+    padding-bottom: 8px;
+}
+
 .chip-clicked {
-    border: 1px solid skyblue;
     background-color : navy;
     color : skyblue;
 }

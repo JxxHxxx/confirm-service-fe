@@ -13,6 +13,7 @@ export function VacationApplyForm() {
 
     return (
         <Fragment>
+            <h2>연차 유형을 선택해주세요</h2>
             <form>
                 <RadioGroup label="휴가 유형">
                     <Radio

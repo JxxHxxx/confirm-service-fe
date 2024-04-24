@@ -5,11 +5,13 @@ const instance = axios.create({
     timeout: 3000,
 });
 
-export const getVacations = function () {
-    const params = {
+export const getVacations = function (addParams) {
+    const defaultParams = {
         companyId: sessionStorage.getItem('companyId'),
         departmentId: sessionStorage.getItem('departmentId')
     }
+
+    const params = {...addParams, ...defaultParams}
 
     return instance.get(`/api/vacations`, { params })
         .then((res) => res.data)

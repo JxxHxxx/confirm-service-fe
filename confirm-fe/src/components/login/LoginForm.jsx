@@ -3,6 +3,8 @@ import { signIn } from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
 import { CommonContext } from "../../context/CommonProvider";
 
+import '../../css/page/Login.css'
+
 const tag = '[LoginForm] COMPONENT'
 export function LoginForm() {
     console.log(tag);
@@ -45,20 +47,33 @@ export function LoginForm() {
         }))
     }
 
-
     return (
         <Fragment>
-            <form>
-                <div>
-                    <label htmlFor='user-id'></label>
-                    <input type='text' id='user-id' placeholder="ID" onChange={handleIdInput} />
-                </div>
-                <div>
-                    <label htmlFor='user-pw'></label>
-                    <input type='password' id='user-pw' placeholder="pw" autoComplete="off" onChange={handlePasswordInput} />
-                </div>
-                <button type="submit" onClick={handleLogin}>Sign In</button>
-            </form>
+            <div className="login-container">
+                <form className="login-form">
+                <h3 className="login-title">JXX</h3>
+                    <div className="wrapper">
+                        <label htmlFor='user-id'></label>
+                        <input className="login-input"
+                            type='text'
+                            id='user-id'
+                            placeholder="사번"
+                            onChange={handleIdInput} />
+                    </div>
+                    <div className="wrapper">
+                        <label htmlFor='user-pw'></label>
+                        <input className="login-input"
+                            type='password'
+                            id='user-pw'
+                            placeholder="비밀번호"
+                            autoComplete="off"
+                            onChange={handlePasswordInput} />
+                    </div>
+                    <button className="login-button" type="submit"
+                        onClick={handleLogin}>
+                        로그인</button>
+                </form>
+            </div>
         </Fragment>
     )
 }

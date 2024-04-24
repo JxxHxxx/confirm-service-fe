@@ -2,8 +2,11 @@ import { Fragment, useState } from "react"
 import { postApprovalLines } from "../../api/confirmApi";
 import { raiseConfirmDoucment } from "../../api/vacationApi";
 
+const tag = '[ApprovalLine] COMPONENT' 
 
 export default function ApprovalLine({ departmentMembers, vacationId }) {
+    console.log(tag);
+    console.log('departmentMembers', departmentMembers);
     const [selectedMembers, setSelectedMemebers] = useState([]);
     const [approvalLineSubmitted, setApprovalLineSubmitted] = useState(false);
 

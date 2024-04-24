@@ -1,7 +1,7 @@
 import { Fragment, useContext } from 'react'
 import '../css/header.css'
 import { Link, Outlet } from 'react-router-dom'
-import { LoginButton } from '../components/login/LoginButton'
+import { LoginLogoutButton } from '../components/login/LoginButton'
 import { CommonContext } from '../context/CommonProvider'
 
 
@@ -23,9 +23,9 @@ export function Header({ children }) {
                     </Link>
                 </div>
                 {login && <div>{sessionStorage.getItem('companyName') + "/" + sessionStorage.getItem('departmentName') + "/" + sessionStorage.getItem('name')}</div>}
-                <div className='login-button'>
+                <div className='#'>
                     <Link to={'/login'}>
-                        <LoginButton />
+                        <LoginLogoutButton />
                     </Link>
                 </div>
             </div>

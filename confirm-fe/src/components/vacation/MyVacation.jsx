@@ -1,52 +1,53 @@
 import { useEffect, useState } from "react";
-import { getCreateConfirmDocument } from "../../api/confirmApi";
 import VacationSidebar from "../../layout/VacationSidebar";
+import { getVacations } from "../../api/vacationApi";
+import VacationTable from "../table/VacationTable";
+import { getDeparmentMembers } from "../../api/memberApi";
 
+const tag = '[MyVacation] COMPONENT'
 
 export default function MyVacation() {
-    const [ createdConfirmDocuments, setCreatedConfirmDocuments ] = useState([]);
+    console.log(tag);
 
-    const callApi = async () => {
-        const param = {
-            requesterId: sessionStorage.getItem('memberId'),
-            confirmStatus: 'CREATE'
+    const [deparmentMembers, setDepartmentMembers] = useState([]);
+    const [createdMyVacations, setCreatedMyVacations] = useState([]);
+
+    const handleVacationList = async () => {
+        const addParams = {
+            requesterId: sessionStorage.getItem("memberId")
         }
+        const result = await getVacations(addParams);
+        setCreatedMyVacations(result);
+    }
 
-        const result = await getCreateConfirmDocument(param);
-        setCreatedConfirmDocuments(result.data.data);
-        console.log('result', result);
+    const handleApprovalLine = async () => {
+        const findDepartmentMembers = await getDeparmentMembers();
+        setDepartmentMembers(findDepartmentMembers);
     }
 
     useEffect(() => {
-        callApi();
+        handleVacationList();
+        handleApprovalLine();
     }, [])
 
-    console.log('createdVacations', createdConfirmDocuments);
+    const raisedAfterVacations = createdMyVacations.filter(vacation => vacation.vacationStatus !== 'CREATE')
+    const raiseBeforeVacations = createdMyVacations.filter(vacation => vacation.vacationStatus === 'CREATE')
 
     return (
         <VacationSidebar>
             <main>
                 <article>
-                    <h2>내 휴가</h2>
-                    <p>...</p>
-                    <p>...</p>
-                    <p>...</p>
+                    <VacationTable
+                        tableTitle={"내 휴가"}
+                        vacationList={raisedAfterVacations} />
                 </article>
-
                 <article>
-                    <h2>작성중인 휴가</h2>
-                    {createdConfirmDocuments.length > 0 ? 
-                    createdConfirmDocuments.map(document => {
-                        return (
-                            <ul key={document.pk}>
-                                <li className="list-item">{document.documentType}</li>
-                            </ul>
-                        )
-                    } ) 
-                    : <div>작성중인 휴가가 없습니다</div>}
+                    <VacationTable
+                        tableTitle={"작성중인 휴가"}
+                        vacationList={raiseBeforeVacations}
+                        deparmentMembers={deparmentMembers} />
                 </article>
             </main>
-
         </VacationSidebar>
     )
 }

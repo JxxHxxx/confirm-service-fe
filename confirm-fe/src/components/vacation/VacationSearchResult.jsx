@@ -99,10 +99,12 @@ export function VacationSearchResult({ vacations }) {
         <Fragment>
             <VacationSidebar>
                 <h2>부서 휴가자</h2>
-                <button className={chip.className.myVacation} onClick={() => handleMyVacationChipClick('myVacation', 'myVacation')}>내 휴가</button>
-                <button className={chip.className.request} onClick={() => handleChipClick('request', 'request')}>상신</button>
-                <button className={chip.className.approved} onClick={() => handleChipClick('approved', 'approved')}>승인</button>
-                <button className={chip.className.ongoing} onClick={() => handleChipClick('ongoing', 'ongoing')}>휴가중인</button>
+                <div className="chip-group">
+                    <button className={chip.className.myVacation} onClick={() => handleMyVacationChipClick('myVacation', 'myVacation')}>내 휴가</button>
+                    <button className={chip.className.request} onClick={() => handleChipClick('request', 'request')}>상신</button>
+                    <button className={chip.className.approved} onClick={() => handleChipClick('approved', 'approved')}>승인</button>
+                    <button className={chip.className.ongoing} onClick={() => handleChipClick('ongoing', 'ongoing')}>휴가중인</button>
+                </div>
                 <table className="vacation_table">
                     <thead>
                         <tr>
