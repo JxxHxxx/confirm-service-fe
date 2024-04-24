@@ -20,8 +20,6 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
         }
     }
 
-    console.log('selectedMembers', selectedMembers);
-
     const handleExceptAprovalLineMember = (event) => {
         const memberId = event.currentTarget.getAttribute("value");
         const updatedMembers = selectedMembers.filter(member => member.memberId !== memberId);

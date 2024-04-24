@@ -16,6 +16,11 @@ export default function VacationSidebar({ children }) {
                             <ui>휴가 신청</ui>
                         </div>
                     </Link>
+                    <Link to={'/vacation/MyVacation'}>
+                        <div className="menu">
+                            <ui>작성중인 휴가</ui>
+                        </div>
+                    </Link>
                 </ul>
             </div>
             <div className="content">

@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import { getConfirmDocumentOne } from "../api/confirmApi";
+import { getConfirmDocumentIncludeApproval } from "../api/confirmApi";
 import { VacationSearchResult } from "../components/vacation/VacationSearchResult";
 import { getVacations } from "../api/vacationApi";
 import '../css/layout/Grid.css';
@@ -15,7 +15,7 @@ export function Vacation() {
     }
 
     const handleSearch = async () => {
-        const findConfirmDocument = await getConfirmDocumentOne(vacationId);
+        const findConfirmDocument = await getConfirmDocumentIncludeApproval(vacationId);
         setVacations(findConfirmDocument);
     }
 
