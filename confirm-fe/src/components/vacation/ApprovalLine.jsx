@@ -1,12 +1,24 @@
 import { Fragment, useState } from "react"
 import { postApprovalLines } from "../../api/confirmApi";
 import { raiseConfirmDoucment } from "../../api/vacationApi";
+import { useLocation } from "react-router-dom";
 
 const tag = '[ApprovalLine] COMPONENT' 
 
 export default function ApprovalLine({ departmentMembers, vacationId }) {
     console.log(tag);
-    console.log('departmentMembers', departmentMembers);
+    const location = useLocation();
+
+    if(departmentMembers === undefined) {
+        departmentMembers = location.state.departmentMembers;
+    }
+
+    if(vacationId === undefined) {
+        vacationId = location.state.vacationId;
+    }
+
+    console.log('test', departmentMembers)
+
     const [selectedMembers, setSelectedMemebers] = useState([]);
     const [approvalLineSubmitted, setApprovalLineSubmitted] = useState(false);
 

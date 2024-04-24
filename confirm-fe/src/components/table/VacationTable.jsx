@@ -1,34 +1,11 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { convertDate } from "../../converter/DateTimeConvert";
+import { convertVacationStatus, convertVacationType } from "../../converter/VacationConverter";
 
 const tag = '[VacationTable] COMPONENT';
 
-export default function VacationTable({ deparmentMembers, tableTitle, vacationList }) {
+export default function VacationTable({ tableTitle, vacationList }) {
     console.log(tag);
-    console.log('deparmentMembersdeparmentMembers', deparmentMembers)
-
-    function convertVacationType(vacation) {
-        return vacationTypeConst[vacation.vacationType] || '그외휴가';
-    }
-
-    function convertVacationStatus(vacation) {
-        return vacationStatusConst[vacation.vacationStatus] || '';
-    }
-
-    const vacationTypeConst = {
-        MORE_DAY: '유급휴가',
-        COMMON_VACATION: '공동연차'
-    }
-
-    const vacationStatusConst = {
-        CREATE: '생성',
-        REQUEST: '상신',
-        APPROVED: '승인',
-        REJECT: '반려',
-        ONGOING: '휴가 중',
-        COMPLETED: '휴가 종료',
-        NON_REQUIRED: '승인'
-    }
 
     return (
         <Fragment>
@@ -50,7 +27,6 @@ export default function VacationTable({ deparmentMembers, tableTitle, vacationLi
                         return (<tr
                             id={vacation.vacationDurationId}
                             key={vacation.vacationDurationId}
-                            // onClick={handleOnClickTableRow}
                         >
                             <td>{vacation.vacationId}</td>
                             <td>{vacation.departmentName}</td>
