@@ -1,45 +1,32 @@
-import { Fragment, useState } from "react";
 import Modal from 'react-modal';
 
-export function ConfirmDocumentModal() {
+export function ConfirmDocumentModal({ confirmDocumentPk, modalOpen, setModalOpen }) {
     const customStyles = {
         content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
         },
-      };
-      
+    };
+
     let subtitle;
-    const [modalIsOpen, setIsOpen] = useState(false);
-
-    function openModal() {
-        setIsOpen(true);
-    }
-
-    function afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        subtitle.style.color = '#f00';
-    }
 
     function closeModal() {
-        setIsOpen(false);
+        setModalOpen(false);
     }
 
     return (
         <div>
-            <button onClick={openModal}>Open Modal</button>
             <Modal
-                isOpen={modalIsOpen}
-                onAfterOpen={afterOpenModal}
+                isOpen={modalOpen}
                 onRequestClose={closeModal}
                 style={customStyles}
                 contentLabel="Example Modal"
             >
-                <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2>
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)}>결재 문서 ID : {confirmDocumentPk}</h2>
                 <button onClick={closeModal}>close</button>
                 <div>I am a modal</div>
                 <form>

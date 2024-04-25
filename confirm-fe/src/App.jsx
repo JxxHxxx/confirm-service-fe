@@ -1,5 +1,5 @@
 // import './App.css'
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Vacation } from './page/Vacation'
 import { Header } from './page/Header';
 import { Login } from './page/Login'
@@ -12,6 +12,7 @@ import { Confirm } from './page/Confirm';
 import { VacationApply } from './components/vacation/VacationApply';
 import MyVacation from './components/vacation/MyVacation';
 import ApprovalLine from './components/vacation/ApprovalLine';
+import Modal from 'react-modal';
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,9 @@ const router = createBrowserRouter([
 
 
 function App() {
+  useEffect(() => {
+    Modal.setAppElement('#root'); // #root는 모달의 애플리케이션 요소로 지정할 요소의 ID입니다.
+  }, []);
 
   return (
     <Fragment>
