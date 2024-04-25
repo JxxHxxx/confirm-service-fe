@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { getConfirmDocumentIncludeApproval } from "../api/confirmApi";
 import { VacationSearchResult } from "../components/vacation/VacationSearchResult";
 import { getVacations } from "../api/vacationApi";
-import '../css/layout/Grid.css';
+import '../css/layout/Sidebar.css';
 
 
 export function Vacation() {

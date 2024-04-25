@@ -9,12 +9,14 @@ const tag = '[LoginForm] COMPONENT'
 export function LoginForm() {
     console.log(tag);
     const { setLogin } = useContext(CommonContext);
-
     const navigaate = useNavigate();
+
     const [loginInfo, setLoginInfo] = useState({
         id: '',
         password: ''
     });
+
+    const [loginFail, setLoginFail] = useState(false);
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -27,13 +29,19 @@ export function LoginForm() {
         sessionStorage.setItem('memberId', loginResponse.data.memberId);
         sessionStorage.setItem('name', loginResponse.data.name);
 
-        if (loginResponse.status === 200) {
-            navigaate("/confirm");
+        const httpStatus = loginResponse.status;
+
+        if (httpStatus === 200) {
+            navigaate("/vacation");
             setLogin(true);
+        }
+        else if (httpStatus === 400) {
+            setLoginFail(true);
         }
     }
 
     const handleIdInput = (event) => {
+        setLoginFail(false);
         setLoginInfo(prev => ({
             ...prev,
             id: event.target.value
@@ -41,6 +49,7 @@ export function LoginForm() {
     }
 
     const handlePasswordInput = (event) => {
+        setLoginFail(false);
         setLoginInfo(prev => ({
             ...prev,
             password: event.target.value
@@ -51,7 +60,7 @@ export function LoginForm() {
         <Fragment>
             <div className="login-container">
                 <form className="login-form">
-                <h3 className="login-title">JXX</h3>
+                    <h3 className="login-title">JXX</h3>
                     <div className="wrapper">
                         <label htmlFor='user-id'></label>
                         <input className="login-input"
@@ -69,9 +78,15 @@ export function LoginForm() {
                             autoComplete="off"
                             onChange={handlePasswordInput} />
                     </div>
-                    <button className="login-button" type="submit"
-                        onClick={handleLogin}>
-                        로그인</button>
+                    <div className="wrapper">
+                        {loginFail && <span className="fail-message">아이디/비밀번호가 올바르지 않습니다.</span>}
+                    </div>
+                    <div className="wrapper-t-5">
+                        <button className="login-button" type="submit"
+                            onClick={handleLogin}>
+                            로그인
+                        </button>
+                    </div>
                 </form>
             </div>
         </Fragment>

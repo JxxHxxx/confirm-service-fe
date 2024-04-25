@@ -2,9 +2,9 @@ import { Fragment, useContext } from "react";
 import { logout } from "../../api/authApi";
 import { CommonContext } from "../../context/CommonProvider";
 
-const tag = '[LoginLogoutButton] COMPONENT'
+const tag = '[LoginLogout] COMPONENT'
 
-export function LoginLogoutButton() {
+export function LoginLogout() {
     console.log(tag);
     const { login, setLogin } = useContext(CommonContext);
     const handleLogout = async () => {
@@ -14,7 +14,10 @@ export function LoginLogoutButton() {
 
     return (
         <Fragment>
-            <button onClick={handleLogout}>{login ? 'logout' : 'login'}</button>
+            <a className="menu-item"
+                onClick={handleLogout}>
+                {login ? '로그아웃' : '로그인'}
+            </a>
         </Fragment>
     )
 }

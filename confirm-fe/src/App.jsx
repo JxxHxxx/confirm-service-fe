@@ -56,9 +56,11 @@ function App() {
 
   return (
     <Fragment>
-      <CommonProvider>
-        <RouterProvider router={router} />
-      </CommonProvider>
+      <div id="root">
+        <CommonProvider>
+          <RouterProvider router={router} />
+        </CommonProvider>
+      </div>
     </Fragment>
   )
 }

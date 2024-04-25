@@ -1,0 +1,50 @@
+.sidebar-container {
+    display: grid;
+    grid-template-columns: 1fr 7fr; /* 사이드바와 메인 컨텐츠의 비율 조정 */
+}
+
+.sidebar {
+    text-align: left;
+}
+
+.sidebar .white-space {
+    background-color: white;
+    padding-top: 95px;
+    
+}
+
+.sidebar .menu-item-wrapper {
+    padding-bottom: 10px;
+    background-color: whitesmoke;
+    border-bottom: 1px solid gray;
+    text-decoration: none;
+    text-align: left;
+    font-size: 14px;
+}
+
+.sidebar .menu-item-wrapper:visited {
+    color:inherit;
+}
+
+.sidebar .menu-item-wrapper-selected {
+    padding-bottom: 10px;
+    background-color: whitesmoke;
+    border-bottom: 1px solid gray;
+}
+
+.sidebar .menu-item-wrapper-selected .menu-item {
+    text-decoration: none;
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.sidebar .menu-item-wrapper:hover {
+    filter: brightness(110%);
+    background-color: whitesmoke;
+}
+
+.content {
+    background-color: #ffffff;
+    padding: 20px;
+}
