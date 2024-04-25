@@ -28,3 +28,15 @@ export const getCreateConfirmDocument = function (params) {
     .then((res) => res)
     .catch((err) => err)
 }
+
+export const acceptConfirmDocument = function (confirmDocumentPk, approvalForm) {
+  return instance.patch(`api/confirm-documents/${confirmDocumentPk}/accept`, approvalForm)
+    .then((res) => res)
+    .catch((err) => err)
+}
+
+export const rejectConfirmDocument = function (confirmDocumentPk, approvalForm) {
+  return instance.patch(`api/confirm-documents/${confirmDocumentPk}/reject`, approvalForm)
+    .then((res) => res)
+    .catch((err) => err)
+}

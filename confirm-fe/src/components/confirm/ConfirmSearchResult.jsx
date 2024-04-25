@@ -1,32 +1,21 @@
 import { Fragment } from "react";
 import { convertDateTime } from "../../converter/DateTimeConvert";
 import ConfirmSidebar from "../../layout/ConfirmSidebar";
+import { convertApproveStatus, convertDocumentType } from "../../converter/DocumentConverter";
+import { ConfirmDocumentModal } from "./ConfirmDocumentModal";
 
 
 export function ConfirmSearchResult({ confirms }) {
-
-    const approveStatusConst = {
-        PENDING: '미결',
-        REJECT: '반려',
-        ACCEPT: '승인'
-    }
-
-    const documentTypeConst = {
-        VAC: '휴가'
-    }
-
-    const convertApproveStatus = (approveStatus) => {
-        return approveStatusConst[approveStatus] || ''
-    }
-
-    const convertDocumentType = (documentType) => {
-        return documentTypeConst[documentType] || ''
+    
+    const handleOnClickDocumentSummary = async (confirmDocumentPk) => {
+        // TODO : 문서의 상세 내용을 나타내는 모달창 띄우기
     }
 
     return (
         <Fragment>
             <ConfirmSidebar>
                 <h2>부서 결재함</h2>
+                <ConfirmDocumentModal />
                 <table className="vacation_table">
                     <thead>
                         <tr>
@@ -41,7 +30,7 @@ export function ConfirmSearchResult({ confirms }) {
                     </thead>
                     <tbody>
                         {confirms.data && confirms.data.map(confirm => (
-                            <tr key={confirm.pk}>
+                            <tr key={confirm.pk} onClick={() => handleOnClickDocumentSummary(confirm.pk)}>
                                 <td>{confirm.pk}</td>
                                 <td>{convertDateTime(confirm.createTime)}</td>
                                 <td>{convertDocumentType(confirm.documentType)}</td>
