@@ -19,3 +19,9 @@
 .vacation_table tbody tr:hover {
     filter: brightness(0.9);
 }
+
+
+/* 결재 문서 내용 */
+.confirm-document-table th, td {
+    border : 1px solid black
+}

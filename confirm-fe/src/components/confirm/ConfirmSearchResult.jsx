@@ -7,10 +7,10 @@ import { ConfirmDocumentModal } from "./ConfirmDocumentModal";
 
 export function ConfirmSearchResult({ confirms }) {
     const [modelOpen, setModalOpen] = useState(false);
-    const [selectedDocumentPk, setSelectedDocumentPk] = useState(null);
-
-    const handleOpenModal = (confirmDocumentPk) => {
-        setSelectedDocumentPk(confirmDocumentPk);
+    const [selectedDocumentContentPk, setDocumentContentPk] = useState();
+    
+    const handleOpenModal = (documentContentPk) => {
+        setDocumentContentPk(documentContentPk);
         setModalOpen(true);
     }
 
@@ -19,9 +19,9 @@ export function ConfirmSearchResult({ confirms }) {
             <ConfirmSidebar>
                 <h2>부서 결재함</h2>
                 {<ConfirmDocumentModal
-                    confirmDocumentPk={selectedDocumentPk}
                     modalOpen={modelOpen}
                     setModalOpen={setModalOpen}
+                    documentContentPk={selectedDocumentContentPk}
                 />}
                 <table className="vacation_table">
                     <thead>
@@ -37,7 +37,7 @@ export function ConfirmSearchResult({ confirms }) {
                     </thead>
                     <tbody>
                         {confirms.data && confirms.data.map(confirm => (
-                            <tr key={confirm.pk} onClick={() => handleOpenModal(confirm.pk)}> {/* 클릭 이벤트 핸들러 변경 */}
+                            <tr key={confirm.pk} onClick={() => handleOpenModal(confirm.confirmDocumentContentPk)}> {/* 클릭 이벤트 핸들러 변경 */}
                                 <td>{confirm.pk}</td>
                                 <td>{convertDateTime(confirm.createTime)}</td>
                                 <td>{convertDocumentType(confirm.documentType)}</td>

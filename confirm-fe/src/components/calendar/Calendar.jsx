@@ -1,13 +1,14 @@
 
-export default function Calendar({title, id, type, onChange}) {
+export default function Calendar({title, id, onChange, initValue}) {
 
     return (
         <label htmlFor={id}>{title}
             <div>
                 <input
-                    type={type}
+                    type="date"
                     id={id}
-                    onChange={onChange} />
+                    onChange={onChange}
+                    value={initValue} />
             </div>
         </label>
     )

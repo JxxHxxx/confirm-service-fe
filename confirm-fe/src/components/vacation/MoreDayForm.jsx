@@ -7,11 +7,12 @@ import '../../css/List.css'
 import ApprovalLine from "./ApprovalLine";
 
 export default function MoreDayForm({ vacationType }) {
-    const [vacationDuration, setVacationDuration] = useState({
+    const [vacationForm, setVacationForm] = useState({
         'duration': {
             'startDateTime': '',
             'endDateTime': ''
-        }
+        },
+        'reason': ''
     });
 
     const [vacationId, setVactionId] = useState('');
@@ -30,10 +31,16 @@ export default function MoreDayForm({ vacationType }) {
             leaveDeduct: "DEDUCT",
             requestVacationDurations: [
                 {
-                    startDateTime: vacationDuration.duration.startDateTime + "T00:00",
-                    endDateTime: vacationDuration.duration.endDateTime + "T00:00"
+                    startDateTime: vacationForm.duration.startDateTime + "T00:00",
+                    endDateTime: vacationForm.duration.endDateTime + "T00:00"
                 }
-            ]
+            ],
+            title: "휴가신청서",
+            reason: "개인사정",
+            requesterName: "임시이름",
+            delegatorId: "T00001",
+            departmentId: sessionStorage.getItem('departmentId'),
+            departmentName: sessionStorage.getItem('departmentName')
         }
 
         const requestResult = await applyVacation(requestVacationForm);
@@ -50,12 +57,21 @@ export default function MoreDayForm({ vacationType }) {
     }
 
     const handleOnChangeDate = (event) => {
-        setVacationDuration(prev => ({
+        setVacationForm(prev => ({
+            ...prev,
             duration: {
                 ...prev.duration,
                 [event.target.id]: event.target.value
             }
         }))
+    }
+
+
+    const hnadleOnChangeReasonInput = (event) => {
+        setVacationForm(prev => ({
+            ...prev,
+            reason: event.target.value
+        }));
     }
 
     const tempVacationDurationComponent = () => {
@@ -66,14 +82,20 @@ export default function MoreDayForm({ vacationType }) {
                     <Calendar
                         title="연차 시작일을 지정해주세요"
                         id="startDateTime"
-                        type="date"
-                        onChange={handleOnChangeDate} />
+                        onChange={handleOnChangeDate}
+                    />
                     <Calendar
                         title="연차 종료일을 지정해주세요"
                         id="endDateTime"
-                        type="date"
                         onChange={handleOnChangeDate} />
-                    <button type="submit">제출</button>
+                    <label htmlFor="vacation-reason" />사유
+                    <input
+                        id="vacation-reasont"
+                        type="text"
+                        onChange={hnadleOnChangeReasonInput} />
+                    <div>
+                        <button type="submit">제출</button>
+                    </div>
                 </form>
             </Fragment>
         )
@@ -93,7 +115,7 @@ export default function MoreDayForm({ vacationType }) {
     return (
         <Fragment>
             {applyStep.vacationDuration && tempVacationDurationComponent()}
-            {applyStep.approvalLine && <ApprovalLine departmentMembers={deparmentMenbers} vacationId={vacationId}/>}
+            {applyStep.approvalLine && <ApprovalLine departmentMembers={deparmentMenbers} vacationId={vacationId} />}
         </Fragment>
 
     )
