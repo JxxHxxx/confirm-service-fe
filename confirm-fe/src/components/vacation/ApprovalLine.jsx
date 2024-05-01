@@ -19,14 +19,14 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
     }
 
     const [selectedMembers, setSelectedMemebers] = useState([]);
-    const [approvalLines, setApprovalLines ] = useState({
-        flag : {
-            submitted : false,
-            saved : false
+    const [approvalLines, setApprovalLines] = useState({
+        flag: {
+            submitted: false,
+            saved: false
         }
     })
 
-    const updateApprovalLines = (prev, fieldName, fieldValue) => {
+    const updateApprovalLinesFlag = (prev, fieldName, fieldValue) => {
         return {
             ...prev,
             flag: {
@@ -64,7 +64,7 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
 
         const result = await postApprovalLines(confirmDocumentId, approvalLineForm);
         if (result.status === 200) {
-            setApprovalLines((prev) => updateApprovalLines(prev, 'submitted', true))
+            setApprovalLines((prev) => updateApprovalLinesFlag(prev, 'submitted', true))
         }
         else {
             alert('잠시 후 다시 시도해주세요.')
@@ -75,7 +75,7 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
     const handleOnClickRaiseConfirmDocument = async () => {
         const result = await raiseConfirmDoucment(vacationId);
         if (result.status === 200) {
-            setApprovalLines((prev) => updateApprovalLines(prev, 'submitted', true))
+            setApprovalLines((prev) => updateApprovalLinesFlag(prev, 'submitted', true))
             alert('상신 완료')
             navigate('/vacation')
         }
@@ -87,16 +87,16 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
 
     const handleMount = async () => {
         const confirmDocumentId = "VAC" + sessionStorage.getItem('companyId') + vacationId;
-        const params = {
-            confirmDocumentId : confirmDocumentId
+        // TODO 결재선이 이미 등록됐지는 확인 없다면 -> 있다면 상신 버튼 -> 상신 되었다면 -> 완료 페이지로
+        const result = await getApprovalLines(confirmDocumentId);
+        if (result.data.data.length > 0) {
+            setApprovalLines((prev) => updateApprovalLinesFlag(prev, 'submitted', true));
         }
-        const result = await getConfirmDocument(params);
-        console.log('result', result.data);
     }
 
-    useEffect(() => (
+    useEffect(() => {
         handleMount()
-    ), [])
+    }, [])
 
     return (
         <Fragment>

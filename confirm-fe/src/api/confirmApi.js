@@ -16,9 +16,8 @@ export const getConfirmDocumentIncludeApproval = function () {
 }
 
 // back 에 구현 안되어있음
-export const getApprovalLines = function (confirmDocumentPk) {
-
-  return instance.get(`/api/confirm-documents/${confirmDocumentPk}/approval-lines`)
+export const getApprovalLines = function (confirmDocumentId) {
+  return instance.get(`/api/confirm-documents/${confirmDocumentId}/approval-lines`)
     .then((res) => res)
     .catch((err) => err)
 }
