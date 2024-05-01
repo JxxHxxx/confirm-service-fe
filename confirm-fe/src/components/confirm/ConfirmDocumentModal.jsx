@@ -49,7 +49,7 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
                 onClick={handleOnClickReject}>
                 반려
             </button>
-            <button style={{ marginLeft: '300px' }}
+            <button style={{ marginLeft: '350px' }}
                 onClick={closeModal}>
                 닫기
             </button>
@@ -74,6 +74,10 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
                         <td>{confirmDocumentContent.contents.reason}</td>
                     </tr>
                     <tr>
+                        <th>휴가 기간</th>
+                    </tr>
+                    <tr>
+
                         {confirmDocumentContent.contents.vacation_durations.map((duration, index) => {
                             return (<div>
                                 <td>{index + 1}</td>

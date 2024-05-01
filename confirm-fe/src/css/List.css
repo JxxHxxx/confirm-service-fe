@@ -30,3 +30,31 @@
 .list-item-align-right {
     padding-left: auto;
 }
+
+.list-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.member-list {
+    list-style-type: none;
+    width: max-content;
+    padding: 3px;
+}
+
+.member-list .item {
+    font-size: 14px;
+    /* justify-content: space-between; */
+    background-color: whitesmoke;
+    border: black 1px solid;
+    padding: 12px;
+    margin-bottom: 1px;
+}
+
+.member-list .item-none {
+    font-size: 14px;
+    color: gray;
+    /* justify-content: space-between; */
+    padding: 12px;
+    margin-bottom: 1px;
+}

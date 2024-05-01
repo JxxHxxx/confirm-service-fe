@@ -5,6 +5,7 @@ import { getDeparmentMembers } from "../../api/memberApi";
 
 import '../../css/List.css'
 import ApprovalLine from "./ApprovalLine";
+import MemberSearch from "../member/MemberSearch";
 
 export default function MoreDayForm({ vacationType }) {
     const [vacationForm, setVacationForm] = useState({
@@ -36,8 +37,8 @@ export default function MoreDayForm({ vacationType }) {
                 }
             ],
             title: "휴가신청서",
-            reason: "개인사정",
-            requesterName: "임시이름",
+            reason: vacationForm.reason,
+            requesterName: sessionStorage.getItem('memberName'),
             delegatorId: "T00001",
             departmentId: sessionStorage.getItem('departmentId'),
             departmentName: sessionStorage.getItem('departmentName')
@@ -115,6 +116,7 @@ export default function MoreDayForm({ vacationType }) {
     return (
         <Fragment>
             {applyStep.vacationDuration && tempVacationDurationComponent()}
+            {applyStep.approvalLine && <MemberSearch />}
             {applyStep.approvalLine && <ApprovalLine departmentMembers={deparmentMenbers} vacationId={vacationId} />}
         </Fragment>
 

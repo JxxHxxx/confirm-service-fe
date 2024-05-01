@@ -10,8 +10,16 @@ export const getConfirmDocumentIncludeApproval = function () {
     approvalId: sessionStorage.getItem('memberId')
   }
 
-  return instance.get(`/api/confirm-documents/approval`, { params })
+  return instance.get(`/api/confirm-documents/approval-lines`, { params })
     .then((res) => res.data)
+    .catch((err) => err)
+}
+
+// back 에 구현 안되어있음
+export const getApprovalLines = function (confirmDocumentPk) {
+
+  return instance.get(`/api/confirm-documents/${confirmDocumentPk}/approval-lines`)
+    .then((res) => res)
     .catch((err) => err)
 }
 
@@ -22,7 +30,7 @@ export const postApprovalLines = function (confirmDocumentId, approvalLineForm) 
     .catch((err) => err)
 }
 
-export const getCreateConfirmDocument = function (params) {
+export const getConfirmDocument = function (params) {
 
   return instance.get(`/api/confirm-documents`, { params })
     .then((res) => res)
