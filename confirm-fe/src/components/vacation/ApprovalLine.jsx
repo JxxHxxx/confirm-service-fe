@@ -107,39 +107,43 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
                 상신
             </button>}
             <div className="list-container">
-                <List title={"사용자 검색"}
-                    cn={{ ul: "member-list", li: "item" }}
-                    showCondition={(departmentMembers.length > 0 && !approvalLines.flag.submitted)}
-                    listProperty={{
-                        items: departmentMembers,
-                        itemKey: 'memberPk',
-                        itemValue: 'memberId',
-                        onClick: handleAddAprovalLineMember,
-                        itemContent: (item) => (
-                            <Fragment>
-                                {item.departmentName}/{item.name}/{item.enteredDate}
-                            </Fragment>
-                        )
-                    }}
-                >
-                </List>
-                <List cn={{ ul: "member-list", li: "item" , noneli:"item-none" }}
-                    title={"결재 라인"}
-                    showCondition={(selectedMembers.length > 0 && !approvalLines.flag.submitted)}
-                    listProperty={{
-                        items: selectedMembers,
-                        itemKey: 'memberPk',
-                        itemValue: 'memberId',
-                        onClick: handleExceptAprovalLineMember,
-                        itemContent: (item) => (<>{item.departmentName}/{item.name}/{item.enteredDate}</>),
-                        emptyListInfo:'결재 라인을 추가해주세요'
-                    }}>
-                    <button
-                        type="button"
-                        onClick={handleOnClickCompleteApprovaLine}>
-                        결재선 지정 완료
-                    </button>
-                </List>
+                {!approvalLines.flag.submitted && (
+                    <List title={"사용자 검색"}
+                        cn={{ ul: "member-list", li: "item" }}
+                        showCondition={(departmentMembers.length > 0 && !approvalLines.flag.submitted)}
+                        listProperty={{
+                            items: departmentMembers,
+                            itemKey: 'memberPk',
+                            itemValue: 'memberId',
+                            onClick: handleAddAprovalLineMember,
+                            itemContent: (item) => (
+                                <Fragment>
+                                    {item.departmentName}/{item.name}/{item.enteredDate}
+                                </Fragment>
+                            )
+                        }}
+                    >
+                    </List>
+                )}
+                {!approvalLines.flag.submitted && (
+                    <List cn={{ ul: "member-list", li: "item", noneli: "item-none" }}
+                        title={"결재 라인"}
+                        showCondition={(selectedMembers.length > 0 && !approvalLines.flag.submitted)}
+                        listProperty={{
+                            items: selectedMembers,
+                            itemKey: 'memberPk',
+                            itemValue: 'memberId',
+                            onClick: handleExceptAprovalLineMember,
+                            itemContent: (item) => (<>{item.departmentName}/{item.name}/{item.enteredDate}</>),
+                            emptyListInfo: '결재 라인을 추가해주세요'
+                        }}>
+                        <button
+                            type="button"
+                            onClick={handleOnClickCompleteApprovaLine}>
+                            결재선 지정 완료
+                        </button>
+                    </List>
+                )}
                 <List cn={{ ul: "member-list", li: "item" }}
                     showCondition={approvalLines.flag.submitted}
                     listProperty={{

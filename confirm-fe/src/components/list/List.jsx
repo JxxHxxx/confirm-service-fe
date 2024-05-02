@@ -6,10 +6,10 @@ export default function List({ title, cn, showCondition, listProperty = {}, chil
     const { itemContent = () => null } = listProperty;
     return (
         <ul className={ul}>
-            {showCondition ? (
+            {showCondition && (
                 <Fragment>
                     <h3>{title}</h3>
-                    {items.length > 0 && items.map(item => (
+                    {items.map(item => (
                         <li className={li}
                             key={item[itemKey]}
                             value={item[itemValue]}
@@ -19,10 +19,13 @@ export default function List({ title, cn, showCondition, listProperty = {}, chil
                     ))}
                     {children}
                 </Fragment>
-            ) : (<Fragment>
-                <h3>{title}</h3>
-                <li className={noneli}>{emptyListInfo}</li>
-            </Fragment>)}
+            )}
+            {!showCondition && (
+                <Fragment>
+                    <h3>{title}</h3>
+                    <li className={noneli}>{emptyListInfo}</li>
+                </Fragment>
+            )}
         </ul>
     )
 }
