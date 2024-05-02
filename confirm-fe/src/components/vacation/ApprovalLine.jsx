@@ -1,7 +1,8 @@
 import { Fragment, useEffect, useState } from "react"
-import { getApprovalLines, getConfirmDocument, postApprovalLines } from "../../api/confirmApi";
+import { getApprovalLines, postApprovalLines } from "../../api/confirmApi";
 import { raiseConfirmDoucment } from "../../api/vacationApi";
 import { useLocation, useNavigate } from "react-router-dom";
+import List from "../list/List";
 
 const tag = '[ApprovalLine] COMPONENT'
 
@@ -21,16 +22,14 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
     const [selectedMembers, setSelectedMemebers] = useState([]);
     const [approvalLines, setApprovalLines] = useState({
         flag: {
-            submitted: false,
-            saved: false
+            submitted: false
         }
     })
 
     const updateApprovalLinesFlag = (prev, fieldName, fieldValue) => {
         return {
-            ...prev,
             flag: {
-                ...prev,
+                ...prev.flag,
                 [fieldName]: fieldValue
             }
         };
@@ -108,39 +107,47 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
                 상신
             </button>}
             <div className="list-container">
-                <ul className="member-list">
-                    <h3>사용자 검색</h3>
-                    {(departmentMembers.length > 0 && !approvalLines.flag.submitted) && departmentMembers.map(member => {
-                        return (
-                            <li className="item"
-                                key={member.memberPk}
-                                value={member.memberId}
-                                onClick={handleAddAprovalLineMember}>
-                                {member.departmentName}/{member.name}/{member.enteredDate}
-                            </li>
+                <List title={"사용자 검색"}
+                    cn={{ ul: "member-list", li: "item" }}
+                    showCondition={(departmentMembers.length > 0 && !approvalLines.flag.submitted)}
+                    listProperty={{
+                        items: departmentMembers,
+                        itemKey: 'memberPk',
+                        itemValue: 'memberId',
+                        onClick: handleAddAprovalLineMember,
+                        itemContent: (item) => (
+                            <Fragment>
+                                {item.departmentName}/{item.name}/{item.enteredDate}
+                            </Fragment>
                         )
-                    })}
-                </ul>
-                <ul className="member-list">
-                    <h3>결재 라인</h3>
-                    {(selectedMembers.length > 0 && !approvalLines.flag.submitted) && <button
+                    }}
+                >
+                </List>
+                <List cn={{ ul: "member-list", li: "item" , noneli:"item-none" }}
+                    title={"결재 라인"}
+                    showCondition={(selectedMembers.length > 0 && !approvalLines.flag.submitted)}
+                    listProperty={{
+                        items: selectedMembers,
+                        itemKey: 'memberPk',
+                        itemValue: 'memberId',
+                        onClick: handleExceptAprovalLineMember,
+                        itemContent: (item) => (<>{item.departmentName}/{item.name}/{item.enteredDate}</>),
+                        emptyListInfo:'결재 라인을 추가해주세요'
+                    }}>
+                    <button
                         type="button"
                         onClick={handleOnClickCompleteApprovaLine}>
                         결재선 지정 완료
-                    </button>}
-                    {(selectedMembers.length > 0 && !approvalLines.flag.submitted) ? selectedMembers.map(member => {
-                        return (
-                            <li className="item"
-                                key={member.memberPk}
-                                value={member.memberId}
-                                onClick={handleExceptAprovalLineMember}>
-                                {member.departmentName}/{member.name}/{member.enteredDate}
-                                <span className="list-item-align-right">결재 순서:{member.approvalOrder}</span>
-                            </li>
-                        )
-                    }) : <li className="item-none">결재 라인을 추가해주세요</li>}
-                </ul>
+                    </button>
+                </List>
+                <List cn={{ ul: "member-list", li: "item" }}
+                    showCondition={approvalLines.flag.submitted}
+                    listProperty={{
+                        items: [], // 빈 배열을 전달하여 렌더링 없이 List 컴포넌트만 표시
+                        itemContent: () => <Fragment />
+                    }}
+                />
             </div>
-        </Fragment>
+        </Fragment >
     )
 }
