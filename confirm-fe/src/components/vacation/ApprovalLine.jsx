@@ -58,7 +58,10 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
         const confirmDocumentId = "VAC" + sessionStorage.getItem('companyId') + vacationId;
         const approvalLineForm = selectedMembers.map(member => ({
             approvalOrder: member.approvalOrder,
-            approvalId: member.memberId
+            approvalId: member.memberId,
+            approvalName: member.name,
+            approvalDepartmentId: member.departmentId,
+            approvalDepartmentName: member.departmentName
         }));
 
         const result = await postApprovalLines(confirmDocumentId, approvalLineForm);
