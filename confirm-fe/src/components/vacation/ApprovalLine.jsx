@@ -84,10 +84,14 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
 
     }
 
+    const [savedApprovalLines, setSavedApprovalLines] = useState([]);
+    // 랜더링 시 사용
     const handleMount = async () => {
         const confirmDocumentId = "VAC" + sessionStorage.getItem('companyId') + vacationId;
         // TODO 결재선이 이미 등록됐지는 확인 없다면 -> 있다면 상신 버튼 -> 상신 되었다면 -> 완료 페이지로
         const result = await getApprovalLines(confirmDocumentId);
+        console.log(result.data.data);
+        setSavedApprovalLines(result.data.data);
         if (result.data.data.length > 0) {
             setApprovalLines((prev) => updateApprovalLinesFlag(prev, 'submitted', true));
         }
@@ -100,12 +104,29 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
     return (
         <Fragment>
             <h1>결재선 지정</h1>
-            <h3>지정된 멤버</h3>
-            {approvalLines.flag.submitted && <button
-                type="button"
-                onClick={handleOnClickRaiseConfirmDocument}>
-                상신
-            </button>}
+            {approvalLines.flag.submitted && (
+                <Fragment>
+                    <List title={"결재선 라인"}
+                        cn={{ ul: "member-list", li: "item" }}
+                        showCondition={true}
+                        listProperty={{
+                            items: savedApprovalLines,
+                            itemKey: 'approvalLinePk',
+                            itemValue: 'approvalLinePk',
+                            itemContent: (item) => (
+                                <Fragment>
+                                    {item.approvalId}/ 결재 순서 : {item.approvalOrder}
+                                </Fragment>
+                            )
+                        }}>
+                    </List>
+                    <button
+                        type="button"
+                        onClick={handleOnClickRaiseConfirmDocument}>
+                        상신
+                    </button>
+                </Fragment>)}
+
             <div className="list-container">
                 {!approvalLines.flag.submitted && (
                     <List title={"사용자 검색"}
