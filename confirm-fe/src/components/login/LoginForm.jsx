@@ -17,9 +17,11 @@ export function LoginForm() {
     });
 
     const [loginFail, setLoginFail] = useState(false);
+    const [loginLoading, setLoginLoading] = useState(false);
 
     const handleLogin = async (event) => {
         event.preventDefault();
+        setLoginLoading(true);
         const loginResponse = await signIn(loginInfo);
 
         sessionStorage.setItem('companyId', loginResponse.data.companyId);
@@ -34,9 +36,11 @@ export function LoginForm() {
         if (httpStatus === 200) {
             navigaate("/vacation");
             setLogin(true);
+            setLoginLoading(false);
         }
         else if (httpStatus === 400) {
             setLoginFail(true);
+            setLoginLoading(false);
         }
     }
 
@@ -83,8 +87,9 @@ export function LoginForm() {
                     </div>
                     <div className="wrapper-t-5">
                         <button className="login-button" type="submit"
-                            onClick={handleLogin}>
-                            로그인
+                            onClick={handleLogin}
+                            disabled={loginLoading}>
+                            {loginLoading ? '로그인 중입니다.' : '로그인'}
                         </button>
                     </div>
                 </form>
