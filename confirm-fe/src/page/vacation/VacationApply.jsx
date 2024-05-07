@@ -1,7 +1,7 @@
 import { VacationApplyForm } from "./VacationApplyForm";
 import VacationSidebar from "../../layout/VacationSidebar";
-import { Header } from "../../page/Header";
-import Page from "../../page/Page";
+import { Header } from "../../components/layout/Header";
+import Page from "../Page";
 
 export function VacationApply() {
 

@@ -1,8 +1,8 @@
 import { Fragment, useContext } from 'react'
 import '../css/header.css'
 import { Link, Outlet } from 'react-router-dom'
-import { LoginLogout } from '../components/login/LoginLogout'
-import { CommonContext } from '../context/CommonProvider'
+import { LoginLogout } from '../../page/login/LoginLogout'
+import { CommonContext } from '../../context/CommonProvider'
 
 
 export function Header({ children }) {

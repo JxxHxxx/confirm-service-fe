@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react"
 import { getApprovalLines, postApprovalLines } from "../../api/confirmApi";
 import { raiseConfirmDoucment } from "../../api/vacationApi";
 import { useLocation, useNavigate } from "react-router-dom";
-import List from "../list/List";
+import List from "../../components/list/List";
 
 const tag = '[ApprovalLine] COMPONENT'
 

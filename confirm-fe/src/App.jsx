@@ -1,18 +1,19 @@
 // import './App.css'
 import { Fragment, useEffect } from 'react';
-import { Vacation } from './page/Vacation'
-import { Header } from './page/Header';
-import { Login } from './page/Login'
+import { Vacation } from './page/vacation/Vacation'
+import { Header } from './components/layout/Header';
+import { Login } from './page/login/Login'
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 import { CommonProvider } from './context/CommonProvider';
-import { Confirm } from './page/Confirm';
-import { VacationApply } from './components/vacation/VacationApply';
-import MyVacation from './components/vacation/MyVacation';
-import ApprovalLine from './components/vacation/ApprovalLine';
+import { Confirm } from './page/confirm/Confirm';
+import { VacationApply } from './page/vacation/VacationApply';
+import MyVacation from './page/vacation/MyVacation';
+import ApprovalLine from './page/vacation/ApprovalLine';
 import Modal from 'react-modal';
+import Schedule from './page/schedule/Schedule';
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/schedule',
-    element: <div>스케줄 페이지</div>
+    element: <Schedule />
   },
   {
     path: '/login',

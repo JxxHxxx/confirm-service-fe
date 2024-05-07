@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { getConfirmDocumentIncludeApproval } from "../api/confirmApi";
-import { VacationSearchResult } from "../components/vacation/VacationSearchResult";
-import { getVacations } from "../api/vacationApi";
-import VacationSidebar from "../layout/VacationSidebar";
-import { Header } from "./Header";
-import Page from "./Page";
+import { getConfirmDocumentIncludeApproval } from "../../api/confirmApi";
+import { VacationSearchResult } from "./VacationSearchResult";
+import { getVacations } from "../../api/vacationApi";
+import VacationSidebar from "../../layout/VacationSidebar";
+import { Header } from "../../components/layout/Header";
+import Page from "../Page";
 
 
 export function Vacation() {

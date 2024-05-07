@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
-import { RadioGroup } from "../radio/RadioGroup";
-import { Radio } from "../radio/Radio";
+import { RadioGroup } from "../../components/radio/RadioGroup";
+import { Radio } from "../../components/radio/Radio";
 import MoreDayForm from "./MoreDayForm";
 
 

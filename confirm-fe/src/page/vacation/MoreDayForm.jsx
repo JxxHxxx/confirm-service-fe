@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { applyVacation } from "../../api/vacationApi";
-import Calendar from "../calendar/Calendar";
+import Calendar from "../../components/calendar/Calendar";
 import { getDeparmentMembers } from "../../api/memberApi";
 
 import '../../css/List.css'

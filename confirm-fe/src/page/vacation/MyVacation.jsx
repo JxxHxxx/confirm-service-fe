@@ -5,8 +5,8 @@ import { getDeparmentMembers } from "../../api/memberApi";
 import { convertVacationStatus, convertVacationType } from "../../converter/VacationConverter";
 import { convertDate } from "../../converter/DateTimeConvert";
 import { useNavigate } from "react-router-dom";
-import Page from "../../page/Page";
-import { Header } from "../../page/Header";
+import Page from "../Page";
+import { Header } from "../../components/layout/Header";
 
 const tag = '[MyVacation] COMPONENT'
 

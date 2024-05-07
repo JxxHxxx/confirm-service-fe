@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { LoginForm } from "../components/login/LoginForm";
+import { LoginForm } from "./LoginForm";
 import { useEffect } from "react";
-import { checkMemberAuthentication } from "../api/authApi";
+import { checkMemberAuthentication } from "../../api/authApi";
 
 const tag = '[Login] COMPONENT'
 
