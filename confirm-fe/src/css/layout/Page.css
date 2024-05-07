@@ -1,16 +1,21 @@
-.sidebar-container {
+
+.page-container {
     display: grid;
     grid-template-columns: 1fr 7fr; /* 사이드바와 메인 컨텐츠의 비율 조정 */
 }
 
-.sidebar {
+.page-container .sidebar {
     text-align: left;
+}
+
+.page-container .content {
+    background-color: #ffffff;
+    padding: 20px;
 }
 
 .sidebar .white-space {
     background-color: white;
     padding-top: 95px;
-    
 }
 
 .sidebar .menu-item-wrapper {

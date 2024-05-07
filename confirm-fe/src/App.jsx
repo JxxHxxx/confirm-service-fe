@@ -18,37 +18,37 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Header />,
-    children: [
-      {
-        path: 'confirm',
-        element: <Confirm />,
-      },
-      {
-        path: 'vacation',
-        element: <Vacation />
-      },
-      {
-        path: '/vacation/apply',
-        element: <VacationApply />,
-      },
-      {
-        path: '/vacation/vacation-id/ApprovalLine',
-        element: <ApprovalLine />
-      },
-      {
-        path: '/vacation/myVacation',
-        element: <MyVacation />
-      },
-      {
-        path: 'schedule',
-        element: <div>스케줄 페이지</div>
-      }
-    ],
+    children: [],
+  },
+  {
+    path: '/confirm',
+    element: <Confirm />,
+  },
+  {
+    path: '/vacation/vacation-id/ApprovalLine',
+    element: <ApprovalLine />
+  },
+  {
+    path: '/schedule',
+    element: <div>스케줄 페이지</div>
   },
   {
     path: '/login',
     element: <Login />
   }
+  ,
+  {
+    path: '/vacation',
+    element: <Vacation />
+  },
+  {
+    path: '/vacation/apply',
+    element: <VacationApply />,
+  },
+  {
+    path: '/vacation/myVacation',
+    element: <MyVacation />
+  },
 ]);
 
 

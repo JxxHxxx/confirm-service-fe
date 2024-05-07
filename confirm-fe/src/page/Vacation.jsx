@@ -1,8 +1,10 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getConfirmDocumentIncludeApproval } from "../api/confirmApi";
 import { VacationSearchResult } from "../components/vacation/VacationSearchResult";
 import { getVacations } from "../api/vacationApi";
-import '../css/layout/Sidebar.css';
+import VacationSidebar from "../layout/VacationSidebar";
+import { Header } from "./Header";
+import Page from "./Page";
 
 
 export function Vacation() {
@@ -29,8 +31,10 @@ export function Vacation() {
     }, [])
 
     return (
-        <Fragment>
+        <Page
+            header={<Header />}
+            sidebar={<VacationSidebar />}>
             <VacationSearchResult vacations={vacations} setVacations={setVacations} />
-        </Fragment>
+        </Page>
     )
 }

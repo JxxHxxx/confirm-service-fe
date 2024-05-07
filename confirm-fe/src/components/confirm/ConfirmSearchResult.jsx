@@ -1,6 +1,5 @@
 import { Fragment, useState } from "react";
 import { convertDateTime } from "../../converter/DateTimeConvert";
-import ConfirmSidebar from "../../layout/ConfirmSidebar";
 import { convertApproveStatus, convertDocumentType } from "../../converter/DocumentConverter";
 import { ConfirmDocumentModal } from "./ConfirmDocumentModal";
 
@@ -16,7 +15,6 @@ export function ConfirmSearchResult({ confirms }) {
 
     return (
         <Fragment>
-            <ConfirmSidebar>
                 <h2>부서 결재함</h2>
                 {<ConfirmDocumentModal
                     modalOpen={modelOpen}
@@ -49,7 +47,6 @@ export function ConfirmSearchResult({ confirms }) {
                         ))}
                     </tbody>
                 </table>
-            </ConfirmSidebar>
         </Fragment>
     )
 }

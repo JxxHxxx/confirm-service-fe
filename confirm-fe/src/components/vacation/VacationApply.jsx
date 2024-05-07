@@ -1,14 +1,15 @@
-import { Fragment } from "react";
 import { VacationApplyForm } from "./VacationApplyForm";
 import VacationSidebar from "../../layout/VacationSidebar";
+import { Header } from "../../page/Header";
+import Page from "../../page/Page";
 
 export function VacationApply() {
 
     return (
-        <Fragment>
-            <VacationSidebar>
-                <VacationApplyForm />
-            </VacationSidebar>
-        </Fragment>
+        <Page
+            header={<Header />}
+            sidebar={<VacationSidebar />}>
+            <VacationApplyForm />
+        </Page>
     )
 }

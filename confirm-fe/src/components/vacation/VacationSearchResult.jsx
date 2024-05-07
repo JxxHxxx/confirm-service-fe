@@ -1,11 +1,9 @@
 import { Fragment, useState } from "react";
 import "../../css/Table.css";
 import "../../css/Button.css";
-import '../../css/layout/Sidebar.css';
 
 import { convertDate } from "../../converter/DateTimeConvert";
 
-import VacationSidebar from "../../layout/VacationSidebar";
 import { convertVacationStatus, convertVacationType } from "../../converter/VacationConverter";
 
 const tag = "[vacationSearchResult]"
@@ -75,7 +73,6 @@ export function VacationSearchResult({ vacations }) {
 
     return (
         <Fragment>
-            <VacationSidebar>
                 <h2>부서 휴가자</h2>
                 <div className="chip-group">
                     <button className={chip.className.myVacation} onClick={() => handleMyVacationChipClick('myVacation', 'myVacation')}>내 휴가</button>
@@ -109,7 +106,6 @@ export function VacationSearchResult({ vacations }) {
                         })}
                     </tbody>
                 </table>
-            </VacationSidebar>
         </Fragment>
     )
 }

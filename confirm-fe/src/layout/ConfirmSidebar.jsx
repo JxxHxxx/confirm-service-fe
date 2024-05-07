@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import '../css/layout/Sidebar.css';
+import '../css/layout/Page.css';
 
-export default function ConfirmSidebar({ children }) {
+export default function ConfirmSidebar({}) {
     return (
-        <div className="sidebar-container">
             <div className="sidebar">
                 <div className="white-space"></div>
                 <Link to={'/confirm'}
@@ -19,9 +18,5 @@ export default function ConfirmSidebar({ children }) {
                     </div>
                 </Link>
             </div>
-            <div className="content">
-                {children}
-            </div>
-        </div>
     )
 }
