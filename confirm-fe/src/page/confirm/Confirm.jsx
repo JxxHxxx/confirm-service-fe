@@ -9,7 +9,7 @@ import { convertDateTime } from "../../converter/DateTimeConvert";
 import { convertApproveStatus, convertDocumentType } from "../../converter/DocumentConverter";
 
 export function Confirm() {
-    
+
     const [confirms, setConfirms] = useState([]);
     const [modelOpen, setModalOpen] = useState(false);
     const [selectedDocumentContentPk, setDocumentContentPk] = useState();
@@ -20,8 +20,11 @@ export function Confirm() {
     }
 
     const getDateToServer = async () => {
-        const confirmDocumentResponse = await getConfirmDocumentIncludeApproval();
-        setConfirms(confirmDocumentResponse.data);
+        try {
+            const response = await getConfirmDocumentIncludeApproval();
+            setConfirms(response.data === undefined ? [] : response.data);
+        } catch (error) {
+        }
     }
 
     useEffect(() => {
@@ -29,7 +32,7 @@ export function Confirm() {
     }, []);
 
     const confirmDocumentTableColumns = () => {
-        const columnNames = ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자 ID','승인/반려', '승인/반려 일시']
+        const columnNames = ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자 ID', '승인/반려', '승인/반려 일시']
         return (
             <tr>{columnNames.map((col) => (<td>{col}</td>))}</tr>
         )
@@ -58,7 +61,7 @@ export function Confirm() {
                             <td>{confirm.approvalTime ? convertDateTime(confirm.approvalTime) : null}</td>
                         </tr>
                     )),
-                    showCondition: confirms.length > 0
+                    showCondition: true
                 }} />
         </Page>
     )

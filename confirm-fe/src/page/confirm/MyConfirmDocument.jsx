@@ -11,32 +11,39 @@ export default function MyConfirmDocument() {
     const [approvalConfirmDocuments, setApprovalConfirmDocuments] = useState([]);
 
     const confirmDocumentTableColumns = () => {
-        const columnNames = ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자 ID','승인/반려', '승인/반려 일시']
+        const columnNames = ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자 ID', '승인/반려', '승인/반려 일시']
         return (
             <tr>{columnNames.map((col) => (<td>{col}</td>))}</tr>
         )
     }
 
-    const handleMount = async () => {
-        const response = await getConfirmDocumentIncludeApproval();
-        setApprovalConfirmDocuments(response.data);
+    const fetchApprovalConfirmDocuments = async () => {
+        try {
+            const response = await getConfirmDocumentIncludeApproval();
+            setApprovalConfirmDocuments(response.data === undefined ? [] : response.data);
+        } catch (error) {
+        }
+
     }
 
-    const handleMount2 = async () => {
+    const fetchDrafteConfirmDocuments = async () => {
         const param = {
             requesterId: sessionStorage.getItem('memberId')
         }
-       const response = await getConfirmDocument(param);
-       setDrafteConfirmDoucments(response.data.data);
+        try {
+            const response = await getConfirmDocument(param);
+            setDrafteConfirmDoucments(response.data === undefined ? [] : response.data.data);
+
+        } catch (error) {
+            alert('check server connection');
+        }
     }
 
     useEffect(() => {
-        handleMount();
-        handleMount2();
+        fetchApprovalConfirmDocuments();
+        fetchDrafteConfirmDocuments();
     }, []);
 
-    console.log('1', drafteConfirmDocuments);
-    console.log('2', approvalConfirmDocuments);
     return (
         <Page header={<Header />}
             sidebar={<ConfirmSidebar />}>
