@@ -11,7 +11,7 @@ export default function ConfirmSidebar({}) {
                         <a>부서 결재함</a>
                     </div>
                 </Link>
-                <Link to={'/confirm'}
+                <Link to={'/confirm/my-confirm'}
                     className="menu-item-wrapper">
                     <div className="menu-item-wrapper">
                         <a>내 결재함</a>

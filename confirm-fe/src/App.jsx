@@ -14,6 +14,7 @@ import MyVacation from './page/vacation/MyVacation';
 import ApprovalLine from './page/vacation/ApprovalLine';
 import Modal from 'react-modal';
 import Schedule from './page/schedule/Schedule';
+import MyConfirmDocument from './page/confirm/MyConfirmDocument';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: '/confirm',
     element: <Confirm />,
+  },
+  {
+    path: '/confirm/my-confirm',
+    element: <MyConfirmDocument />
   },
   {
     path: '/vacation/vacation-id/ApprovalLine',
