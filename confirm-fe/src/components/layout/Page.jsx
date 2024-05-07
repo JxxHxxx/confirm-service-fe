@@ -1,5 +1,6 @@
 import { Fragment } from "react";
-import '../css/layout/Page.css'
+import '../../css/layout/Page.css'
+
 export default function Page({ header, sidebar, children }) {
 
     return (

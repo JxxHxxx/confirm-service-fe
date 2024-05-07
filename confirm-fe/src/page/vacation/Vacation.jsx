@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { getConfirmDocumentIncludeApproval } from "../../api/confirmApi";
 import { VacationSearchResult } from "./VacationSearchResult";
 import { getVacations } from "../../api/vacationApi";
-import VacationSidebar from "../../layout/VacationSidebar";
+import VacationSidebar from "./VacationSidebar";
 import { Header } from "../../components/layout/Header";
-import Page from "../Page";
-
+import Page from '../../components/layout/Page';
 
 export function Vacation() {
     const [vacationId, setVacationId] = useState(0);

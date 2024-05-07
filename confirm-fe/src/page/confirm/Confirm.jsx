@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { ConfirmSearchResult } from "./ConfirmSearchResult";
 import { getConfirmDocumentIncludeApproval } from "../../api/confirmApi";
-import Page from "../Page";
-import ConfirmSidebar from "../../layout/ConfirmSidebar";
+import Page from "../../components/layout/Page";
+import ConfirmSidebar from "./ConfirmSidebar";
 import { Header } from "../../components/layout/Header";
 
 export function Confirm() {
