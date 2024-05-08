@@ -50,12 +50,6 @@ export default function MyVacation() {
 
     }
 
-    const vacationTableColumns = () => {
-        const columnNames = ['휴가ID', '부서', '이름', '시작일', '종료일', '휴가 진행 상태', '휴가 유형']
-        return (
-            <tr>{columnNames.map((col) => (<td>{col}</td>))}</tr>
-        )
-    }
     return (
         <Page
             header={<Header />}
@@ -65,7 +59,7 @@ export default function MyVacation() {
                     table: 'vacation_table'
                 }}
                 tableProperty={{
-                    columns: vacationTableColumns(),
+                    columns:  ['휴가ID', '부서', '이름', '시작일', '종료일', '휴가 진행 상태', '휴가 유형'],
                     data: raisedAfterVacations.map((vacation) => (
                         <tr id={vacation.vacationDurationId}
                             key={vacation.vacationDurationId}>
@@ -85,7 +79,7 @@ export default function MyVacation() {
                     table: 'vacation_table'
                 }}
                 tableProperty={{
-                    columns: vacationTableColumns(),
+                    columns:  ['휴가ID', '부서', '이름', '시작일', '종료일', '휴가 진행 상태', '휴가 유형'],
                     data: raiseBeforeVacations.map((vacation) => (
                         <tr id={vacation.vacationDurationId}
                             key={vacation.vacationDurationId}

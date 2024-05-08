@@ -4,24 +4,22 @@ import Page from "../../components/layout/Page";
 import Table from "../../components/table/Table";
 import ConfirmSidebar from "./ConfirmSidebar";
 import { getConfirmDocument, getConfirmDocumentIncludeApproval } from "../../api/confirmApi";
+import { convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
+import { convertDateTime } from "../../converter/DateTimeConvert";
+import { ConfirmDocumentModal } from "./ConfirmDocumentModal";
 
 
 export default function MyConfirmDocument() {
     const [drafteConfirmDocuments, setDrafteConfirmDoucments] = useState([]);
     const [approvalConfirmDocuments, setApprovalConfirmDocuments] = useState([]);
 
-    const confirmDocumentTableColumns = () => {
-        const columnNames = ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자 ID', '승인/반려', '승인/반려 일시']
-        return (
-            <tr>{columnNames.map((col) => (<td>{col}</td>))}</tr>
-        )
-    }
-
     const fetchApprovalConfirmDocuments = async () => {
         try {
             const response = await getConfirmDocumentIncludeApproval();
+            console.log('approval document', response.data);
             setApprovalConfirmDocuments(response.data === undefined ? [] : response.data);
         } catch (error) {
+            alert('check server connection');
         }
 
     }
@@ -32,12 +30,23 @@ export default function MyConfirmDocument() {
         }
         try {
             const response = await getConfirmDocument(param);
+            console.log('draft document', response.data.data);
+
             setDrafteConfirmDoucments(response.data === undefined ? [] : response.data.data);
 
         } catch (error) {
             alert('check server connection');
         }
     }
+
+    const [modelOpen, setModalOpen] = useState(false);
+    const [selectedDocumentContentPk, setDocumentContentPk] = useState();
+
+    const handleOpenModal = (documentContentPk) => {
+        setDocumentContentPk(documentContentPk);
+        setModalOpen(true);
+    }
+
 
     useEffect(() => {
         fetchApprovalConfirmDocuments();
@@ -47,15 +56,21 @@ export default function MyConfirmDocument() {
     return (
         <Page header={<Header />}
             sidebar={<ConfirmSidebar />}>
-            <Table title={"기안 문서"} cn={{ table: "vacation_table" }}
+            {<ConfirmDocumentModal
+                modalOpen={modelOpen}
+                setModalOpen={setModalOpen}
+                documentContentPk={selectedDocumentContentPk}
+            />}
+            <Table title={"결재 대기중인 문서"} cn={{ table: "vacation_table" }}
                 tableProperty={{
-                    columns: confirmDocumentTableColumns(),
+                    columns: ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자명', '승인/반려', '승인/반려 일시'],
                     data: approvalConfirmDocuments.map((document) => (
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
+                        <tr key={document.pk}
+                            onClick={() => handleOpenModal(document.confirmDocumentContentPk)}>
+                            <td>{document.confirmDocumentId}</td>
+                            <td>{convertDateTime(document.createTime)}</td>
+                            <td>{convertDocumentType(document.documentType)}</td>
+                            <td>{document.departmentId}</td>
                             <td>#</td>
                             <td>#</td>
                             <td>#</td>
@@ -63,17 +78,17 @@ export default function MyConfirmDocument() {
                     )),
                     showCondition: true
                 }} />
-            <Table title={"결재 대기중인 문서"} cn={{ table: "vacation_table" }}
+            <Table title={"내 결재 문서"} cn={{ table: "vacation_table" }}
                 tableProperty={{
-                    columns: confirmDocumentTableColumns(),
+                    columns: ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자명', '결재 상태', '승인/반려 일시'],
                     data: drafteConfirmDocuments.map((document) => (
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
+                        <tr key={document.pk}>
+                            <td>{document.confirmDocumentId}</td>
+                            <td>{convertDateTime(document.createTime)}</td>
+                            <td>{convertDocumentType(document.documentType)}</td>
+                            <td>{document.contents.department_name}</td>
+                            <td>{document.contents.requester_name}</td>
+                            <td>{convertConfirmStatus(document.confirmStatus)}</td>
                             <td>#</td>
                         </tr>
                     )),

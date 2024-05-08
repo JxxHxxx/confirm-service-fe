@@ -1,5 +1,9 @@
 
 export const convertDateTime = (dateTimeString) => {
+    if(dateTimeString === undefined || dateTimeString === null) {
+        return ''
+    }
+
     const date = new Date(dateTimeString);
 
     const year = date.getFullYear();
@@ -14,6 +18,10 @@ export const convertDateTime = (dateTimeString) => {
 
 
 export const convertDate = (dateTimeString) => {
+    if(dateTimeString === undefined || dateTimeString === null) {
+        return ''
+    }
+    
     const date = new Date(dateTimeString);
 
     const year = date.getFullYear();

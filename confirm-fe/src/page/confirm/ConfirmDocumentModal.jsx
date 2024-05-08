@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { getConfirmDocumentContent } from '../../api/confirmApi';
+import { acceptConfirmDocument, getConfirmDocumentContent } from '../../api/confirmApi';
 import { convertDocumentType } from '../../converter/DocumentConverter';
 
 export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentPk }) {
@@ -32,8 +32,22 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
         }
     }, [modalOpen]);
 
-    const handleOnClickAccept = () => {
-        console.log('상신')
+    const handleOnClickAccept = async (confirmDocumentPk) => {
+        const approvalForm = {
+            companyId : sessionStorage.getItem('companyId'),
+            departmentId : sessionStorage.getItem('departmentId'),
+            approvalLineId : sessionStorage.getItem('memberId'),
+        }
+        
+        const response = await acceptConfirmDocument(confirmDocumentPk, approvalForm);
+        console.log('response', response);
+        if (response.status !== 200) {
+            alert(response.data.message);
+        }
+        
+        if (response.status === 200) {
+            closeModal();
+        }
     }
 
     const handleOnClickReject = () => {
@@ -42,7 +56,7 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
 
     const contentTable = () => {
         return <div id={confirmDocumentContent.confirmDocument.pk}>
-            <button onClick={handleOnClickAccept}>
+            <button onClick={() => handleOnClickAccept(confirmDocumentContent.confirmDocument.confirmDocumentId)}>
                 상신
             </button>
             <button style={{ marginLeft: '5px' }}

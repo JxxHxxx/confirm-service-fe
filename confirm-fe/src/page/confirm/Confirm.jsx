@@ -31,13 +31,6 @@ export function Confirm() {
         getDateToServer();
     }, []);
 
-    const confirmDocumentTableColumns = () => {
-        const columnNames = ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자 ID', '승인/반려', '승인/반려 일시']
-        return (
-            <tr>{columnNames.map((col) => (<td>{col}</td>))}</tr>
-        )
-    }
-
     return (
         <Page header={<Header />} sidebar={<ConfirmSidebar />}>
             {<ConfirmDocumentModal
@@ -48,7 +41,7 @@ export function Confirm() {
             <Table title={"부서 결재함"}
                 cn={{ table: "vacation_table" }}
                 tableProperty={{
-                    columns: confirmDocumentTableColumns(),
+                    columns: ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자 ID', '승인/반려', '승인/반려 일시'],
                     data: confirms.map((confirm) => (
                         <tr key={confirm.pk}
                             onClick={() => handleOpenModal(confirm.confirmDocumentContentPk)}>
