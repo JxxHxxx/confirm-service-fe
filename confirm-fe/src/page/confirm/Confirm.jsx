@@ -44,7 +44,7 @@ export function Confirm() {
                     columns: ['문서 ID', '상신 일시', '문서 유형', '기안자', '승인/반려', '승인/반려 일시'],
                     data: confirms.map((confirm) => (
                         <tr key={confirm.pk}
-                            onClick={() => handleOpenModal(confirm.confirmDocumentContentPk)}>
+                            onClick={() => handleOpenModal(confirm.contentPk)}>
                             <td>{confirm.confirmDocumentId}</td>
                             <td>{confirm.createTime ? convertDateTime(confirm.createTime) : ''}</td>
                             <td>{convertDocumentType(confirm.documentType)}</td>
