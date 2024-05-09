@@ -6,6 +6,8 @@ const approveStatusConst = {
 
 const confirmStatusConst = {
     RAISE: '진행중(상신)',
+    REJECT: '반려',
+    ACCEPT: '승인'
 }
 
 const documentTypeConst = {

@@ -1,7 +1,10 @@
 import { Fragment, useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { acceptConfirmDocument, getConfirmDocumentContent } from '../../api/confirmApi';
+import { acceptConfirmDocument, getConfirmDocumentContent, rejectConfirmDocument } from '../../api/confirmApi';
 import { convertDocumentType } from '../../converter/DocumentConverter';
+import Button from '../../components/button/Button';
+import ButtonGroup from '../../components/button/ButtonGroup';
+import Table from '../../components/table/Table';
 
 export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentPk }) {
     const [confirmDocumentContent, setConfirmDocumentContent] = useState({});
@@ -23,6 +26,7 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
     };
 
     function closeModal() {
+        setConfirmDocumentContent({});
         setModalOpen(false);
     }
 
@@ -32,42 +36,48 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
         }
     }, [modalOpen]);
 
-    const handleOnClickAccept = async (confirmDocumentPk) => {
+    const handleOnClickAccept = async (confirmDocumentId) => {
         const approvalForm = {
-            companyId : sessionStorage.getItem('companyId'),
-            departmentId : sessionStorage.getItem('departmentId'),
-            approvalLineId : sessionStorage.getItem('memberId'),
+            companyId: sessionStorage.getItem('companyId'),
+            departmentId: sessionStorage.getItem('departmentId'),
+            approvalLineId: sessionStorage.getItem('memberId'),
         }
-        
-        const response = await acceptConfirmDocument(confirmDocumentPk, approvalForm);
+
+        const response = await acceptConfirmDocument(confirmDocumentId, approvalForm);
         console.log('response', response);
         if (response.status !== 200) {
             alert(response.data.message);
         }
-        
+
         if (response.status === 200) {
             closeModal();
         }
     }
 
-    const handleOnClickReject = () => {
-        console.log('반려')
+    const handleOnClickReject = async (confirmDocumentId) => {
+        const rejectForm = {
+            companyId: sessionStorage.getItem('companyId'),
+            departmentId: sessionStorage.getItem('departmentId'),
+            approvalLineId: sessionStorage.getItem('memberId'),
+        }
+
+        const response = await rejectConfirmDocument(confirmDocumentId, rejectForm);
+        console.log('response', response);
+        if (response.status !== 200) {
+            alert(response.data.message);
+        }
+
+        if (response.status === 200) {
+            closeModal();
+        }
     }
 
     const contentTable = () => {
-        return <div id={confirmDocumentContent.confirmDocument.pk}>
-            <button onClick={() => handleOnClickAccept(confirmDocumentContent.confirmDocument.confirmDocumentId)}>
-                상신
-            </button>
-            <button style={{ marginLeft: '5px' }}
-                onClick={handleOnClickReject}>
-                반려
-            </button>
-            <button style={{ marginLeft: '350px' }}
-                onClick={closeModal}>
-                닫기
-            </button>
+        return <Fragment id={confirmDocumentContent.confirmDocument.pk}>
             <div style={{ textAlign: 'right' }}>결재선 표현</div>
+            <Table
+                title='결재선'
+                style={{ textAlign: 'right' }} />
             <h2>{confirmDocumentContent.contents.title}</h2>
             <p>문서 유형:{convertDocumentType(confirmDocumentContent.confirmDocument.documentType)}</p>
             <table className='confirm-document-table'>
@@ -91,7 +101,6 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
                         <th>휴가 기간</th>
                     </tr>
                     <tr>
-
                         {confirmDocumentContent.contents.vacation_durations.map((duration, index) => {
                             return (<div>
                                 <td>{index + 1}</td>
@@ -111,19 +120,33 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
                     </div>
                 </tbody>
             </table>
-        </div>
+            <ButtonGroup cn='basic-button-group'>
+                <Button
+                    cn='basic-button'
+                    name='상신'
+                    onClick={() => handleOnClickAccept(confirmDocumentContent.confirmDocument.confirmDocumentId)} />
+                <Button
+                    cn='basic-button-reverse'
+                    name='반려'
+                    onClick={() => handleOnClickReject(confirmDocumentContent.confirmDocument.confirmDocumentId)} />
+
+                <Button
+                    cn='basic-button-reverse'
+                    name='닫기'
+                    onClick={closeModal}
+                    style={{ marginLeft: '350px' }} />
+            </ButtonGroup>
+        </Fragment>
     }
 
     return (
-        <div>
-            <Modal
-                isOpen={modalOpen}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Example Modal"
-            >
-                {confirmDocumentContent.contentPk && contentTable()}
-            </Modal>
-        </div>
+        <Modal
+            isOpen={modalOpen}
+            onRequestClose={closeModal}
+            style={customStyles}
+            contentLabel="Example Modal"
+        >
+            {confirmDocumentContent.contentPk && contentTable()}
+        </Modal>
     );
 }

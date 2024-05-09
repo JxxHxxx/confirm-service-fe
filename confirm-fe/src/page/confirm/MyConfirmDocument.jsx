@@ -3,8 +3,8 @@ import { Header } from "../../components/layout/Header";
 import Page from "../../components/layout/Page";
 import Table from "../../components/table/Table";
 import ConfirmSidebar from "./ConfirmSidebar";
-import { getConfirmDocument, getConfirmDocumentIncludeApproval } from "../../api/confirmApi";
-import { convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
+import { getConfirmDocument } from "../../api/confirmApi";
+import { convertApproveStatus, convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
 import { convertDateTime } from "../../converter/DateTimeConvert";
 import { ConfirmDocumentModal } from "./ConfirmDocumentModal";
 
@@ -13,11 +13,16 @@ export default function MyConfirmDocument() {
     const [drafteConfirmDocuments, setDrafteConfirmDoucments] = useState([]);
     const [approvalConfirmDocuments, setApprovalConfirmDocuments] = useState([]);
 
-    const fetchApprovalConfirmDocuments = async () => {
+    const fetchApprovalPendingConfirmDocuments = async () => {
         try {
-            const response = await getConfirmDocumentIncludeApproval();
-            console.log('approval document', response.data);
-            setApprovalConfirmDocuments(response.data === undefined ? [] : response.data);
+            const params = {
+                approveStatus: 'PENDING',
+                approvalId: sessionStorage.getItem('memberId')
+            }
+
+            const response = await getConfirmDocument(params);
+
+            setApprovalConfirmDocuments(response.data === undefined ? [] : response.data.data);
         } catch (error) {
             alert('check server connection');
         }
@@ -49,7 +54,7 @@ export default function MyConfirmDocument() {
 
 
     useEffect(() => {
-        fetchApprovalConfirmDocuments();
+        fetchApprovalPendingConfirmDocuments();
         fetchDrafteConfirmDocuments();
     }, []);
 
@@ -70,10 +75,10 @@ export default function MyConfirmDocument() {
                             <td>{document.confirmDocumentId}</td>
                             <td>{convertDateTime(document.createTime)}</td>
                             <td>{convertDocumentType(document.documentType)}</td>
-                            <td>{document.departmentId}</td>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
+                            <td>{document.contents.department_name}</td>
+                            <td>{document.contents.requester_name}</td>
+                            <td>{convertApproveStatus(document.approvalStatus)}</td>
+                            <td>{convertDateTime(document.approvalTime)}</td>
                         </tr>
                     )),
                     showCondition: true

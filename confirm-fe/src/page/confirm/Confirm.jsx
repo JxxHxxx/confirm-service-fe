@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { getConfirmDocumentIncludeApproval } from "../../api/confirmApi";
+import { getDepartmentConfirmDocuments } from "../../api/confirmApi";
 import Page from "../../components/layout/Page";
 import ConfirmSidebar from "./ConfirmSidebar";
 import { Header } from "../../components/layout/Header";
 import { ConfirmDocumentModal } from "./ConfirmDocumentModal";
 import Table from "../../components/table/Table";
 import { convertDateTime } from "../../converter/DateTimeConvert";
-import { convertApproveStatus, convertDocumentType } from "../../converter/DocumentConverter";
+import { convertApproveStatus, convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
 
 export function Confirm() {
 
@@ -21,8 +21,8 @@ export function Confirm() {
 
     const getDateToServer = async () => {
         try {
-            const response = await getConfirmDocumentIncludeApproval();
-            setConfirms(response.data === undefined ? [] : response.data);
+            const response = await getDepartmentConfirmDocuments();
+            setConfirms(response.data === undefined ? [] : response.data.data);
         } catch (error) {
         }
     }
@@ -41,17 +41,16 @@ export function Confirm() {
             <Table title={"부서 결재함"}
                 cn={{ table: "vacation_table" }}
                 tableProperty={{
-                    columns: ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자 ID', '승인/반려', '승인/반려 일시'],
+                    columns: ['문서 ID', '상신 일시', '문서 유형', '기안자', '승인/반려', '승인/반려 일시'],
                     data: confirms.map((confirm) => (
                         <tr key={confirm.pk}
                             onClick={() => handleOpenModal(confirm.confirmDocumentContentPk)}>
-                            <td>{confirm.pk}</td>
-                            <td>{convertDateTime(confirm.createTime)}</td>
+                            <td>{confirm.confirmDocumentId}</td>
+                            <td>{confirm.createTime ? convertDateTime(confirm.createTime) : ''}</td>
                             <td>{convertDocumentType(confirm.documentType)}</td>
-                            <td>{confirm.departmentId}</td>
-                            <td>{confirm.requesterId}</td>
-                            <td>{convertApproveStatus(confirm.approveStatus)}</td>
-                            <td>{confirm.approvalTime ? convertDateTime(confirm.approvalTime) : null}</td>
+                            <td>{confirm.requesterName}</td>
+                            <td>{convertConfirmStatus(confirm.confirmStatus)}</td>
+                            <td>{confirm.approvalTime ? convertDateTime(confirm.approvalTime) : '결재 진행중'}</td>
                         </tr>
                     )),
                     showCondition: true
