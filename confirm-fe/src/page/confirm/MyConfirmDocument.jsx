@@ -56,7 +56,7 @@ export default function MyConfirmDocument() {
     useEffect(() => {
         fetchApprovalPendingConfirmDocuments();
         fetchDrafteConfirmDocuments();
-    }, []);
+    }, [modelOpen]);
 
     return (
         <Page header={<Header />}
@@ -93,6 +93,7 @@ export default function MyConfirmDocument() {
                             <td>{convertDocumentType(document.documentType)}</td>
                             <td>{document.contents.department_name}</td>
                             <td>{document.contents.requester_name}</td>
+
                             <td>{convertConfirmStatus(document.confirmStatus)}</td>
                             <td>#</td>
                         </tr>
