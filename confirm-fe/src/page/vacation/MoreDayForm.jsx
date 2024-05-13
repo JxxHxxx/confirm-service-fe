@@ -102,6 +102,7 @@ export default function MoreDayForm({ vacationType }) {
         )
     }
 
+    // 없어도 될 듯 검토
     const [deparmentMenbers, setDepartmentMembers] = useState([]);
 
     const handleApprovalLine = async () => {
@@ -112,12 +113,13 @@ export default function MoreDayForm({ vacationType }) {
     useEffect(() => {
         handleApprovalLine();
     }, [])
+    // 없어도 될 듯 검토
 
     return (
         <Fragment>
             {applyStep.vacationDuration && tempVacationDurationComponent()}
             {applyStep.approvalLine && <MemberSearch />}
-            {applyStep.approvalLine && <ApprovalLine departmentMembers={deparmentMenbers} vacationId={vacationId} />}
+            {applyStep.approvalLine && <ApprovalLine vacationId={vacationId} />}
         </Fragment>
 
     )

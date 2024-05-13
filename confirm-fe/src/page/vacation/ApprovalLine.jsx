@@ -3,23 +3,25 @@ import { getApprovalLines, postApprovalLines } from "../../api/confirmApi";
 import { raiseConfirmDoucment } from "../../api/vacationApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import List from "../../components/list/List";
+import Tree from "../../components/list/Tree";
+import { getOrganizationTree } from "../../api/organizationApi";
+import { searchDeparmentMembers } from "../../api/memberApi";
 
 const tag = '[ApprovalLine] COMPONENT'
 
-export default function ApprovalLine({ departmentMembers, vacationId }) {
+export default function ApprovalLine({ vacationId }) {
     console.log(tag);
     const location = useLocation();
     const navigate = useNavigate();
-
-    if (departmentMembers === undefined) {
-        departmentMembers = location.state.departmentMembers;
-    }
 
     if (vacationId === undefined) {
         vacationId = location.state.vacationId;
     }
 
     const [selectedMembers, setSelectedMemebers] = useState([]);
+    const [organizationTree, setOrganizationTree] = useState([]);
+    const [searchResultMembers, setSearchResultMembers] = useState([]);
+
     const [approvalLines, setApprovalLines] = useState({
         flag: {
             submitted: false
@@ -37,7 +39,7 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
 
     const handleAddAprovalLineMember = (event) => {
         const memberId = event.currentTarget.getAttribute("value");
-        const selectedMember = departmentMembers.find(member => member.memberId === memberId);
+        const selectedMember = searchResultMembers.find(member => member.memberId === memberId);
 
         if (selectedMembers.some(member => member.memberId === selectedMember.memberId)) {
             alert(selectedMember.departmentName + "/" + selectedMember.name + '(은)는 이미 결재선에 지정되어 있습니다.');
@@ -100,8 +102,20 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
         }
     }
 
+    const handleAmountOrgTree = async () => {
+        const result = await getOrganizationTree();
+        setOrganizationTree(result.data.data);
+    }
+
+    const handleOnClick = async (event) => {
+        const departmentId = event.currentTarget.getAttribute('value');
+        const result = await searchDeparmentMembers(departmentId);
+        setSearchResultMembers(result);
+    }
+
     useEffect(() => {
-        handleMount()
+        handleMount();
+        handleAmountOrgTree();
     }, [])
 
     return (
@@ -130,25 +144,37 @@ export default function ApprovalLine({ departmentMembers, vacationId }) {
                     </button>
                 </Fragment>)}
 
-            <div className="list-container">
+            <div className="list-container" style={{ display: 'grid', gridTemplateColumns: '4fr 0.1fr 4fr 0.1fr 4fr' }}>
                 {!approvalLines.flag.submitted && (
-                    <List title={"사용자 검색"}
-                        cn={{ ul: "member-list", li: "item" }}
-                        showCondition={(departmentMembers.length > 0 && !approvalLines.flag.submitted)}
-                        listProperty={{
-                            items: departmentMembers,
-                            itemKey: 'memberPk',
-                            itemValue: 'memberId',
-                            onClick: handleAddAprovalLineMember,
-                            itemContent: (item) => (
-                                <Fragment>
-                                    {item.departmentName}/{item.name}/{item.enteredDate}
-                                </Fragment>
-                            )
-                        }}
-                    >
-                    </List>
+                    <Fragment>
+                        <div>
+                            <Tree title='조직도'
+                                fullTree={organizationTree}
+                                onClickItem={handleOnClick} />
+                        </div>
+                        <div style={{ borderLeft: '1px solid black' }}></div>
+                        <div style={{ width: '500px', height: '500px', overflow: 'auto' }}>
+                            <List title={"사용자 검색"}
+                                cn={{ ul: "member-list", li: "item" }}
+                                showCondition={(searchResultMembers.length > 0 && !approvalLines.flag.submitted)}
+                                listProperty={{
+                                    items: searchResultMembers,
+                                    itemKey: 'memberPk',
+                                    itemValue: 'memberId',
+                                    onClick: handleAddAprovalLineMember,
+                                    itemContent: (item) => (
+                                        <Fragment>
+                                            {item.departmentName}/{item.name}/{item.enteredDate}
+                                        </Fragment>
+                                    )
+                                }}
+                            />
+                        </div>
+                    </Fragment>
+
+
                 )}
+                <div style={{ borderLeft: '1px solid black' }}></div>
                 {!approvalLines.flag.submitted && (
                     <List cn={{ ul: "member-list", li: "item", noneli: "item-none" }}
                         title={"결재 라인"}
