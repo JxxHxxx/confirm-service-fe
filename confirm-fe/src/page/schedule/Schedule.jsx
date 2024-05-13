@@ -33,27 +33,27 @@ export default function Schedule() {
             <div style={{ display: 'grid', gridTemplateColumns: '4fr 1fr 4fr' }}>
                 <div style={{ width: '300px', height: '500px', overflow: 'auto' }}>
                     <Tree title='조직도'
-                        organizations={organizationTree}
+                        fullTree={organizationTree}
                         onClickItem={handleOnClick} />
                 </div>
                 <div style={{ borderLeft: '1px solid black' }}></div>
                 <div style={{ width: '300px', height: '500px', overflow: 'auto' }}>
-                <List title={"사용자 검색"}
-                    cn={{ ul: "member-list", li: "item" }}
-                    showCondition={true}
-                    listProperty={{
-                        items: searchResult,
-                        itemKey: 'memberPk',
-                        itemValue: 'memberId',
-                        itemContent: (item) => (
-                            <Fragment>
-                                {item.name}/{item.departmentName}
-                            </Fragment>
-                        )
-                    }}>
-                </List>
+                    <List title={"사용자 검색"}
+                        cn={{ ul: "member-list", li: "item" }}
+                        showCondition={true}
+                        listProperty={{
+                            items: searchResult,
+                            itemKey: 'memberPk',
+                            itemValue: 'memberId',
+                            itemContent: (item) => (
+                                <Fragment>
+                                    {item.name}/{item.departmentName}
+                                </Fragment>
+                            )
+                        }}>
+                    </List>
+                </div>
             </div>
-        </div>
         </Page >
 
     )

@@ -30,12 +30,12 @@ function Node({ item, onClickItem }) {
     );
 }
 
-export default function Tree({ title, organizations, onClickItem }) {
+export default function Tree({ title, fullTree, onClickItem }) {
     return (
         <Fragment>
             <h4>{title}</h4>
             <ul style={{ listStyleType: 'none' }}>
-                {organizations.map(org => (
+                {fullTree.map(org => (
                     <Node key={org.id} item={org} onClickItem={onClickItem} />
                 ))}
             </ul>
