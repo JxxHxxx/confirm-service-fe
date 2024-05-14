@@ -23,13 +23,16 @@ export function LoginForm() {
         event.preventDefault();
         setLoginLoading(true);
         const loginResponse = await signIn(loginInfo);
-
-        sessionStorage.setItem('companyId', loginResponse.data.companyId);
-        sessionStorage.setItem('companyName', loginResponse.data.companyName);
-        sessionStorage.setItem('departmentId', loginResponse.data.departmentId);
-        sessionStorage.setItem('departmentName', loginResponse.data.departmentName);
-        sessionStorage.setItem('memberId', loginResponse.data.memberId);
-        sessionStorage.setItem('name', loginResponse.data.name);
+        console.log('loginResponse', loginResponse)
+        
+        if(loginResponse.status === 200) {
+            sessionStorage.setItem('companyId', loginResponse.data.companyId);
+            sessionStorage.setItem('companyName', loginResponse.data.companyName);
+            sessionStorage.setItem('departmentId', loginResponse.data.departmentId);
+            sessionStorage.setItem('departmentName', loginResponse.data.departmentName);
+            sessionStorage.setItem('memberId', loginResponse.data.memberId);
+            sessionStorage.setItem('name', loginResponse.data.name);
+        }
 
         const httpStatus = loginResponse.status;
 

@@ -107,7 +107,7 @@ export default function ApprovalLine({ vacationId }) {
         setOrganizationTree(result.data.data);
     }
 
-    const handleOnClick = async (event) => {
+    const handleOnClickOrgItem = async (event) => {
         const departmentId = event.currentTarget.getAttribute('value');
         const result = await searchDeparmentMembers(departmentId);
         setSearchResultMembers(result);
@@ -150,7 +150,7 @@ export default function ApprovalLine({ vacationId }) {
                         <div>
                             <Tree title='조직도'
                                 fullTree={organizationTree}
-                                onClickItem={handleOnClick} />
+                                onClickItem={handleOnClickOrgItem} />
                         </div>
                         <div style={{ borderLeft: '1px solid black' }}></div>
                         <div style={{ width: '500px', height: '500px', overflow: 'auto' }}>

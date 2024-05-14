@@ -51,10 +51,29 @@
     margin-bottom: 1px;
 }
 
+.member-list .item:hover {
+    filter: brightness(90%);
+}
+
+
 .member-list .item-none {
     font-size: 14px;
     color: gray;
     /* justify-content: space-between; */
     padding: 12px;
     margin-bottom: 1px;
+}
+
+:root {
+    --default-color: black;
+    --active-color: grey;
+}
+
+.tree-li span {
+    border-bottom: 1px solid white;
+    font-size: 14px;
+}
+
+.tree-li span:hover {
+    border-bottom: 1px solid black;
 }

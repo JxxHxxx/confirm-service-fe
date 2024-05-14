@@ -12,6 +12,7 @@ function Node({ item, onClickItem }) {
     return (
         <li key={item.id} id={item.departmentId}
             value={item.departmentId}
+            className="tree-li"
         >
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 {hasChildren && (

@@ -8,8 +8,9 @@ export function LoginLogout() {
     console.log(tag);
     const { login, setLogin } = useContext(CommonContext);
     const handleLogout = async () => {
-        setLogin(false);
         await logout();
+        setLogin(false);
+        sessionStorage.clear();
     }
 
     return (
