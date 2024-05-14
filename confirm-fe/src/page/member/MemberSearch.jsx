@@ -1,7 +1,9 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Searchbar from "../../components/input/Searchbar";
 import Select from "../../components/select/Select";
 import '../../css/Select.css'
+import List from './../../components/list/List';
+import { getCompanyOrganization } from "../../api/organizationApi";
 
 export default function MemberSearch() {
     const [keyword, setKeyword] = useState();
@@ -34,6 +36,18 @@ export default function MemberSearch() {
         setSelectOption(selectOption);
     }
 
+    const [organizations, setOrganizations] = useState([]);
+
+    const callApi = async () => {
+        const response = await getCompanyOrganization();
+        setOrganizations(response.data);
+        console.log('response', response)
+    }
+
+    useEffect(() => {
+        callApi();
+    }, [])
+
     return <Fragment>
         <div style={{ display: 'flex' }}>
             <Select
@@ -50,6 +64,22 @@ export default function MemberSearch() {
                 inputProp={{ placeholder: selectOption }}
                 onChange={handleOnChangeInputValue}
                 onSubmit={handleOnSubmmit} />
+        </div>
+        <div>
+            <List
+                title='사용자 검색'
+                showCondition={true}
+                cn={{ ul: "member-list", li: "item" }}
+                listProperty={{
+                    items: organizations,
+                    itemKey: organizations.organizationPk,
+                    itemValue: 'name',
+                    itemContent: (item) => (
+                        <Fragment>
+                            {item.departmentName}
+                        </Fragment>
+                    )
+                }} />
         </div>
     </Fragment>
 }
