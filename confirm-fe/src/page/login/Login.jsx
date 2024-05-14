@@ -5,7 +5,7 @@ import { checkMemberAuthentication } from "../../api/authApi";
 
 const tag = '[Login] COMPONENT'
 
-export function Login( { props } ) {
+export function Login({ props }) {
     console.log(tag);
 
     const navigate = useNavigate();
@@ -13,15 +13,18 @@ export function Login( { props } ) {
     // 인증 로직 - 현재는 테스트
     const checkAuth = async () => {
         const authForm = {
-            memberId : sessionStorage.getItem('memberId'),
-            companyId : sessionStorage.getItem('companyId'),
-            departmentId : sessionStorage.getItem('departmentId')
+            memberId: sessionStorage.getItem('memberId'),
+            companyId: sessionStorage.getItem('companyId'),
+            departmentId: sessionStorage.getItem('departmentId')
         }
 
         const responseStatusCode = await checkMemberAuthentication(authForm);
-        if(responseStatusCode === 200) {
-
+    
+        if (responseStatusCode === 200) {
             navigate("/confirm");
+        }
+        else if (responseStatusCode === 401) {
+            navigate("/login")
         }
     }
 

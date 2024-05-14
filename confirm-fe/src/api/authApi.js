@@ -19,9 +19,8 @@ export const signIn = function (loginForm) {
 }
 
 export const logout = function () {
-    return instance.post(`/api/auth/logout`, {
-
-    }).then((res) => res.data);
+    return instance.post(`/api/auth/logout`, {})
+        .then((res) => res.data);
 }
 
 export const checkMemberAuthentication = function (authForm) {
@@ -32,7 +31,7 @@ export const checkMemberAuthentication = function (authForm) {
         departmentId: authForm.departmentId
     };
 
-    return instance.post(`/api/auth/check-authentication`, requestBody, { withCredentials: true })
+    return instance.post(`/api/auth/check-authentication`, requestBody)
         .then((res) => res.data)
         .catch(err => err);
 }
