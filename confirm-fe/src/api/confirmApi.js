@@ -1,30 +1,6 @@
-import axios from 'axios'
-import { checkMemberAuthentication } from './authApi';
+import createAxiosInstance from './GlobalApiConfiguration';
 
-
-const instance = axios.create({
-  baseURL: 'http://localhost:8000',
-  timeout: 5000,
-});
-
-instance.interceptors.request.use(
-  async (config) => {
-
-      const authForm = {
-          memberId: sessionStorage.getItem('memberId'),
-          companyId: sessionStorage.getItem('companyId'),
-          departmentId: sessionStorage.getItem('departmentId')
-      }
-
-      const statusCode = await checkMemberAuthentication(authForm)
-      console.log('call')
-      if (statusCode !== 200) {
-
-      }
-
-      return config;
-  }
-)
+const instance = createAxiosInstance('http://localhost:8000', true)
 
 export const getConfirmDocument = function (params) {
 
@@ -38,7 +14,7 @@ export const getDepartmentConfirmDocuments = function () {
     companyId: sessionStorage.getItem('companyId'),
     departmentId: sessionStorage.getItem('departmentId')
   }
-  
+
   return instance.get(`/api/confirm-documents/search-my-department`, { params })
     .then((res) => res)
     .catch((err) => err)
