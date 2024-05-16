@@ -12,6 +12,7 @@ const tag = '[ApprovalLine] COMPONENT'
 export default function ApprovalLine({ vacationId }) {
     console.log(tag);
     const params = useParams();
+    const location = useLocation();
     const navigate = useNavigate();
 
     if (vacationId === undefined) {
@@ -26,7 +27,7 @@ export default function ApprovalLine({ vacationId }) {
         flag: {
             submitted: false
         }
-    }) 
+    })
 
     const updateApprovalLinesFlag = (prev, fieldName, fieldValue) => {
         return {
@@ -91,20 +92,23 @@ export default function ApprovalLine({ vacationId }) {
 
     const [savedApprovalLines, setSavedApprovalLines] = useState([]);
     // 랜더링 시 사용
-    const handleMount = async () => {
+
+    const amountApprovalLines = async () => {
         const confirmDocumentId = "VAC" + sessionStorage.getItem('companyId') + vacationId;
-        // TODO 결재선이 이미 등록됐지는 확인 없다면 -> 있다면 상신 버튼 -> 상신 되었다면 -> 완료 페이지로
+        // 결재선이 이미 등록된 경우 START
         const result = await getApprovalLines(confirmDocumentId);
-        console.log(result.data.data);
         setSavedApprovalLines(result.data.data);
         if (result.data.data.length > 0) {
             setApprovalLines((prev) => updateApprovalLinesFlag(prev, 'submitted', true));
+            return
         }
-    }
+        // 결재선이 이미 등록된 경우 END
 
-    const handleAmountOrgTree = async () => {
-        const result = await getOrganizationTree();
-        setOrganizationTree(result.data.data);
+        const orgResult = await getOrganizationTree();
+        setOrganizationTree(orgResult.data.data);
+
+        const departmentMembersReuslt = await searchDeparmentMembers(location.state.departmentId);
+        setSearchResultMembers(departmentMembersReuslt);
     }
 
     const handleOnClickOrgItem = async (event) => {
@@ -114,8 +118,7 @@ export default function ApprovalLine({ vacationId }) {
     }
 
     useEffect(() => {
-        handleMount();
-        handleAmountOrgTree();
+        amountApprovalLines();
     }, [])
 
     return (

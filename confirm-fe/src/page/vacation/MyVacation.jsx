@@ -43,7 +43,7 @@ export default function MyVacation() {
         navigate(`/vacation/${vacationId}/ApprovalLine`,
             {
                 state: {
-                    vacationId: vacationId
+                    departmentId: sessionStorage.getItem('departmentId')
                 }
             })
     }
