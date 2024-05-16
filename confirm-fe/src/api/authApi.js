@@ -23,12 +23,16 @@ export const logout = function () {
         .then((res) => res.data);
 }
 
-export const checkMemberAuthentication = function (authForm) {
+export const checkMemberAuthentication = function () {
 
     const requestBody = {
-        memberId: authForm.memberId,
-        companyId: authForm.companyId,
-        departmentId: authForm.departmentId
+        memberId: sessionStorage.getItem('memberId'),
+        companyId: sessionStorage.getItem('companyId'),
+        departmentId: sessionStorage.getItem('departmentId'),
+        name: sessionStorage.getItem('name'),
+        companyName: sessionStorage.getItem('companyName'),
+        departmentName: sessionStorage.getItem('departmentName')
+
     };
 
     return instance.post(`/api/auth/check-authentication`, requestBody)

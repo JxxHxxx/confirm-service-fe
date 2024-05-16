@@ -3,25 +3,33 @@ import Searchbar from "../../components/input/Searchbar";
 import Select from "../../components/select/Select";
 import '../../css/Select.css'
 import List from './../../components/list/List';
-import { getOrganizationTree } from "../../api/organizationApi";
+import { searchCompanyMembers } from "../../api/memberApi";
 
 export default function MemberSearch() {
-    const [keyword, setKeyword] = useState();
+    const [keyword, setKeyword] = useState({
+        option: 'memberName',
+        value: ''
+    });
     const [selectOption, setSelectOption] = useState('사용자 이름을 입력해주세요');
 
     const handleOnChangeInputValue = (event) => {
-        setKeyword(event.target.value);
+        setKeyword({ ...keyword, value: event.target.value });
     }
 
-    const handleOnSubmmit = (event) => {
+    const handleOnSubmmit = async (event) => {
         // TODO
         event.preventDefault();
-        console.log('occur submit event')
+        const searchConditionForm = {
+            [keyword.option]: keyword.value
+        }
+        const response = await searchCompanyMembers(searchConditionForm);
+        setSearchMembersResult(response.data);
     }
 
     const handleOnChangeOption = (event) => {
-        let selectOption;
+        setKeyword({...keyword, option : event.currentTarget.value})
 
+        let selectOption;
         switch (event.currentTarget.value) {
             case 'memberName':
                 selectOption = '사용자 이름을 입력해주세요'
@@ -36,12 +44,10 @@ export default function MemberSearch() {
         setSelectOption(selectOption);
     }
 
-    const [organizations, setOrganizations] = useState([]);
+    const [searchMembersResult, setSearchMembersResult] = useState([]);
 
     const callApi = async () => {
-        const response = await getOrganizationTree();
-        setOrganizations(response.data);
-        console.log('response', response)
+
     }
 
     useEffect(() => {
@@ -63,20 +69,21 @@ export default function MemberSearch() {
             <Searchbar
                 inputProp={{ placeholder: selectOption }}
                 onChange={handleOnChangeInputValue}
-                onSubmit={handleOnSubmmit} />
+                onSubmit={handleOnSubmmit}
+                onClickIcon={handleOnSubmmit} />
         </div>
         <div>
             <List
-                title='사용자 검색'
+                title='직원 조회'
                 showCondition={true}
                 cn={{ ul: "member-list", li: "item" }}
                 listProperty={{
-                    items: organizations,
-                    itemKey: organizations.organizationPk,
+                    items: searchMembersResult,
+                    itemKey: searchMembersResult.memberPk,
                     itemValue: 'name',
                     itemContent: (item) => (
                         <Fragment>
-                            {item.departmentName}
+                            {item.memberName}/{item.departmentName}
                         </Fragment>
                     )
                 }} />

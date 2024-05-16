@@ -5,6 +5,7 @@ import { convertDocumentType } from '../../converter/DocumentConverter';
 import Button from '../../components/button/Button';
 import ButtonGroup from '../../components/button/ButtonGroup';
 import Table from '../../components/table/Table';
+import { IoIosCloseCircleOutline  } from "react-icons/io";
 
 export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentPk }) {
     const [confirmDocumentContent, setConfirmDocumentContent] = useState({});
@@ -74,7 +75,11 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
 
     const contentTable = () => {
         return <Fragment id={confirmDocumentContent.confirmDocument.pk}>
+            <div style={{position:'absolute', right :'0', top: '0'}}>
+                <IoIosCloseCircleOutline  style={{width: '25px', height: '25px'}}/>
+            </div>
             <div style={{ textAlign: 'right' }}>결재선 표현</div>
+
             <Table
                 title='결재선'
                 style={{ textAlign: 'right' }} />

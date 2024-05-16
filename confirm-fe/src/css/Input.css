@@ -1,15 +1,26 @@
+.search {
+    position: relative;
+    width: 300px;
+    height: 29px;
+}
+
 .basic-sb {
     border-radius: 20px;
-    border: 1px solid #ccc; 
-    padding: 5px 10px; 
+    border: 1px solid #ccc;
+    padding: 5px 10px;
     box-shadow: 2px 2px 5px rgba(156, 142, 142, 0.2);
-    
-    height: 29px;
-    width: 300px;
-    
+
+    width: 100%;
+    height: 100%;
+
     margin-left: 5px;
 }
 
-.basic-sb:focus {
-
+.sb-icon {
+   position: absolute;
+   height: 75%;
+   top: 10px;
+   left: 100%;
 }
+
+.basic-sb:focus {}

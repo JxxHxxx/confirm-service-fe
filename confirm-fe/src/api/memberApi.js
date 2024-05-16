@@ -15,13 +15,10 @@ export const getDeparmentMembers = function () {
         .catch((err) => alert(err))
 }
 
-export const searchDeparmentMembers = function (departmentId) {
+export const searchCompanyMembers = function (params) {
+    const companyId = sessionStorage.getItem('companyId')
 
-    const params = {
-        cid: sessionStorage.getItem('companyId')
-    }
-
-    return instance.get(`/api/departments/${departmentId}/member-leaves`, { params })
+    return instance.get(`/api/companies/${companyId}/members`, { params })
         .then((res) => res.data)
         .catch((err) => alert(err))
 }
