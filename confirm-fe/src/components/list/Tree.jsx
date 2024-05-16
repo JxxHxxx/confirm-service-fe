@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi';
 
 function Node({ item, onClickItem }) {
-    const [isOpen, setIsOpen] = useState(false); // 펼침/접힘 상태를 관리합니다.
+    const [isOpen, setIsOpen] = useState(true); // 펼침/접힘 상태를 관리합니다.
     const hasChildren = item.subDepartments && item.subDepartments.length > 0;
 
     const toggleOpen = () => {

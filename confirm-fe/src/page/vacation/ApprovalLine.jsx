@@ -1,18 +1,18 @@
 import { Fragment, useEffect, useState } from "react"
 import { getApprovalLines, postApprovalLines } from "../../api/confirmApi";
 import { raiseConfirmDoucment } from "../../api/vacationApi";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import List from "../../components/list/List";
 import Tree from "../../components/list/Tree";
 import { getOrganizationTree } from "../../api/organizationApi";
-import { getDeparmentMembers } from "../../api/memberApi";
+import { getDeparmentMembers, searchCompanyMembers } from "../../api/memberApi";
+import MemberSearchV2 from "../confirm/MemberSearchV2";
 
 const tag = '[ApprovalLine] COMPONENT'
 
 export default function ApprovalLine({ vacationId }) {
     console.log(tag);
     const params = useParams();
-    const location = useLocation();
     const navigate = useNavigate();
 
     if (vacationId === undefined) {
@@ -28,6 +28,11 @@ export default function ApprovalLine({ vacationId }) {
             submitted: false
         }
     })
+
+    const [keyword, setKeyword] = useState({
+        option: 'memberName',
+        value: ''
+    });
 
     const updateApprovalLinesFlag = (prev, fieldName, fieldValue) => {
         return {
@@ -113,9 +118,27 @@ export default function ApprovalLine({ vacationId }) {
 
     const handleOnClickOrgItem = async (event) => {
         const departmentId = event.currentTarget.getAttribute('value');
-        const result = await getDeparmentMembers(departmentId);
-        setSearchResultMembers(result);
+        const params = {
+            departmentId : departmentId
+        }
+
+        const response = await searchCompanyMembers(params);
+        setSearchResultMembers(response.data);
     }
+
+    const handleOnChangeInputValue = (event) => {
+        setKeyword({ ...keyword, value: event.target.value });
+    }
+
+    const handleOnSubmmit = async (event) => {
+        event.preventDefault();
+        const searchConditionForm = {
+            [keyword.option]: keyword.value
+        }
+        const response = await searchCompanyMembers(searchConditionForm);
+        setSearchResultMembers(response.data);
+    }
+
 
     useEffect(() => {
         amountApprovalLines();
@@ -157,7 +180,13 @@ export default function ApprovalLine({ vacationId }) {
                         </div>
                         <div style={{ borderLeft: '1px solid black' }}></div>
                         <div style={{ width: '500px', height: '500px', overflow: 'auto' }}>
-                            <List title={"사용자 검색"}
+                            <h4>사용자 검색</h4>
+                            <MemberSearchV2
+                                keyword={keyword}
+                                setKeyword={setKeyword}
+                                onChange={handleOnChangeInputValue}
+                                onSubmit={handleOnSubmmit} />
+                            <List
                                 cn={{ ul: "member-list", li: "item" }}
                                 showCondition={(searchResultMembers.length > 0 && !approvalLines.flag.submitted)}
                                 listProperty={{
