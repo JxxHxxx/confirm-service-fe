@@ -118,7 +118,7 @@ export default function MoreDayForm({ vacationType }) {
     return (
         <Fragment>
             {applyStep.vacationDuration && tempVacationDurationComponent()}
-            {applyStep.approvalLine && <MemberSearch />}
+            {/* {applyStep.approvalLine && <MemberSearch />} */}
             {applyStep.approvalLine && <ApprovalLine vacationId={vacationId} />}
         </Fragment>
 

@@ -3,7 +3,7 @@ import Searchbar from "../../components/input/Searchbar";
 import Select from "../../components/select/Select";
 import '../../css/Select.css'
 import List from './../../components/list/List';
-import { getCompanyOrganization } from "../../api/organizationApi";
+import { getOrganizationTree } from "../../api/organizationApi";
 
 export default function MemberSearch() {
     const [keyword, setKeyword] = useState();
@@ -39,7 +39,7 @@ export default function MemberSearch() {
     const [organizations, setOrganizations] = useState([]);
 
     const callApi = async () => {
-        const response = await getCompanyOrganization();
+        const response = await getOrganizationTree();
         setOrganizations(response.data);
         console.log('response', response)
     }

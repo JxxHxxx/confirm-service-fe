@@ -40,14 +40,12 @@ export default function MyVacation() {
     const raiseBeforeVacations = createdMyVacations.filter(vacation => vacation.vacationStatus === 'CREATE')
 
     const handleOnClickTableRow = (vacationId) => {
-        navigate('/vacation/vacation-id/ApprovalLine',
+        navigate(`/vacation/${vacationId}/ApprovalLine`,
             {
                 state: {
-                    departmentMembers: departmentMembers,
                     vacationId: vacationId
                 }
             })
-
     }
 
     return (
@@ -59,7 +57,7 @@ export default function MyVacation() {
                     table: 'vacation_table'
                 }}
                 tableProperty={{
-                    columns:  ['휴가ID', '부서', '이름', '시작일', '종료일', '휴가 진행 상태', '휴가 유형'],
+                    columns: ['휴가ID', '부서', '이름', '시작일', '종료일', '휴가 진행 상태', '휴가 유형'],
                     data: raisedAfterVacations.map((vacation) => (
                         <tr id={vacation.vacationDurationId}
                             key={vacation.vacationDurationId}>
@@ -79,7 +77,7 @@ export default function MyVacation() {
                     table: 'vacation_table'
                 }}
                 tableProperty={{
-                    columns:  ['휴가ID', '부서', '이름', '시작일', '종료일', '휴가 진행 상태', '휴가 유형'],
+                    columns: ['휴가ID', '부서', '이름', '시작일', '종료일', '휴가 진행 상태', '휴가 유형'],
                     data: raiseBeforeVacations.map((vacation) => (
                         <tr id={vacation.vacationDurationId}
                             key={vacation.vacationDurationId}

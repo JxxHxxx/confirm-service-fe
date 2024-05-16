@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react"
 import { getApprovalLines, postApprovalLines } from "../../api/confirmApi";
 import { raiseConfirmDoucment } from "../../api/vacationApi";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import List from "../../components/list/List";
 import Tree from "../../components/list/Tree";
 import { getOrganizationTree } from "../../api/organizationApi";
@@ -11,11 +11,11 @@ const tag = '[ApprovalLine] COMPONENT'
 
 export default function ApprovalLine({ vacationId }) {
     console.log(tag);
-    const location = useLocation();
+    const params = useParams();
     const navigate = useNavigate();
 
     if (vacationId === undefined) {
-        vacationId = location.state.vacationId;
+        vacationId = params.vacationId;
     }
 
     const [selectedMembers, setSelectedMemebers] = useState([]);
@@ -26,7 +26,7 @@ export default function ApprovalLine({ vacationId }) {
         flag: {
             submitted: false
         }
-    })
+    }) 
 
     const updateApprovalLinesFlag = (prev, fieldName, fieldValue) => {
         return {

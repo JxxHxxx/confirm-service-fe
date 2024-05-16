@@ -4,7 +4,7 @@ import { Header } from "../../components/layout/Header";
 import Page from '../../components/layout/Page';
 
 export function VacationApply() {
-
+    
     return (
         <Page
             header={<Header />}
