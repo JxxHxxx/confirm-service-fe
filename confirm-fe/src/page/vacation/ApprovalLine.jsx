@@ -7,6 +7,7 @@ import Tree from "../../components/list/Tree";
 import { getOrganizationTree } from "../../api/organizationApi";
 import { getDeparmentMembers, searchCompanyMembers } from "../../api/memberApi";
 import MemberSearchV2 from "../confirm/MemberSearchV2";
+import Button from "../../components/button/Button";
 
 const tag = '[ApprovalLine] COMPONENT'
 
@@ -119,7 +120,7 @@ export default function ApprovalLine({ vacationId }) {
     const handleOnClickOrgItem = async (event) => {
         const departmentId = event.currentTarget.getAttribute('value');
         const params = {
-            departmentId : departmentId
+            departmentId: departmentId
         }
 
         const response = await searchCompanyMembers(params);
@@ -163,11 +164,10 @@ export default function ApprovalLine({ vacationId }) {
                             )
                         }}>
                     </List>
-                    <button
-                        type="button"
-                        onClick={handleOnClickRaiseConfirmDocument}>
-                        상신
-                    </button>
+                    <Button
+                        name="상신"
+                        onClick={handleOnClickRaiseConfirmDocument}
+                        style={{ width: '100px' }} />
                 </Fragment>)}
 
             <div className="list-container" style={{ display: 'grid', gridTemplateColumns: '4fr 0.1fr 4fr 0.1fr 4fr' }}>
@@ -206,25 +206,24 @@ export default function ApprovalLine({ vacationId }) {
 
 
                 )}
-                <div style={{ borderLeft: '1px solid black' }}></div>
                 {!approvalLines.flag.submitted && (
-                    <List cn={{ ul: "member-list", li: "item", noneli: "item-none" }}
-                        title={"결재 라인"}
-                        showCondition={(selectedMembers.length > 0 && !approvalLines.flag.submitted)}
-                        listProperty={{
-                            items: selectedMembers,
-                            itemKey: 'memberPk',
-                            itemValue: 'memberId',
-                            onClick: handleExceptAprovalLineMember,
-                            itemContent: (item) => (<>{item.departmentName}/{item.name}/{item.enteredDate}</>),
-                            emptyListInfo: '결재 라인을 추가해주세요'
-                        }}>
-                        <button
-                            type="button"
-                            onClick={handleOnClickCompleteApprovaLine}>
-                            결재선 지정 완료
-                        </button>
-                    </List>
+                    <Fragment>
+                        <div style={{ borderLeft: '1px solid black' }}></div>
+                        <List cn={{ ul: "member-list", li: "item", noneli: "item-none" }}
+                            title={"결재 라인"}
+                            showCondition={(selectedMembers.length > 0 && !approvalLines.flag.submitted)}
+                            listProperty={{
+                                items: selectedMembers,
+                                itemKey: 'memberPk',
+                                itemValue: 'memberId',
+                                onClick: handleExceptAprovalLineMember,
+                                itemContent: (item) => (<>{item.departmentName}/{item.name}/{item.enteredDate}</>),
+                                emptyListInfo: '결재 라인을 추가해주세요'
+                            }}>
+                            <Button name="결재선 지정 완료" onClick={handleOnClickCompleteApprovaLine} />
+                        </List>
+
+                    </Fragment>
                 )}
                 <List cn={{ ul: "member-list", li: "item" }}
                     showCondition={approvalLines.flag.submitted}

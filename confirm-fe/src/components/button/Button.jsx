@@ -1,9 +1,10 @@
 
-export default function Button({ cn = '', name = 'button', onClick = () => { }, style = {} }) {
+export default function Button({ cn = 'basic-button', name = 'button', onClick = () => { }, style = {} }) {
 
     return (
         <button
-            style = {style}
+            type="button"
+            style={style}
             className={cn}
             onClick={onClick}>
             {name}

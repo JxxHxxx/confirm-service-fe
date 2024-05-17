@@ -1,39 +1,51 @@
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
+import { convertApproveStatus, convertConfirmStatus } from "../../converter/DocumentConverter";
+import { convertDateTime, convertMonthTime } from "../../converter/DateTimeConvert";
+import { getApprovalLines } from "../../api/confirmApi";
 
-export default function ApprovalHistTable({ approvalLines }) {
+
+export default function ApprovalHistTable({ confirmDocument }) {
+    const [approvalLines, setApprovalLines] = useState([]);
+
+    const handleAmount = async () => {
+        const response = await getApprovalLines(confirmDocument.confirmDocumentId);
+        const orderedApprovalLines = response.data.data.sort((now, next) => (now.approvalOrder - next.approvalOrder))
+        setApprovalLines(orderedApprovalLines);
+    };
+
+    useEffect(() => {
+        handleAmount();
+    }, [])
 
     return (
         <Fragment>
-            <div className="aph_table_ct">
+            {approvalLines.length > 0 && <div className="aph_table_ct">
                 <table className="aph_table">
                     <thead>
                         <tr className="aph_tr_col">
                             <td>기안</td>
-                            <td>검토</td>
-                            <td>검토</td>
+                            {approvalLines.map(al => <td id={al.approvalLinePk}>검토</td>)}
                         </tr>
                     </thead>
                     <tbody>
                         <tr className="aph_tr_mn">
-                            <td>이재헌</td>
-                            <td>결재자1</td>
-                            <td>결재자2</td>
+                            <td>{confirmDocument.requesterName}</td>
+                            {approvalLines.map(al => <td>{al.approvalName}</td>)}
                         </tr>
                         <tr className="aph_tr_sub"
                             id="approval_status">
-                            <td>상신</td>
-                            <td>승인</td>
-                            <td>승인</td>
+                            <td>{convertConfirmStatus(confirmDocument.confirmStatus)}</td>
+                            {approvalLines.map(al => <td>{convertApproveStatus(al.approveStatus)}</td>)}
                         </tr>
                         <tr className="aph_tr_sub"
-                            id="decide_date_time" style={{ fontSize: '11px' }}>
-                            <td>05-16 16:02</td>
-                            <td>05-16 16:35</td>
-                            <td>05-16 17:56</td>
+                            id="decide_date_time" style={{ fontSize: '9px' }}>
+                            <td>{convertMonthTime(confirmDocument.createTime)}</td>
+                            {approvalLines.map(al => <td>{convertMonthTime(al.approveTime)}</td>)}
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </div>}
+
         </Fragment>
     )
 }

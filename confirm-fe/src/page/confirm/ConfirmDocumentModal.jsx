@@ -4,8 +4,6 @@ import { acceptConfirmDocument, getConfirmDocumentContent, rejectConfirmDocument
 import { convertDocumentType } from '../../converter/DocumentConverter';
 import Button from '../../components/button/Button';
 import ButtonGroup from '../../components/button/ButtonGroup';
-import Table from '../../components/table/Table';
-import { IoIosCloseCircleOutline  } from "react-icons/io";
 import ApprovalHistTable from './ApprovalHistTable';
 
 export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentPk }) {
@@ -16,6 +14,8 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
         setConfirmDocumentContent(result.data);
     }
 
+    console.log('confirmDocumentContent', confirmDocumentContent);
+
     const customStyles = {
         content: {
             top: '50%',
@@ -24,7 +24,8 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
             bottom: 'auto',
             marginRight: '-50%',
             transform: 'translate(-50%, -50%)',
-            height: '600px'
+            height: '650px',
+            width: '700px'
         },
     };
 
@@ -47,7 +48,6 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
         }
 
         const response = await acceptConfirmDocument(confirmDocumentId, approvalForm);
-        console.log('response', response);
         if (response.status !== 200) {
             alert(response.data.message);
         }
@@ -65,7 +65,6 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
         }
 
         const response = await rejectConfirmDocument(confirmDocumentId, rejectForm);
-        console.log('response', response);
         if (response.status !== 200) {
             alert(response.data.message);
         }
@@ -76,23 +75,36 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
     }
 
     const contentTable = () => {
-        return <Fragment id={confirmDocumentContent.confirmDocument.pk}>
-            {/* <div style={{position:'absolute', right :'0', top: '0'}}>
-                <IoIosCloseCircleOutline  style={{width: '25px', height: '25px'}}/>
-            </div> */}
-            <h2 style={{textAlign:'center'}}>{confirmDocumentContent.contents.title}</h2>
-            {/* <ApprovalHistTable /> */}
-            {/* <div style={{ textAlign: 'right' }}>결재선 표현</div> */}
+        return <Fragment key={confirmDocumentContent.confirmDocument.pk}>
+            <ButtonGroup cn='bg_rel'>
+                <Button
+                    cn='basic-button'
+                    name='상신'
+                    onClick={() => handleOnClickAccept(confirmDocumentContent.confirmDocument.confirmDocumentId)} />
+                <Button
+                    cn='basic-button-reverse'
+                    name='반려'
+                    onClick={() => handleOnClickReject(confirmDocumentContent.confirmDocument.confirmDocumentId)} />
 
-        
+                <Button
+                    cn='basic-button-reverse2'
+                    name='닫기'
+                    onClick={closeModal}
+                    style={{ marginLeft: '539px' }}
+                />
+            </ButtonGroup>
+            <h2 style={{ textAlign: 'center' }}>{confirmDocumentContent.contents.title}</h2>
+            <ApprovalHistTable
+                confirmDocument={confirmDocumentContent.confirmDocument} />
+
             <p>문서 유형:{convertDocumentType(confirmDocumentContent.confirmDocument.documentType)}</p>
-            <table className='confirm-document-table'>
-                <thead>
-                </thead>
+            <table className='ct_table'>
                 <tbody>
-                    <h3>요청 내용</h3>
                     <tr>
-                        <th>요청자</th>
+                        <th className='ct_thh'>요청정보</th>
+                    </tr>
+                    <tr>
+                        <th className='ct_tbh'>요청자</th>
                         <td>{confirmDocumentContent.contents.requester_name}</td>
                     </tr>
                     <tr>
@@ -126,22 +138,6 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
                     </div>
                 </tbody>
             </table>
-            <ButtonGroup cn='basic-button-group'>
-                <Button
-                    cn='basic-button'
-                    name='상신'
-                    onClick={() => handleOnClickAccept(confirmDocumentContent.confirmDocument.confirmDocumentId)} />
-                <Button
-                    cn='basic-button-reverse'
-                    name='반려'
-                    onClick={() => handleOnClickReject(confirmDocumentContent.confirmDocument.confirmDocumentId)} />
-
-                <Button
-                    cn='basic-button-reverse'
-                    name='닫기'
-                    onClick={closeModal}
-                    style={{ marginLeft: '350px' }} />
-            </ButtonGroup>
         </Fragment>
     }
 

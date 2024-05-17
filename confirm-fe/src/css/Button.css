@@ -41,11 +41,27 @@
     margin-right: 5px;
 }
 
+.basic-button-reverse2 {
+    background-color: white;
+    color: #1a73e8;
+    padding: 7px 11px;
+    border: 1px solid #1a73e8;
+    border-radius: 5px;
+    margin-left: auto;
+}
+
+
 .basic-button:hover, .basic-button-reverse:hover {
     filter: brightness(90%);
 }
 
 .basic-button-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.bg_rel {
+    position: relative;
     margin-top: 10px;
     margin-bottom: 10px;
 }
