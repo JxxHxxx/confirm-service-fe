@@ -35,8 +35,7 @@ export default function MyConfirmDocument() {
         }
         try {
             const response = await getConfirmDocument(param);
-            console.log('draft document', response.data.data);
-
+            // TODO => 결재 라인 두 명 이 상 일 떄 PK 겹침
             setDrafteConfirmDoucments(response.data === undefined ? [] : response.data.data);
 
         } catch (error) {
@@ -83,11 +82,11 @@ export default function MyConfirmDocument() {
                     )),
                     showCondition: true
                 }} />
-            <Table title={"내 결재 문서"} cn={{ table: "vacation_table" }}
+            <Table title={"작성한 결재 문서"} cn={{ table: "vacation_table" }}
                 tableProperty={{
                     columns: ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자명', '결재 상태', '승인/반려 일시'],
                     data: drafteConfirmDocuments.map((document) => (
-                        <tr key={document.pk}>
+                        <tr key={document.approvalLinePk}>
                             <td>{document.confirmDocumentId}</td>
                             <td>{convertDateTime(document.createTime)}</td>
                             <td>{convertDocumentType(document.documentType)}</td>

@@ -6,6 +6,7 @@ import Button from '../../components/button/Button';
 import ButtonGroup from '../../components/button/ButtonGroup';
 import Table from '../../components/table/Table';
 import { IoIosCloseCircleOutline  } from "react-icons/io";
+import ApprovalHistTable from './ApprovalHistTable';
 
 export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentPk }) {
     const [confirmDocumentContent, setConfirmDocumentContent] = useState({});
@@ -23,6 +24,7 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
             bottom: 'auto',
             marginRight: '-50%',
             transform: 'translate(-50%, -50%)',
+            height: '600px'
         },
     };
 
@@ -75,15 +77,14 @@ export function ConfirmDocumentModal({ modalOpen, setModalOpen, documentContentP
 
     const contentTable = () => {
         return <Fragment id={confirmDocumentContent.confirmDocument.pk}>
-            <div style={{position:'absolute', right :'0', top: '0'}}>
+            {/* <div style={{position:'absolute', right :'0', top: '0'}}>
                 <IoIosCloseCircleOutline  style={{width: '25px', height: '25px'}}/>
-            </div>
-            <div style={{ textAlign: 'right' }}>결재선 표현</div>
+            </div> */}
+            <h2 style={{textAlign:'center'}}>{confirmDocumentContent.contents.title}</h2>
+            {/* <ApprovalHistTable /> */}
+            {/* <div style={{ textAlign: 'right' }}>결재선 표현</div> */}
 
-            <Table
-                title='결재선'
-                style={{ textAlign: 'right' }} />
-            <h2>{confirmDocumentContent.contents.title}</h2>
+        
             <p>문서 유형:{convertDocumentType(confirmDocumentContent.confirmDocument.documentType)}</p>
             <table className='confirm-document-table'>
                 <thead>

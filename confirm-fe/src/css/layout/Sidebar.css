@@ -1,0 +1,37 @@
+
+.basic-sb2 .white-space {
+    background-color: white;
+    padding-top: 95px;
+}
+
+.basic-sb2 {
+    position: relative;
+    width: 100%;
+    text-align: left;
+    background-color: #ffffff;
+    padding: 20px;   
+}
+
+.basic-sb2 .menu-item-wrapper {
+    padding-bottom: 10px;
+    background-color: whitesmoke;
+    border-bottom: 1px solid gray;
+    text-decoration: none;
+    text-align: left;
+    font-size: 14px;
+}
+
+.basic-sb2 .menu-item-wrapper:visited {
+    color:inherit;
+}
+
+.basic-sb2 .menu-item-wrapper-selected {
+    padding-bottom: 10px;
+    background-color: whitesmoke;
+    border-bottom: 1px solid gray;
+}
+
+.basic-sb2 .menu-item-wrapper:hover {
+    filter: brightness(110%);
+    background-color: whitesmoke;
+}

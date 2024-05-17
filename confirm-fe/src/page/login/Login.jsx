@@ -12,13 +12,7 @@ export function Login({ props }) {
 
     // 인증 로직 - 현재는 테스트
     const checkAuth = async () => {
-        const authForm = {
-            memberId: sessionStorage.getItem('memberId'),
-            companyId: sessionStorage.getItem('companyId'),
-            departmentId: sessionStorage.getItem('departmentId')
-        }
-
-        const responseStatusCode = await checkMemberAuthentication(authForm);
+        const responseStatusCode = await checkMemberAuthentication();
     
         if (responseStatusCode === 200) {
             navigate("/confirm");
