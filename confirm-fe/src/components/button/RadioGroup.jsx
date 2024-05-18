@@ -1,8 +1,8 @@
 
-export function RadioGroup({label, children}) {
+export function RadioGroup({ label, children }) {
 
     return (
-        <fieldset>
+        <fieldset className="basic-fs">
             <legend>{label}</legend>
             {children}
         </fieldset>

@@ -143,14 +143,14 @@ export default function ApprovalLine({ vacationId }) {
 
     useEffect(() => {
         amountApprovalLines();
-    }, [])
+    }, [approvalLines.flag.submitted])
 
     return (
         <Fragment>
             <h1>결재선 지정</h1>
             {approvalLines.flag.submitted && (
                 <Fragment>
-                    <List title={"결재선 라인"}
+                    <List title={"지정된 결재선 라인"}
                         cn={{ ul: "member-list", li: "item" }}
                         showCondition={true}
                         listProperty={{
@@ -159,7 +159,7 @@ export default function ApprovalLine({ vacationId }) {
                             itemValue: 'approvalLinePk',
                             itemContent: (item) => (
                                 <Fragment>
-                                    {item.approvalId}/ 결재 순서 : {item.approvalOrder}
+                                    {item.approvalName}/결재 순서 : {item.approvalOrder}
                                 </Fragment>
                             )
                         }}>

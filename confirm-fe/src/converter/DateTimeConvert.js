@@ -46,3 +46,26 @@ export const convertDate = (dateTimeString) => {
 
     return `${year}-${month}-${day}`;
 }
+
+export const arrayToDate = (array = []) => {
+    if(array.length <= 0 || array === null) {
+        return ''
+    }
+
+
+    
+    const year = String(array[0]).padStart(4, '0');
+    const month = String(array[1]).padStart(2, '0');
+    const day = String(array[2]).padStart(2, '0');
+
+    const StringDate = year + '-' + month + '-' + day
+    const date = new Date(StringDate);
+
+    const daysOfWeek = ['(일)', '(월)', '(화)', '(수)', '(목)', '(금)', '(토)'];
+    const dayOfWeek = daysOfWeek[date.getDay()];
+
+    
+    console.log(dayOfWeek);
+
+    return StringDate + dayOfWeek
+}
