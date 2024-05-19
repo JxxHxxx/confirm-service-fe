@@ -42,8 +42,7 @@ export default function MemberSearchV2({ keyword, setKeyword, onChange, onSubmit
             <Searchbar
                 inputProp={{ placeholder: selectOption }}
                 onChange={onChange}
-                onSubmit={onSubmit}
-                onClickIcon={onSubmit} />s
+                onSubmit={onSubmit} />
         </div>
     </Fragment>)
 }

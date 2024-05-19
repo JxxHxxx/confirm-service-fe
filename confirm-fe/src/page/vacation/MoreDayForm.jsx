@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
 import { applyVacation } from "../../api/vacationApi";
 import Calendar from "../../components/calendar/Calendar";
-import { getDeparmentMembers } from "../../api/memberApi";
+import { getDeparmentMembers, searchCompanyMembers } from "../../api/memberApi";
 
 import '../../css/List.css'
 import ApprovalLine from "./ApprovalLine";
-import MemberSearch from "../member/MemberSearch";
+import Searchbar from "../../components/input/Searchbar";
 
 export default function MoreDayForm({ vacationType }) {
     const [vacationForm, setVacationForm] = useState({
@@ -39,7 +39,8 @@ export default function MoreDayForm({ vacationType }) {
             title: "휴가신청서",
             reason: vacationForm.reason,
             requesterName: sessionStorage.getItem('memberName'),
-            delegatorName: "테스터",
+            delegatorId: searchResultMember.memberId,
+            delegatorName: searchResultMember.name,
             departmentId: sessionStorage.getItem('departmentId'),
             departmentName: sessionStorage.getItem('departmentName')
         }
@@ -75,6 +76,22 @@ export default function MoreDayForm({ vacationType }) {
         }));
     }
 
+    const [keyword, setKeyword] = useState();
+    const [searchResultMember, setSearchResultMember] = useState();
+
+    const onChangeSearchValue = (event) => {
+        setKeyword(event.target.value);
+    }
+
+    const handleOnSubmitSearchValue = async (event) => {
+        event.preventDefault();
+        const params = {
+            'memberName': keyword
+        }
+        const response = await searchCompanyMembers(params);
+        setSearchResultMember(response.data[0] !== undefined ? response.data[0] : {'memberId' : null, 'name' : null});
+    }
+
     const tempVacationDurationComponent = () => {
         return (
             <Fragment>
@@ -98,27 +115,26 @@ export default function MoreDayForm({ vacationType }) {
                         <button type="submit">제출</button>
                     </div>
                 </form>
+                <div>
+                    <h3>직무대행자</h3>
+                    <Searchbar
+                        inputProp={{ 'placeholder': '사용자 이름을 입력해주세요' }}
+                        onChange={onChangeSearchValue}
+                        onSubmit={handleOnSubmitSearchValue}
+                    />
+                    <p>{searchResultMember && searchResultMember.name}</p>
+                </div>
             </Fragment>
         )
     }
 
-    // 없어도 될 듯 검토
-    const [deparmentMenbers, setDepartmentMembers] = useState([]);
-
-    const handleApprovalLine = async () => {
-        const findDepartmentMembers = await getDeparmentMembers();
-        setDepartmentMembers(findDepartmentMembers);
-    }
 
     useEffect(() => {
-        handleApprovalLine();
     }, [])
-    // 없어도 될 듯 검토
 
     return (
         <Fragment>
             {applyStep.vacationDuration && tempVacationDurationComponent()}
-            {/* {applyStep.approvalLine && <MemberSearch />} */}
             {applyStep.approvalLine && <ApprovalLine vacationId={vacationId} />}
         </Fragment>
 
