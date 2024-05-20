@@ -39,8 +39,8 @@ export default function MoreDayForm({ vacationType }) {
             title: "휴가신청서",
             reason: vacationForm.reason,
             requesterName: sessionStorage.getItem('memberName'),
-            delegatorId: searchResultMember.memberId,
-            delegatorName: searchResultMember.name,
+            delegatorId: searchResultMember !== undefined ? searchResultMember.memberId : '',
+            delegatorName: searchResultMember !== undefined ? searchResultMember.name : '',
             departmentId: sessionStorage.getItem('departmentId'),
             departmentName: sessionStorage.getItem('departmentName')
         }

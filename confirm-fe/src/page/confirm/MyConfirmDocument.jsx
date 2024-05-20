@@ -80,13 +80,12 @@ export default function MyConfirmDocument() {
                             <td>{document.contents.department_name}</td>
                             <td>{document.contents.requester_name}</td>
                             <td>{convertApproveStatus(document.approvalStatus)}</td>
-                            <td>{convertDateTime(document.approvalTime)}</td>
+                            <td>{convertDateTime(document.completedTime)}</td>
                         </tr>
                     )),
                     showCondition: true
                 }} />
 
-            {/* TODO 여기 잘못 됨  */}
             <Table title={"작성한 결재 문서"} cn={{ table: "vacation_table" }}
                 tableProperty={{
                     columns: ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자명', '결재 상태', '승인/반려 일시'],
@@ -100,7 +99,7 @@ export default function MyConfirmDocument() {
                             <td>{document.contents.requester_name}</td>
 
                             <td>{convertConfirmStatus(document.confirmStatus)}</td>
-                            <td>#</td>
+                            <td>{convertDateTime(document.completedTime)}</td>
                         </tr>
                     )),
                     showCondition: true
