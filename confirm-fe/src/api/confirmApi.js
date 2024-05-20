@@ -2,12 +2,21 @@ import createAxiosInstance from './GlobalApiConfiguration';
 
 const instance = createAxiosInstance('http://localhost:8000', true)
 
-export const getConfirmDocument = function (params) {
+export const getConfirmDocumentWithApprovalLines = function (params) {
+
+  return instance.get(`/api/confirm-documents/fetch-approval-lines`, { params })
+    .then((res) => res)
+    .catch((err) => err)
+}
+
+export const getConfirmDocuments = function (params) {
 
   return instance.get(`/api/confirm-documents`, { params })
     .then((res) => res)
     .catch((err) => err)
 }
+
+
 
 export const getDepartmentConfirmDocuments = function () {
   const params = {

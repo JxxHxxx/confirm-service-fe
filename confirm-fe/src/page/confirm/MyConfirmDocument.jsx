@@ -3,7 +3,7 @@ import { Header } from "../../components/layout/Header";
 import Page from "../../components/layout/Page";
 import Table from "../../components/table/Table";
 import ConfirmSidebar from "./ConfirmSidebar";
-import { getConfirmDocument } from "../../api/confirmApi";
+import { getConfirmDocumentWithApprovalLines, getConfirmDocuments } from "../../api/confirmApi";
 import { convertApproveStatus, convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
 import { convertDateTime } from "../../converter/DateTimeConvert";
 import { ConfirmDocumentModal } from "./ConfirmDocumentModal";
@@ -20,7 +20,7 @@ export default function MyConfirmDocument() {
                 approvalId: sessionStorage.getItem('memberId')
             }
 
-            const response = await getConfirmDocument(params);
+            const response = await getConfirmDocumentWithApprovalLines(params);
 
             setApprovalConfirmDocuments(response.data === undefined ? [] : response.data.data);
         } catch (error) {
@@ -31,12 +31,15 @@ export default function MyConfirmDocument() {
 
     const fetchDrafteConfirmDocuments = async () => {
         const param = {
+            companyId: sessionStorage.getItem('companyId'),
+            departmentId: sessionStorage.getItem('departmentId'),
             requesterId: sessionStorage.getItem('memberId')
         }
         try {
-            const response = await getConfirmDocument(param);
+            const response = await getConfirmDocuments(param);
             // TODO => 결재 라인 두 명 이 상 일 떄 PK 겹침
-            setDrafteConfirmDoucments(response.data === undefined ? [] : response.data.data);
+            const confirmDocuments = response.data === undefined ? [] : response.data.data;
+            setDrafteConfirmDoucments(confirmDocuments);
 
         } catch (error) {
             alert('check server connection');
@@ -82,11 +85,14 @@ export default function MyConfirmDocument() {
                     )),
                     showCondition: true
                 }} />
+
+            {/* TODO 여기 잘못 됨  */}
             <Table title={"작성한 결재 문서"} cn={{ table: "vacation_table" }}
                 tableProperty={{
                     columns: ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자명', '결재 상태', '승인/반려 일시'],
                     data: drafteConfirmDocuments.map((document) => (
-                        <tr key={document.approvalLinePk}>
+                        <tr key={document.approvalLinePk}
+                            onClick={() => handleOpenModal(document.pk)}>
                             <td>{document.confirmDocumentId}</td>
                             <td>{convertDateTime(document.createTime)}</td>
                             <td>{convertDocumentType(document.documentType)}</td>
