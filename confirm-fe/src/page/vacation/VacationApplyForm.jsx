@@ -18,16 +18,16 @@ export function VacationApplyForm() {
             <form>
                 <RadioGroup label="휴가 유형">
                     <Radio
-                        name="more_day"
-                        value="more_day"
-                        checked={vacationType === "more_day" ? true : false}
+                        name="MORE_DAY"
+                        value="MORE_DAY"
+                        checked={vacationType === "MORE_DAY" ? true : false}
                         onChange={handleOnChange}>
                         연차
                     </Radio>
                     <Radio
-                        name="half"
-                        value="half"
-                        checked={vacationType === "half" ? true : false}
+                        name="HALF_MORNING"
+                        value="HALF_MORNING"
+                        checked={vacationType === "HALF_MORNING" ? true : false}
                         onChange={handleOnChange}>
                         반차
                     </Radio>
@@ -40,8 +40,8 @@ export function VacationApplyForm() {
                     </Radio>
                 </RadioGroup>
             </form>
-            {vacationType === 'more_day' && <MoreDayForm vacationType={vacationType} />}
-            {vacationType === 'half' && <HalfDayForm />}
+            {vacationType === 'MORE_DAY' && <MoreDayForm vacationType={vacationType} />}
+            {vacationType === 'HALF_MORNING' && <HalfDayForm vacationType={vacationType}/>}
             {vacationType === 'special' && <h2>경조사 신청 폼</h2>}
         </Fragment>
     )

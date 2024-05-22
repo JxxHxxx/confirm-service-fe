@@ -1,7 +1,7 @@
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import '../../css/Select.css'
 
-export default function Select({ cn = '', options, handleOnChangeOption = () => { } }) {
+export default function Select({ cn = 'basic-sl', options, handleOnChangeOption = () => { } }) {
 
     return (
         <Fragment>
