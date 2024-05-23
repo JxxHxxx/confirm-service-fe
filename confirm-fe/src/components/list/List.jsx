@@ -1,6 +1,9 @@
 import { Fragment } from "react";
 
-export default function List({ title, cn = {}, showCondition, listProperty = {}, children }) {
+export default function List({ title = '',
+    cn = { ul: 'member-list', li: 'item' }, showCondition = true,
+    listProperty = { 'items': [], 'itemKey': '', 'itemValue': '', 'itemContent': () => { }, 'onClick': () => { } },
+    children }) {
     const { ul = '', li = '', noneli = '' } = cn;
     const { items = [], itemKey = 'id', itemValue = 'value', onClick = () => { }, emptyListInfo = '' } = listProperty;
     const { itemContent = () => null } = listProperty;

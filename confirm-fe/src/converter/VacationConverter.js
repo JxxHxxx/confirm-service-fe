@@ -8,6 +8,7 @@ export const convertVacationStatus = (vacation) => {
 
 const vacationTypeConst = {
     MORE_DAY: '유급휴가',
+    HALF_MORNING: '유급반차',
     COMMON_VACATION: '공동연차'
 }
 
