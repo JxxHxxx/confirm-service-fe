@@ -2,7 +2,7 @@ export class ApplyVacationTransfer {
     constructor(
         vacationType = '',
         leaveDeduct = 'DEDUCT',
-        vacationDuration = {},
+        duration = {},
         reason = '',
         delegator = { delegatorId: '', delegatorName : ''}) {
         this.requesterId = sessionStorage.getItem('memberId');
@@ -14,8 +14,8 @@ export class ApplyVacationTransfer {
         this.leaveDeduct = leaveDeduct;
         this.requestVacationDurations = [
             {
-                startDateTime: vacationDuration.startDateTime,
-                endDateTime: vacationDuration.endDateTime
+                startDateTime: duration.startDateTime,
+                endDateTime: duration.endDateTime
             }
         ],
         this.title = '휴가신청서';

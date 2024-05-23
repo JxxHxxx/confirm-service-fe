@@ -1,61 +1,51 @@
 import { Fragment, useEffect, useState } from "react";
 import { applyVacation } from "../../api/vacationApi";
 import Calendar from "../../components/calendar/Calendar";
-import { getDeparmentMembers, searchCompanyMembers } from "../../api/memberApi";
-
+import { searchCompanyMembers } from "../../api/memberApi";
+import DatePicker from 'react-datepicker';
 import '../../css/List.css'
-import ApprovalLine from "./ApprovalLine";
-import Searchbar from "../../components/input/Searchbar";
+import { useNavigate } from "react-router-dom";
+import { ApplyVacationTransfer } from "../../transfer/ApplyVacationTransfer";
+import DelegatorSearch from "./DelegatorSearch";
+import List from "../../components/list/List";
+import Button from "../../components/button/Button";
+import { convertDate } from "../../converter/DateTimeConvert";
 
 export default function MoreDayForm({ vacationType }) {
     const [vacationForm, setVacationForm] = useState({
-        'duration': {
+        duration: {
             'startDateTime': '',
             'endDateTime': ''
         },
-        'reason': ''
+        reason: '',
+    });
+
+    const [delegator, setDelegator] = useState({
+        keyword: '',
+        searchResult: [],
+        selected: { delegatorId: '', delegatorName: '' }
     });
 
     const [vacationId, setVactionId] = useState('');
 
-    const [applyStep, setApplyStep] = useState({
-        'vacationDuration': true,
-        'approvalLine': false,
-    })
+    const navigate = useNavigate();
 
-    const handleOnSubmmit = async (event) => {
-        event.preventDefault();
-
-        const requestVacationForm = {
-            requesterId: sessionStorage.getItem('memberId'),
-            vacationType: vacationType.toUpperCase(),
-            leaveDeduct: "DEDUCT",
-            requestVacationDurations: [
-                {
-                    startDateTime: vacationForm.duration.startDateTime + "T00:00",
-                    endDateTime: vacationForm.duration.endDateTime + "T00:00"
-                }
-            ],
-            title: "휴가신청서",
-            reason: vacationForm.reason,
-            requesterName: sessionStorage.getItem('memberName'),
-            delegatorId: searchResultMember !== undefined ? searchResultMember.memberId : '',
-            delegatorName: searchResultMember !== undefined ? searchResultMember.name : '',
-            departmentId: sessionStorage.getItem('departmentId'),
-            departmentName: sessionStorage.getItem('departmentName')
+    const handleOnSubmmit = async () => {
+        const duration = {
+            startDateTime: vacationForm.duration.startDateTime + "T00:00",
+            endDateTime: vacationForm.duration.endDateTime + "T00:00"
         }
 
-        const requestResult = await applyVacation(requestVacationForm);
+        const requestVacationForm = new ApplyVacationTransfer(vacationType, 'DEDUCT', duration, vacationForm.reason, delegator.selected);
 
-        if (requestResult.status === 200) {
-            setVactionId(requestResult.data.vacationId)
 
-            setApplyStep(prev => ({
-                ...prev,
-                'vacationDuration': false,
-                'approvalLine': true
-            }))
+        const response = await applyVacation(requestVacationForm);
+
+        if (response.status === 200) {
+            setVactionId(response.data.vacationId)
         }
+
+        navigate(`/vacation/${response.data.vacationId}/ApprovalLine`)
     }
 
     const handleOnChangeDate = (event) => {
@@ -68,7 +58,6 @@ export default function MoreDayForm({ vacationType }) {
         }))
     }
 
-
     const hnadleOnChangeReasonInput = (event) => {
         setVacationForm(prev => ({
             ...prev,
@@ -76,66 +65,112 @@ export default function MoreDayForm({ vacationType }) {
         }));
     }
 
-    const [keyword, setKeyword] = useState();
-    const [searchResultMember, setSearchResultMember] = useState();
-
     const onChangeSearchValue = (event) => {
-        setKeyword(event.target.value);
+        setDelegator((prev) => ({
+            ...prev,
+            keyword: event.target.value
+        }));
     }
 
     const handleOnSubmitSearchValue = async (event) => {
         event.preventDefault();
         const params = {
-            'memberName': keyword
+            'memberName': delegator.keyword
         }
         const response = await searchCompanyMembers(params);
-        setSearchResultMember(response.data[0] !== undefined ? response.data[0] : {'memberId' : null, 'name' : null});
+        setDelegator((prev) => ({
+            ...prev,
+            searchResult: response.data.length > 0 ? response.data : []
+        }));
     }
 
-    const tempVacationDurationComponent = () => {
-        return (
-            <Fragment>
-                <h2>연차 신청 폼</h2>
-                <form onSubmit={handleOnSubmmit}>
-                    <Calendar
-                        title="연차 시작일을 지정해주세요"
-                        id="startDateTime"
-                        onChange={handleOnChangeDate}
-                    />
-                    <Calendar
-                        title="연차 종료일을 지정해주세요"
-                        id="endDateTime"
-                        onChange={handleOnChangeDate} />
-                    <label htmlFor="vacation-reason" />사유
-                    <input
-                        id="vacation-reasont"
-                        type="text"
-                        onChange={hnadleOnChangeReasonInput} />
-                    <div>
-                        <button type="submit">제출</button>
-                    </div>
-                </form>
-                <div>
-                    <h3>직무대행자</h3>
-                    <Searchbar
-                        inputProp={{ 'placeholder': '사용자 이름을 입력해주세요' }}
-                        onChange={onChangeSearchValue}
-                        onSubmit={handleOnSubmitSearchValue}
-                    />
-                    <p>{searchResultMember && searchResultMember.name}</p>
-                </div>
-            </Fragment>
-        )
+    const handleOnClickSelectDelegator = (event) => {
+        alert(event.target.innerHTML + "을 직무 대행자로 지정합니다")
+        setDelegator((prev) => ({
+            ...prev,
+            searchResult: prev.searchResult.filter(member => member.memberId === event.target.getAttribute('value')),
+        }))
+        setDelegator((prev) => ({
+            ...prev,
+            selected: {
+                delegatorId: delegator.searchResult[0].memberId,
+                delegatorName: delegator.searchResult[0].name
+            }
+        }))
     }
-
 
     useEffect(() => {
     }, [])
 
     return (
         <Fragment>
-            {applyStep.vacationDuration && tempVacationDurationComponent()}
-            {applyStep.approvalLine && <ApprovalLine vacationId={vacationId} />}
+            <h2>연차 신청</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: '4fr 4fr 4fr', gridRowGap: '50px' }}>
+                <div>
+                    <p style={{ 'color': 'grey', 'fontSize': '13px' }}>시작일을 지정해주세요</p>
+                    <Calendar
+                        id="startDateTime"
+                        onChange={handleOnChangeDate}
+                    />
+                </div>
+                <div>
+                    <p style={{ 'color': 'grey', 'fontSize': '13px' }}>종료일을 지정해주세요</p>
+                    <Calendar
+                        id="endDateTime"
+                        onChange={handleOnChangeDate} />
+                </div>
+                {/* <div>
+                    <p style={{ 'color': 'grey', 'fontSize': '13px' }}>시작일을 지정해주세요</p>
+                    <DatePicker
+                        required
+                        inline
+                        dateFormat="yyyy-MM-dd"
+                        minDate={convertDate(new Date())}
+                    // selected={vacationForm.date}
+                    // onChange={(date) => handleSetDate(date)}
+                    />
+                </div>
+                <div>
+                    <p style={{ 'color': 'grey', 'fontSize': '13px' }}>종료일을 지정해주세요</p>
+                    <DatePicker
+                        required
+                        inline
+                        dateFormat="yyyy-MM-dd"
+                        minDate={convertDate(new Date())}
+                    // selected={vacationForm.date}
+                    // onChange={(date) => handleSetDate(date)}
+                    />
+                </div> */}
+                <div className="empty-div"></div>
+                <div>
+                    <DelegatorSearch onChange={onChangeSearchValue} onSubmit={handleOnSubmitSearchValue} />
+                    <List
+                        cn={{ ul: 'member-list', li: 'item' }}
+                        listProperty={{
+                            'items': delegator.searchResult,
+                            'itemKey': 'memberPk',
+                            'itemValue': 'memberId',
+                            'onClick': handleOnClickSelectDelegator,
+                            'itemContent': (item) => (
+                                <Fragment>
+                                    {item.departmentName}/{item.name}
+                                </Fragment>
+                            )
+                        }} />
+                </div>
+                <div>
+                    <label htmlFor="vacation-reason" />사유
+                    <input
+                        id="vacation-reasont"
+                        type="text"
+                        onChange={hnadleOnChangeReasonInput} />
+                </div>
+                <div className="empty-div"></div>
+                <div>
+                    <Button name="신청" onClick={handleOnSubmmit} />
+                </div>
+            </div>
+
         </Fragment>
 
     )

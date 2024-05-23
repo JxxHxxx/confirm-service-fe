@@ -8,10 +8,10 @@ import "../../css/Input.css"
 import { applyVacation } from "../../api/vacationApi";
 import Button from "../../components/button/Button";
 import { ApplyVacationTransfer } from "../../transfer/ApplyVacationTransfer";
-import Searchbar from "../../components/input/Searchbar";
 import { searchCompanyMembers } from "../../api/memberApi";
 import List from "../../components/list/List";
 import { useNavigate } from "react-router-dom";
+import DelegatorSearch from "./DelegatorSearch";
 
 export default function HalfDayForm({ vacationType }) {
     const [delegator, setDelegator] = useState({
@@ -118,12 +118,13 @@ export default function HalfDayForm({ vacationType }) {
         }))
         setVacationForm((prev) => ({
             ...prev,
-            delegatorId : delegator.searchResult[0].memberId, 
-            delegatorName : delegator.searchResult[0].name
+            delegatorId: delegator.searchResult[0].memberId,
+            delegatorName: delegator.searchResult[0].name
         }))
     }
 
     return (<Fragment>
+        <h2>반차 신청</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '4fr 4fr 4fr' }}>
             <div>
                 <p style={{ 'color': 'grey', 'fontSize': '13px' }}>날짜를 지정해주세요</p>
@@ -148,12 +149,7 @@ export default function HalfDayForm({ vacationType }) {
             </div>
             <div id="empty"></div>
             <div>
-                <p style={{ 'fontSize': '13px', 'color': 'gray' }}>직무 대행자를 선택해주세요</p>
-                <Searchbar
-                    inputProp={{ 'placeholder': '직무 대행자 이름을 입력해주세요' }}
-                    onChange={handleOnChangeDelegator}
-                    onSubmit={handleOnSubmitDelegator}
-                />
+                <DelegatorSearch onChange={handleOnChangeDelegator} onSubmit={handleOnSubmitDelegator} />
                 <List
                     cn={{ ul: 'member-list', li: 'item' }}
                     listProperty={{
@@ -167,7 +163,6 @@ export default function HalfDayForm({ vacationType }) {
                             </Fragment>
                         )
                     }} />
-
             </div>
         </div>
         <div style={{ 'margin': '50px' }}></div>
