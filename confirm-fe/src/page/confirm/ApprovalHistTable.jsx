@@ -24,7 +24,13 @@ export default function ApprovalHistTable({ confirmDocument }) {
                     <thead>
                         <tr className="aph_tr_col">
                             <td>기안</td>
-                            {approvalLines.map(al => <td id={al.approvalLinePk}>검토</td>)}
+                            {approvalLines.map((al, index) => {
+                                if (index !== approvalLines.length - 1) {
+                                    return <td id={al.approvalLinePk}>검토</td>
+                                } else {
+                                    return <td id={al.approvalLinePk}>결정</td>
+                                }
+                            })}
                         </tr>
                     </thead>
                     <tbody>
