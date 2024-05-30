@@ -70,3 +70,11 @@ export const getConfirmDocumentContent = function (confirmDocumentContentPk) {
     .then((res) => res)
     .catch((err) => err)
 }
+
+// 결재 문서 양식 조회 API
+export const getConfirmDocumentForm = function () {
+  const defaultParams = {
+    companyId: sessionStorage.getItem('companyId')
+  }
+  return instance.get(`/api/confirm-document-forms`, { params: defaultParams })
+}

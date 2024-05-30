@@ -53,6 +53,7 @@
 
 .basic-button:hover, .basic-button-reverse:hover {
     filter: brightness(90%);
+    cursor: pointer;
 }
 
 .basic-button-group {

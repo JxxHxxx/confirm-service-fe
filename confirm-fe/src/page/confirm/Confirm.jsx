@@ -11,7 +11,7 @@ import { convertApproveStatus, convertConfirmStatus, convertDocumentType } from 
 export function Confirm() {
 
     const [confirms, setConfirms] = useState([]);
-    const [modelOpen, setModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
     const [selectedDocumentContentPk, setDocumentContentPk] = useState();
 
     const handleOpenModal = (documentContentPk) => {
@@ -34,7 +34,7 @@ export function Confirm() {
     return (
         <Page header={<Header />} sidebar={<ConfirmSidebar />}>
             {<ConfirmDocumentModal
-                modalOpen={modelOpen}
+                modalOpen={modalOpen}
                 setModalOpen={setModalOpen}
                 documentContentPk={selectedDocumentContentPk}
             />}
