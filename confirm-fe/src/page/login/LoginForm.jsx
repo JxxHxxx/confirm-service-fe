@@ -13,19 +13,29 @@ export function LoginForm() {
 
     const [loginInfo, setLoginInfo] = useState({
         id: '',
-        password: ''
+        password: '',
+        loginLoading: false,
+        loginFailMessage: ''
     });
-
-    const [loginFail, setLoginFail] = useState(false);
-    const [loginLoading, setLoginLoading] = useState(false);
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        setLoginLoading(true);
+        setLoginInfo((prev) => ({
+            ...prev,
+            loginLoading: true
+        }))
         const loginResponse = await signIn(loginInfo);
-        console.log('loginResponse', loginResponse)
-        
-        if(loginResponse.status === 200) {
+
+        if (loginResponse === undefined) {
+            setLoginInfo((prev) => ({
+                ...prev,
+                loginLoading: false,
+                loginFailMessage: '해당 서비스를 사용할 수 없습니다. 관리자에 문의하세요.'
+            }))
+            return;
+        }
+
+        if (loginResponse.status === 200) {
             sessionStorage.setItem('companyId', loginResponse.data.companyId);
             sessionStorage.setItem('companyName', loginResponse.data.companyName);
             sessionStorage.setItem('departmentId', loginResponse.data.departmentId);
@@ -39,27 +49,33 @@ export function LoginForm() {
         if (httpStatus === 200) {
             navigaate("/vacation");
             setLogin(true);
-            setLoginLoading(false);
+            setLoginInfo((prev) => ({
+                ...prev,
+                loginLoading: false,
+            }))
         }
         else if (httpStatus === 400) {
-            setLoginFail(true);
-            setLoginLoading(false);
+            setLoginInfo((prev) => ({
+                ...prev,
+                loginFailMessage: '아이디/비밀번호가 올바르지 않습니다.',
+                loginLoading: false,
+            }))
         }
     }
 
     const handleIdInput = (event) => {
-        setLoginFail(false);
         setLoginInfo(prev => ({
             ...prev,
-            id: event.target.value
+            id: event.target.value,
+            loginFailMessage : ''
         }))
     }
 
     const handlePasswordInput = (event) => {
-        setLoginFail(false);
         setLoginInfo(prev => ({
             ...prev,
-            password: event.target.value
+            password: event.target.value,
+            loginFailMessage : ''
         }))
     }
 
@@ -86,13 +102,13 @@ export function LoginForm() {
                             onChange={handlePasswordInput} />
                     </div>
                     <div className="wrapper">
-                        {loginFail && <span className="fail-message">아이디/비밀번호가 올바르지 않습니다.</span>}
+                        {loginInfo.loginFailMessage && <span className="fail-message">{loginInfo.loginFailMessage}</span> }
                     </div>
                     <div className="wrapper-t-5">
                         <button className="login-button" type="submit"
                             onClick={handleLogin}
-                            disabled={loginLoading}>
-                            {loginLoading ? '로그인 중입니다.' : '로그인'}
+                            disabled={loginInfo.loginLoading}>
+                            {loginInfo.loginLoading ? '로그인 중입니다.' : '로그인'}
                         </button>
                     </div>
                 </form>
