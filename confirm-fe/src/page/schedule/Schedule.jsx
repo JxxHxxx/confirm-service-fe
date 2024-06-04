@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 
 import "react-datepicker/dist/react-datepicker.css"
 import "../../css/Input.css"
-import { getConfirmDocumentForm } from "../../api/confirmApi";
+import { getConfirmDocumentContent, getConfirmDocumentForm } from "../../api/confirmApi";
 import DocumentContent from "../document/DocumentContent";
-import DocumentContentContainer from "../document/DocumentContentContainer";
 import Button from "../../components/button/Button";
 import ConfirmDocument from "../document/ConfirmDocument";
 
@@ -15,8 +14,8 @@ export default function Schedule() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const call = async () => {
-    const response = await getConfirmDocumentForm();
-    console.log('response', response);
+    const response = await getConfirmDocumentContent(2);
+    console.log('response', response.data);
   }
 
   const handleModalOpen = () => {
@@ -27,10 +26,9 @@ export default function Schedule() {
     call();
   })
 
-  const contentData = [
+  const contents = [
     {
       'subTitle': '요청 정보',
-      'colSpan': 1,
       'body': [
         { 'key': '요청자', 'value': '이재헌' },
         { 'key': '요청부서', 'value': '플랫폼사업팀' },
@@ -38,12 +36,16 @@ export default function Schedule() {
     },
     {
       'subTitle': '휴가 기간',
-      'colSpan': 2,
       'body': [
-        { 'key': '시작일', 'value': '2024-06-05' },
-        { 'key': '종료일', 'value': '2024-06-05' },
-        { 'key': '시작일', 'value': '2024-06-07' },
-        { 'key': '종료일', 'value': '2024-06-07' }
+        { 'startDateKey': '시작일', 'startDateValue': '2024-06-05', 'endDateKey': '종료일', 'endDateValue': '2024-06-05' },
+        { 'startDateKey': '시작일', 'startDateValue': '2024-06-07', 'endDateKey': '종료일', 'endDateValue': '2024-06-07' },
+
+      ]
+    },
+    {
+      'subTitle': '그 외',
+      'body': [
+        { 'delegatorNameKey': '직무대행자', 'delegatorNameValue':'유니'}
       ]
     }
   ]
@@ -55,10 +57,7 @@ export default function Schedule() {
       <ConfirmDocument
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}>
-        <DocumentContentContainer>
-          <DocumentContent content={contentData[0]} />
-          <DocumentContent content={contentData[1]} />
-        </DocumentContentContainer>
+        {contents.map(content => <DocumentContent content={content} />)}
       </ConfirmDocument>
     </Page>
   );
