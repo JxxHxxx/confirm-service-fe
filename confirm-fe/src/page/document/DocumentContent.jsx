@@ -4,7 +4,13 @@ export default function DocumentContent({ documentElement = {}, documentValue = 
     console.log('documentValue', documentValue);
     const findElements = documentElement.elements
     findElements.map(element => {
-        if (documentValue[element.elementKey]) {
+        if(element.elementKey.includes('.')) {
+            const elementKeys = element.elementKey.split('.');
+            // 쌉 하드 코딩이라 해결책 찾아야됨
+            element.elementValue = documentValue[elementKeys[0]][0][elementKeys[1]]
+            // 쌉 하드 코딩이라 해결책 찾아야됨
+        } 
+        else if (documentValue[element.elementKey]) {
             element.elementValue = documentValue[element.elementKey];
         }
     })
@@ -19,7 +25,7 @@ export default function DocumentContent({ documentElement = {}, documentValue = 
                         </th>
                     </tr>
                     {findElements.map(data => (
-                        <tr>
+                        <tr key={data.elementKey}>
                             <th aria-label={data.elementKey} className="ct_tbh">{data.elementName}</th>
                             <td aria-label={data.elementKey} className="ct_tbd">{data.elementValue ? data.elementValue : ''}</td>
                         </tr>

@@ -15,7 +15,7 @@ export default function Schedule() {
   const [documentContent, setDocumentContent] = useState({});
   const [documentElements, setDocumentElements] = useState([]);
   const call = async () => {
-    const response = await getConfirmDocumentContent(2208);
+    const response = await getConfirmDocumentContent(23);
     const elements = await getConfirmDocumentElements('vac');
     setDocumentContent(response.data.contents);
 
