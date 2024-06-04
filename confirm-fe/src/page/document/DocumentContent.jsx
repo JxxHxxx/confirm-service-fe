@@ -1,35 +1,32 @@
 
-export default function DocumentContent({ content = {} }) {
-    const oneContentElement = Object.values(content.body[0]);
-    const colspan = oneContentElement !== undefined ? oneContentElement.length : 0;  
+export default function DocumentContent({ documentElement = {}, documentValue = {} }) {
+    // 여기서 데이터 조합하자.
+    console.log('documentValue', documentValue);
+    const findElements = documentElement.elements
+    findElements.map(element => {
+        if (documentValue[element.elementKey]) {
+            element.elementValue = documentValue[element.elementKey];
+        }
+    })
 
-    function isHeaderElement(index) {
-        return index % 2 === 0;
-    }
-    
     return (
-        <table className="ct_table">
-            <tbody>
-                <tr>
-                    <th className="ct_thh" colSpan={colspan}>
-                        {content.subTitle}
-                    </th>
-                </tr>
-                {content.body.map(data => (
+        <>
+            <table className="ct_table">
+                <tbody>
                     <tr>
-                        {Object.entries(data).map((data, index) => (
-                            <>
-                            {/* index 짝수일 경우에는 이름 홀수일 경우에는 값 */}
-                                {isHeaderElement(index) ?
-                                    <th aria-label={data[0]} className="ct_tbh">{data[1]}</th> :
-                                    <td aria-label={data[0]} className="ct_tbd">{data[1]}</td>
-                                }
-                            </>
-                        ))}
+                        <th className="ct_thh" colSpan={2}>
+                            {documentElement.elementGroup}
+                        </th>
                     </tr>
-                ))}
-                <div style={{ 'margin': '10px' }}></div>
-            </tbody>
-        </table>
+                    {findElements.map(data => (
+                        <tr>
+                            <th aria-label={data.elementKey} className="ct_tbh">{data.elementName}</th>
+                            <td aria-label={data.elementKey} className="ct_tbd">{data.elementValue ? data.elementValue : ''}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <div style={{ 'margin': '10px' }}></div>
+        </>
     )
 }

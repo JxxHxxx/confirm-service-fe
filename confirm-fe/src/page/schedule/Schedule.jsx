@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import "react-datepicker/dist/react-datepicker.css"
 import "../../css/Input.css"
-import { getConfirmDocumentContent, getConfirmDocumentForm } from "../../api/confirmApi";
+import { getConfirmDocumentContent, getConfirmDocumentElements } from "../../api/confirmApi";
 import DocumentContent from "../document/DocumentContent";
 import Button from "../../components/button/Button";
 import ConfirmDocument from "../document/ConfirmDocument";
@@ -12,10 +12,27 @@ import ConfirmDocument from "../document/ConfirmDocument";
 
 export default function Schedule() {
   const [modalOpen, setModalOpen] = useState(false);
-
+  const [documentContent, setDocumentContent] = useState({});
+  const [documentElements, setDocumentElements] = useState([]);
   const call = async () => {
-    const response = await getConfirmDocumentContent(2);
-    console.log('response', response.data);
+    const response = await getConfirmDocumentContent(2208);
+    const elements = await getConfirmDocumentElements('vac');
+    setDocumentContent(response.data.contents);
+
+    const groupedElements = {};
+    elements.data.data.forEach(element => {
+        if (!groupedElements[element.elementGroup]) {
+            groupedElements[element.elementGroup] = [];
+        }
+        groupedElements[element.elementGroup].push(element);
+    });
+
+    const result = Object.keys(groupedElements).map(group => ({
+        elementGroup: group,
+        elements: groupedElements[group]
+    }));
+
+    setDocumentElements(result);
   }
 
   const handleModalOpen = () => {
@@ -24,31 +41,8 @@ export default function Schedule() {
 
   useEffect(() => {
     call();
-  })
+  }, [])
 
-  const contents = [
-    {
-      'subTitle': '요청 정보',
-      'body': [
-        { 'key': '요청자', 'value': '이재헌' },
-        { 'key': '요청부서', 'value': '플랫폼사업팀' },
-      ]
-    },
-    {
-      'subTitle': '휴가 기간',
-      'body': [
-        { 'startDateKey': '시작일', 'startDateValue': '2024-06-05', 'endDateKey': '종료일', 'endDateValue': '2024-06-05' },
-        { 'startDateKey': '시작일', 'startDateValue': '2024-06-07', 'endDateKey': '종료일', 'endDateValue': '2024-06-07' },
-
-      ]
-    },
-    {
-      'subTitle': '그 외',
-      'body': [
-        { 'delegatorNameKey': '직무대행자', 'delegatorNameValue':'유니'}
-      ]
-    }
-  ]
 
   return (
     <Page header={<Header />} sidebar={<div>사이드바</div>}>
@@ -57,7 +51,7 @@ export default function Schedule() {
       <ConfirmDocument
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}>
-        {contents.map(content => <DocumentContent content={content} />)}
+        {documentElements.map(documentElement => <DocumentContent documentElement={documentElement} documentValue={documentContent}/>)}
       </ConfirmDocument>
     </Page>
   );
