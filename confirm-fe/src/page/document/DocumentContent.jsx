@@ -1,13 +1,14 @@
+import { convertDate } from "../../converter/DateTimeConvert";
 
 export default function DocumentContent({ documentElement = {}, documentValue = {} }) {
     // 여기서 데이터 조합하자.
-    console.log('documentValue', documentValue);
+ 
     const findElements = documentElement.elements
     findElements.map(element => {
         if(element.elementKey.includes('.')) {
             const elementKeys = element.elementKey.split('.');
-            // 쌉 하드 코딩이라 해결책 찾아야됨
-            element.elementValue = documentValue[elementKeys[0]][0][elementKeys[1]]
+            // 쌉 하드 코딩이라 해결책 찾아야됨 - 날짜 처리임
+            element.elementValue = convertDate(documentValue[elementKeys[0]][0][elementKeys[1]]);
             // 쌉 하드 코딩이라 해결책 찾아야됨
         } 
         else if (documentValue[element.elementKey]) {

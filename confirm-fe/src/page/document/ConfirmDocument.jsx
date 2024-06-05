@@ -1,52 +1,50 @@
-import { Fragment } from "react";
-import Modal from "react-modal";
-import { IoCloseCircleSharp } from "react-icons/io5";
-import Button from "../../components/button/Button";
-import "../../css/Icon.css"
-import ApprovalLineList from "./ApprovalLineList";
-import Title from "./Title";
 
-export default function ConfirmDocument({ modalOpen, setModalOpen, children }) {
-    function closeModal() {
-        setModalOpen(false);
+import { useEffect, useState } from "react";
+
+import "react-datepicker/dist/react-datepicker.css"
+import "../../css/Input.css"
+import { getConfirmDocumentContent, getConfirmDocumentElements } from "../../api/confirmApi";
+import DocumentContent from "../document/DocumentContent";
+import ConfirmDocumentModal from "../document/ConfirmDocumentModal";
+
+export default function ConfirmDocument({ modalOpen, setModalOpen, confirmDocumentContentPk, confirmDocument = { confirmDocumentId: '' } }) {
+
+    const [documentContent, setDocumentContent] = useState({});
+    const [documentElements, setDocumentElements] = useState([]);
+    const requestToServer = async () => {
+        const response = await getConfirmDocumentContent(confirmDocumentContentPk);
+        const elements = await getConfirmDocumentElements('vac');
+        setDocumentContent(response.data.contents);
+
+        const groupedElements = {};
+        elements.data.data.forEach(element => {
+            if (!groupedElements[element.elementGroup]) {
+                groupedElements[element.elementGroup] = [];
+            }
+            groupedElements[element.elementGroup].push(element);
+        });
+
+        const result = Object.keys(groupedElements).map(group => ({
+            elementGroup: group,
+            elements: groupedElements[group]
+        }));
+
+        setDocumentElements(result);
     }
 
-    const customStyles = {
-        content: {
-            top: "50%",
-            left: "50%",
-            right: "auto",
-            bottom: "auto",
-            marginRight: "-50%",
-            transform: "translate(-50%, -50%)",
-            height: "650px",
-            width: "700px",
-        },
-    };
+    useEffect(() => {
+        requestToServer();
+    }, [confirmDocumentContentPk, confirmDocument])
+
 
     return (
-        <Modal
-            isOpen={modalOpen}
-            onRequestClose={closeModal}
-            style={customStyles}
-            contentLabel="Example Modal"
-        >
-            <Fragment>
-                {/* 취소 버튼 */}
-                <IoCloseCircleSharp
-                    className="IoCloseCircleSharp"
-                    size={'1.5em'}
-                    onClick={closeModal} />
-                <div style={{ 'display': 'inline-block' }}>
-                    <Button name="상신" />
-                    <Button name="반려" />
-                </div>
-                <Title name="휴가신청서" />
-                {/* 결재 라인 */}
-                <ApprovalLineList />
-                <div style={{'padding': '15px'}}></div>
-                {children}
-            </Fragment>
-        </Modal>
-    )
+        <ConfirmDocumentModal
+            confirmDocument={confirmDocument}
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}>
+            {documentElements.map(documentElement => <DocumentContent
+                documentElement={documentElement}
+                documentValue={documentContent} />)}
+        </ConfirmDocumentModal>
+    );
 }

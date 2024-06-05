@@ -6,7 +6,7 @@ import ConfirmSidebar from "./ConfirmSidebar";
 import { getConfirmDocumentWithApprovalLines, getConfirmDocuments } from "../../api/confirmApi";
 import { convertApproveStatus, convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
 import { convertDateTime } from "../../converter/DateTimeConvert";
-import { ConfirmDocumentModal } from "./ConfirmDocumentModal";
+import ConfirmDocument from "../document/ConfirmDocument";
 
 
 export default function MyConfirmDocument() {
@@ -48,8 +48,10 @@ export default function MyConfirmDocument() {
 
     const [modelOpen, setModalOpen] = useState(false);
     const [selectedDocumentContentPk, setDocumentContentPk] = useState();
+    const [selectedDocument, setSelectedDocument] = useState();
 
-    const handleOpenModal = (documentContentPk) => {
+    const handleOpenModal = (document, documentContentPk) => {
+        setSelectedDocument(document);
         setDocumentContentPk(documentContentPk);
         setModalOpen(true);
     }
@@ -63,17 +65,17 @@ export default function MyConfirmDocument() {
     return (
         <Page header={<Header />}
             sidebar={<ConfirmSidebar />}>
-            {<ConfirmDocumentModal
+            {<ConfirmDocument
+                confirmDocumentContentPk={selectedDocumentContentPk}
+                confirmDocument={selectedDocument}
                 modalOpen={modelOpen}
-                setModalOpen={setModalOpen}
-                documentContentPk={selectedDocumentContentPk}
-            />}
+                setModalOpen={setModalOpen} />}
             <Table title={"결재 대기중인 문서"} cn={{ table: "vacation_table" }}
                 tableProperty={{
                     columns: ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자명', '승인/반려', '승인/반려 일시'],
                     data: approvalConfirmDocuments.map((document) => (
                         <tr key={document.pk}
-                            onClick={() => handleOpenModal(document.confirmDocumentContentPk)}>
+                            onClick={() => handleOpenModal(document, document.confirmDocumentContentPk)}>
                             <td>{document.confirmDocumentId}</td>
                             <td>{convertDateTime(document.createTime)}</td>
                             <td>{convertDocumentType(document.documentType)}</td>
@@ -91,7 +93,7 @@ export default function MyConfirmDocument() {
                     columns: ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자명', '결재 상태', '승인/반려 일시'],
                     data: drafteConfirmDocuments.map((document) => (
                         <tr key={document.approvalLinePk}
-                            onClick={() => handleOpenModal(document.pk)}>
+                            onClick={() => handleOpenModal(document, document.contentPk)}>
                             <td>{document.confirmDocumentId}</td>
                             <td>{convertDateTime(document.createTime)}</td>
                             <td>{convertDocumentType(document.documentType)}</td>
