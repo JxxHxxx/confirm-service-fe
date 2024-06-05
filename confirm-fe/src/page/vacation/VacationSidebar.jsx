@@ -11,9 +11,9 @@ export default function VacationSidebar({}) {
                     <a>부서 휴가자 현황</a>
                 </div>
             </Link>
-            <Link className='menu-item-wrapper' to={'/#'}>
+            <Link className='menu-item-wrapper' to={'/vacation/leave-hist'}>
                 <div className="menu-item-wrapper">
-                    <a>부서 연차 관리</a>
+                    <a>부서 연차 현황</a>
                 </div>
             </Link>
             <Link className='menu-item-wrapper' to={'/vacation/apply'}>

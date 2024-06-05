@@ -8,7 +8,7 @@ import { convertDateTime } from "../../converter/DateTimeConvert";
 import { convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
 import ConfirmDocument from "../document/ConfirmDocument";
 
-export function Confirm() {
+export function DepartmentConfirmDocumentPage() {
 
     const [confirms, setConfirms] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);

@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
 export default function Table({ cn = {}, title = '', tableProperty = {}}) {
-    const { table = '', thr = '', thd = '', tbr = '', tbd = '' } = cn;
+    const { table = 'vacation_table', thr = '', thd = '', tbr = '', tbd = '' } = cn;
     const { columns = [], data = () => [], showCondition = false } = tableProperty;
 
     return (

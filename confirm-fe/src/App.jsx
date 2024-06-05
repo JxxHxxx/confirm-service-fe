@@ -8,7 +8,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { CommonProvider } from './context/CommonProvider';
-import { Confirm } from './page/confirm/Confirm';
+import { DepartmentConfirmDocumentPage } from './page/confirm/Confirm';
 import { VacationApply } from './page/vacation/VacationApply';
 import MyVacation from './page/vacation/MyVacation';
 import ApprovalLine from './page/vacation/ApprovalLine';
@@ -17,6 +17,7 @@ import Schedule from './page/schedule/Schedule';
 import MyConfirmDocument from './page/confirm/MyConfirmDocument';
 import VacationSidebar from './page/vacation/VacationSidebar';
 import Page from './components/layout/Page';
+import LeaveHistoryPage from './page/vacation/history/LeaveHistoryPage';
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/confirm',
-    element: <Confirm />,
+    element: <DepartmentConfirmDocumentPage />,
   },
   {
     path: '/confirm/my-confirm',
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
     path: '/vacation/myVacation',
     element: <MyVacation />
   },
+  {
+    path: '/vacation/leave-hist',
+    element: <LeaveHistoryPage />
+  }
 ]);
 
 
