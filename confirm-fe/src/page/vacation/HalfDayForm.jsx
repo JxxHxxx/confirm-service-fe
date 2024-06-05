@@ -39,7 +39,7 @@ export default function HalfDayForm({ vacationType }) {
     const handleSetDate = (date) => {
         setVacationForm(prev => ({
             ...prev,
-            date: convertDate(date)
+            date: convertDate(date, false)
         }))
     }
 

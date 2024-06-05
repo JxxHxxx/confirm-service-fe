@@ -38,6 +38,7 @@ export function Confirm() {
             {<ConfirmDocument
                 confirmDocumentContentPk={selectedDocumentContentPk}
                 confirmDocument={selectedDocument}
+                setConfirmDocument={setSelectedDocument}
                 modalOpen={modalOpen}
                 setModalOpen={setModalOpen} />}
             <Table title={"부서 결재함"}

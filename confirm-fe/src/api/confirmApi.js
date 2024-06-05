@@ -78,6 +78,7 @@ export const getConfirmDocumentForm = function () {
   }
   return instance.get(`/api/confirm-document-forms`, { params: defaultParams })
 }
+// 서버단에서 companyId 조건이 IN 을 타도록 만들어야 함
 export const getConfirmDocumentElements = function (confirmDocumentFormId) {
   const defaultParams = {
     companyId: 'COM'

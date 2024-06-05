@@ -1,5 +1,5 @@
 
-export const convertDateTime = (dateTimeString) => {
+export const convertDateTime = (dateTimeString, addDayOfWeek = false) => {
     if(dateTimeString === undefined || dateTimeString === null) {
         return ''
     }
@@ -13,7 +13,14 @@ export const convertDateTime = (dateTimeString) => {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');
 
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    const daysOfWeek = ['(일)', '(월)', '(화)', '(수)', '(목)', '(금)', '(토)'];
+    const dayOfWeek = daysOfWeek[date.getDay()];
+
+    if(addDayOfWeek) {
+        return `${year}-${month}-${day}` + dayOfWeek + ` ${hours}:${minutes}`;
+    } else {
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    }
 }
 
 export const convertMonthTime = (dateTimeString) => {
@@ -33,12 +40,12 @@ export const convertMonthTime = (dateTimeString) => {
 }
 
 
-export const convertDate = (dateTimeString) => {
-    if(dateTimeString === undefined || dateTimeString === null) {
+export const convertDate = (dateString, addDayOfWeek = false) => {
+    if(dateString === undefined || dateString === null) {
         return ''
     }
     
-    const date = new Date(dateTimeString);
+    const date = new Date(dateString);
 
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -47,7 +54,11 @@ export const convertDate = (dateTimeString) => {
     const daysOfWeek = ['(일)', '(월)', '(화)', '(수)', '(목)', '(금)', '(토)'];
     const dayOfWeek = daysOfWeek[date.getDay()];
 
-    return `${year}-${month}-${day}` + dayOfWeek;
+    if (addDayOfWeek){ 
+        return `${year}-${month}-${day}` + dayOfWeek; 
+    } else {
+        return `${year}-${month}-${day}`;
+    }
 }
 
 export const arrayToDate = (array = []) => {

@@ -8,7 +8,12 @@ export default function VacationSidebar({}) {
             <div className="white-space"></div>
             <Link className='menu-item-wrapper' to={'/vacation'}>
                 <div className="menu-item-wrapper">
-                    <a>휴가 조회</a>
+                    <a>부서 휴가자 현황</a>
+                </div>
+            </Link>
+            <Link className='menu-item-wrapper' to={'/#'}>
+                <div className="menu-item-wrapper">
+                    <a>부서 연차 관리</a>
                 </div>
             </Link>
             <Link className='menu-item-wrapper' to={'/vacation/apply'}>

@@ -7,44 +7,55 @@ import { getConfirmDocumentContent, getConfirmDocumentElements } from "../../api
 import DocumentContent from "../document/DocumentContent";
 import ConfirmDocumentModal from "../document/ConfirmDocumentModal";
 
-export default function ConfirmDocument({ modalOpen, setModalOpen, confirmDocumentContentPk, confirmDocument = { confirmDocumentId: '' } }) {
+export default function ConfirmDocument({
+    modalOpen,
+    setModalOpen,
+    confirmDocument = { confirmDocumentId: '', contentPk: '', contents: { title: '' } },
+    setConfirmDocument
+}) {
 
-    const [documentContent, setDocumentContent] = useState({});
+    const [documentContents, setDocumentContents] = useState({});
     const [documentElements, setDocumentElements] = useState([]);
     const requestToServer = async () => {
-        const response = await getConfirmDocumentContent(confirmDocumentContentPk);
-        const elements = await getConfirmDocumentElements('vac');
-        setDocumentContent(response.data.contents);
+        if (confirmDocument.contentPk) {
+            const response = await getConfirmDocumentContent(confirmDocument.contentPk);
+            const elements = await getConfirmDocumentElements(confirmDocument.documentType);
+            setDocumentContents(response.data.contents);
 
-        const groupedElements = {};
-        elements.data.data.forEach(element => {
-            if (!groupedElements[element.elementGroup]) {
-                groupedElements[element.elementGroup] = [];
-            }
-            groupedElements[element.elementGroup].push(element);
-        });
+            const groupedElements = {};
+            elements.data.data.forEach(element => {
+                if (!groupedElements[element.elementGroup]) {
+                    groupedElements[element.elementGroup] = [];
+                }
+                groupedElements[element.elementGroup].push(element);
+            });
 
-        const result = Object.keys(groupedElements).map(group => ({
-            elementGroup: group,
-            elements: groupedElements[group]
-        }));
+            const result = Object.keys(groupedElements).map(group => ({
+                elementGroup: group,
+                elements: groupedElements[group]
+            }));
 
-        setDocumentElements(result);
+            setDocumentElements(result);
+        }
     }
 
     useEffect(() => {
         requestToServer();
-    }, [confirmDocumentContentPk, confirmDocument])
+    }, [confirmDocument])
 
 
     return (
         <ConfirmDocumentModal
             confirmDocument={confirmDocument}
+            setConfirmDocument={setConfirmDocument}
             modalOpen={modalOpen}
             setModalOpen={setModalOpen}>
             {documentElements.map(documentElement => <DocumentContent
+                modalOpen={modalOpen}
                 documentElement={documentElement}
-                documentValue={documentContent} />)}
+                setDocumentElements={setDocumentElements}
+                documentValue={documentContents}
+                setDocumentContents={setDocumentContents} />)}
         </ConfirmDocumentModal>
     );
 }

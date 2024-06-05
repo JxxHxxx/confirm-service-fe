@@ -11,7 +11,8 @@ const confirmStatusConst = {
 }
 
 const documentTypeConst = {
-    VAC: '휴가'
+    VAC: '휴가',
+    COST:'지출내역서'
 }
 
 export const convertApproveStatus = (approveStatus) => {

@@ -8,8 +8,9 @@ import ApprovalLineList from "./ApprovalLineList";
 import Title from "./Title";
 import { acceptConfirmDocument, rejectConfirmDocument } from "../../api/confirmApi";
 
-export default function ConfirmDocumentModal({ modalOpen, setModalOpen, children, confirmDocument }) {
+export default function ConfirmDocumentModal({ modalOpen, setModalOpen, children, confirmDocument, setConfirmDocument }) {
     function closeModal() {
+        setConfirmDocument({ confirmDocumentId: '', contentPk: '' , contents: { title: '' }})
         setModalOpen(false);
     }
 
@@ -79,7 +80,7 @@ export default function ConfirmDocumentModal({ modalOpen, setModalOpen, children
                     <Button cn="basic-button-reverse" name="반려"
                         onClick={() => handleReject(confirmDocument.confirmDocumentId)} />
                 </div>
-                <Title name="휴가신청서" />
+                <Title name={confirmDocument.contents.title} />
                 {/* 결재 라인 */}
                 <ApprovalLineList confirmDocument={confirmDocument} />
                 <div style={{ 'padding': '15px' }}></div>
