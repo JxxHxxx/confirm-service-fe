@@ -38,7 +38,7 @@ export default function ApprovalLineList({ confirmDocument }) {
                         </tr>
                         <tr className="aph_tr_sub"
                             id="approval_status">
-                            <td>{convertConfirmStatus(confirmDocument.confirmStatus)}</td>
+                            <td>{"기안"}</td>
                             {approvalLines.map(al => <td>{convertApproveStatus(al.approveStatus)}</td>)}
                         </tr>
                         <tr className="aph_tr_sub"
