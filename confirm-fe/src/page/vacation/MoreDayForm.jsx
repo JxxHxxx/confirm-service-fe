@@ -85,16 +85,15 @@ export default function MoreDayForm({ vacationType }) {
     }
 
     const handleOnClickSelectDelegator = (event) => {
-        alert(event.target.innerHTML + "을 직무 대행자로 지정합니다")
+        const selectedMember = delegator.searchResult.filter(member => member.memberId === event.target.getAttribute('value'));
+        alert(event.target.innerHTML + "을 직무 대행자로 지정합니다");
+
         setDelegator((prev) => ({
             ...prev,
-            searchResult: prev.searchResult.filter(member => member.memberId === event.target.getAttribute('value')),
-        }))
-        setDelegator((prev) => ({
-            ...prev,
+            searchResult: selectedMember,
             selected: {
-                delegatorId: delegator.searchResult[0].memberId,
-                delegatorName: delegator.searchResult[0].name
+                delegatorId: selectedMember[0].memberId,
+                delegatorName: selectedMember[0].name
             }
         }))
     }
