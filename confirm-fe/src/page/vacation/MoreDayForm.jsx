@@ -118,28 +118,6 @@ export default function MoreDayForm({ vacationType }) {
                         id="endDateTime"
                         onChange={handleOnChangeDate} />
                 </div>
-                {/* <div>
-                    <p style={{ 'color': 'grey', 'fontSize': '13px' }}>시작일을 지정해주세요</p>
-                    <DatePicker
-                        required
-                        inline
-                        dateFormat="yyyy-MM-dd"
-                        minDate={convertDate(new Date())}
-                    // selected={vacationForm.date}
-                    // onChange={(date) => handleSetDate(date)}
-                    />
-                </div>
-                <div>
-                    <p style={{ 'color': 'grey', 'fontSize': '13px' }}>종료일을 지정해주세요</p>
-                    <DatePicker
-                        required
-                        inline
-                        dateFormat="yyyy-MM-dd"
-                        minDate={convertDate(new Date())}
-                    // selected={vacationForm.date}
-                    // onChange={(date) => handleSetDate(date)}
-                    />
-                </div> */}
                 <div className="empty-div"></div>
                 <div>
                     <DelegatorSearch onChange={onChangeSearchValue} onSubmit={handleOnSubmitSearchValue} />

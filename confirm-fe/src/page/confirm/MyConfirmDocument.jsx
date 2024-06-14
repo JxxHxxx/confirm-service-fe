@@ -68,6 +68,7 @@ export default function MyConfirmDocument() {
             {<ConfirmDocument
                 confirmDocumentContentPk={selectedDocumentContentPk}
                 confirmDocument={selectedDocument}
+                setConfirmDocument={setSelectedDocument}
                 modalOpen={modelOpen}
                 setModalOpen={setModalOpen} />}
             <Table title={"결재 대기중인 문서"} cn={{ table: "vacation_table" }}
