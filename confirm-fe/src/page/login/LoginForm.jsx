@@ -76,7 +76,7 @@ export function LoginForm() {
         }
     }
 
-    const handleIdInput = (event) => {
+    const handleOnChangeId = (event) => {
         setLoginInfo(prev => ({
             ...prev,
             id: event.target.value,
@@ -84,7 +84,7 @@ export function LoginForm() {
         }))
     }
 
-    const handlePasswordInput = (event) => {
+    const handleOnChangePassword = (event) => {
         setLoginInfo(prev => ({
             ...prev,
             password: event.target.value,
@@ -99,12 +99,12 @@ export function LoginForm() {
                         id="emp_no"
                         type="text"
                         placeholder="사번을 입력해주세요"
-                        onChange={handleIdInput} />
+                        onChange={handleOnChangeId} />
                     <Input className="input_login"
                         id="pw"
                         type="password"
                         placeholder="비밀번호를 입력해주세요"
-                        onChange={handlePasswordInput} />
+                        onChange={handleOnChangePassword} />
                 <TextGroup style={{ 'height': '50px' }} id="lgn_err_msg_gr">
                     {Array.isArray(loginInfo.loginFailMessage) ?
                         loginInfo.loginFailMessage.map(msg => <Text className="lgn_err_msg" msg={msg} />) :
