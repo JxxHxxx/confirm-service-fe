@@ -4,19 +4,34 @@ import { useNavigate } from "react-router-dom";
 import { CommonContext } from "../../context/CommonProvider";
 
 import '../../css/page/Login.css'
+import '../../css/Text.css'
 
-const tag = '[LoginForm] COMPONENT'
+import Button from "../../components/button/Button";
+import Input from "../../components/input/Input";
+import TextGroup from "../../components/text/TextGroup";
+import Text from "../../components/text/Text";
+import LinkText from "../../components/text/LinkText";
+
+const whiteSpace = '';
+
 export function LoginForm() {
-    console.log(tag);
     const { setLogin } = useContext(CommonContext);
     const navigaate = useNavigate();
 
     const [loginInfo, setLoginInfo] = useState({
-        id: '',
-        password: '',
+        id: whiteSpace,
+        password: whiteSpace,
         loginLoading: false,
-        loginFailMessage: ''
+        loginFailMessage: whiteSpace
     });
+
+    const setLoginFailMessage = function (msg) {
+        setLoginInfo((prev) => ({
+            ...prev,
+            loginLoading: false,
+            loginFailMessage: msg
+        }))
+    }
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -24,14 +39,16 @@ export function LoginForm() {
             ...prev,
             loginLoading: true
         }))
+
+        if (loginInfo.id === whiteSpace || loginInfo.password === whiteSpace) {
+            setLoginFailMessage('아이디/비밀번호를 입력해주세요');
+            return;
+        }
+
         const loginResponse = await signIn(loginInfo);
 
         if (loginResponse === undefined) {
-            setLoginInfo((prev) => ({
-                ...prev,
-                loginLoading: false,
-                loginFailMessage: '해당 서비스를 사용할 수 없습니다. 관리자에 문의하세요.'
-            }))
+            setLoginFailMessage('해당 서비스를 사용할 수 없습니다. 관리자에 문의하세요');
             return;
         }
 
@@ -55,11 +72,7 @@ export function LoginForm() {
             }))
         }
         else if (httpStatus === 400) {
-            setLoginInfo((prev) => ({
-                ...prev,
-                loginFailMessage: '아이디/비밀번호가 올바르지 않습니다.',
-                loginLoading: false,
-            }))
+            setLoginFailMessage(['아이디/비밀번호가 올바르지 않습니다.', '입력하신 내용을 확인해주세요.']);
         }
     }
 
@@ -67,7 +80,7 @@ export function LoginForm() {
         setLoginInfo(prev => ({
             ...prev,
             id: event.target.value,
-            loginFailMessage : ''
+            loginFailMessage: ''
         }))
     }
 
@@ -75,44 +88,39 @@ export function LoginForm() {
         setLoginInfo(prev => ({
             ...prev,
             password: event.target.value,
-            loginFailMessage : ''
+            loginFailMessage: ''
         }))
     }
 
     return (
         <Fragment>
-            <div className="login-container">
-                <form className="login-form">
-                    <h3 className="login-title">JXX</h3>
-                    <div className="wrapper">
-                        <label htmlFor='user-id'></label>
-                        <input className="login-input"
-                            type='text'
-                            id='user-id'
-                            placeholder="사번"
-                            onChange={handleIdInput} />
-                    </div>
-                    <div className="wrapper">
-                        <label htmlFor='user-pw'></label>
-                        <input className="login-input"
-                            type='password'
-                            id='user-pw'
-                            placeholder="비밀번호"
-                            autoComplete="off"
-                            onChange={handlePasswordInput} />
-                    </div>
-                    <div className="wrapper">
-                        {loginInfo.loginFailMessage && <span className="fail-message">{loginInfo.loginFailMessage}</span> }
-                    </div>
-                    <div className="wrapper-t-5">
-                        <button className="login-button" type="submit"
-                            onClick={handleLogin}
-                            disabled={loginInfo.loginLoading}>
-                            {loginInfo.loginLoading ? '로그인 중입니다.' : '로그인'}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </Fragment>
+            <form className="login_form" id="login_form" method="post">
+                    <Input className="input_login" style={{ 'marginBottom': '5px' }}
+                        id="emp_no"
+                        type="text"
+                        placeholder="사번을 입력해주세요"
+                        onChange={handleIdInput} />
+                    <Input className="input_login"
+                        id="pw"
+                        type="password"
+                        placeholder="비밀번호를 입력해주세요"
+                        onChange={handlePasswordInput} />
+                <TextGroup style={{ 'height': '50px' }} id="lgn_err_msg_gr">
+                    {Array.isArray(loginInfo.loginFailMessage) ?
+                        loginInfo.loginFailMessage.map(msg => <Text className="lgn_err_msg" msg={msg} />) :
+                        <Text className="lgn_err_msg" msg={loginInfo.loginFailMessage} />}
+                </TextGroup>
+                <Button cn="login_btn"
+                    type="submmit"
+                    name={loginInfo.loginLoading ? 'please wait...' : 'sign-in'}
+                    onClick={handleLogin}
+                    disabled={loginInfo.loginLoading}>
+                </Button>
+            </form>
+            <TextGroup className="login_msg_gr" id="lgn_cp_right">
+                <Text className="login_msg" msg="Copyright JxxHxxx. All Rights Reserved" />
+                <LinkText className="login_msg" href="https://github.com/JxxHxxx" msg="Visit JxxHxx Github" />
+            </TextGroup>
+        </Fragment >
     )
 }

@@ -66,3 +66,17 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.login_btn {
+    width: 302px;
+    height: 36.6px;
+    padding: 0px;
+    margin: 0px;
+    background-color: #1a73e8;
+    border: 0px;
+    cursor: pointer;
+}
+
+.login_btn:hover {
+    filter: brightness(90%);
+}

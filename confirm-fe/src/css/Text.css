@@ -1,0 +1,16 @@
+.login_msg_gr {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.login_msg {
+    font-size: 12px;
+    color: grey;
+    margin: 0px;
+}
+
+.lgn_err_msg {
+    font-size: 12px;
+    color: red;
+    margin: 0px;
+}
