@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import List from "../../components/list/List";
 import Tree from "../../components/list/Tree";
 import { getOrganizationTree } from "../../api/organizationApi";
-import { getDeparmentMembers, searchCompanyMembers } from "../../api/memberApi";
+import { getDeparmentMemberLeaves, searchCompanyMembers } from "../../api/memberApi";
 import MemberSearchV2 from "../confirm/MemberSearchV2";
 import Button from "../../components/button/Button";
 
@@ -113,7 +113,7 @@ export default function ApprovalLine({ vacationId }) {
         const orgResult = await getOrganizationTree();
         setOrganizationTree(orgResult.data.data);
 
-        const departmentMembersReuslt = await getDeparmentMembers(sessionStorage.getItem('departmentId'));
+        const departmentMembersReuslt = await getDeparmentMemberLeaves(sessionStorage.getItem('departmentId'));
         setSearchResultMembers(departmentMembersReuslt);
     }
 

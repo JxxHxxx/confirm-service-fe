@@ -1,12 +1,15 @@
-.chip-clicked, .chip-unclicked {
+.chip-clicked,
+.chip-unclicked {
     border: 1px solid transparent;
-    border-radius: 20px; /* 원하는 정도로 조절 가능 */
+    border-radius: 20px;
+    /* 원하는 정도로 조절 가능 */
     padding: 5px 10px;
     cursor: pointer;
     margin-right: 10px;
 }
 
-.chip-unclicked:hover, .chip-clicked:hover {
+.chip-unclicked:hover,
+.chip-clicked:hover {
     filter: brightness(90%);
 }
 
@@ -15,12 +18,12 @@
 }
 
 .chip-clicked {
-    background-color : navy;
-    color : skyblue;
+    background-color: navy;
+    color: skyblue;
 }
 
 .chip-unclicked {
-    background-color : whitesmoke;
+    background-color: whitesmoke;
 }
 
 .basic-button {
@@ -51,7 +54,8 @@
 }
 
 
-.basic-button:hover, .basic-button-reverse:hover {
+.basic-button:hover,
+.basic-button-reverse:hover {
     filter: brightness(90%);
     cursor: pointer;
 }
@@ -79,4 +83,31 @@
 
 .login_btn:hover {
     filter: brightness(90%);
+}
+
+.bt_cl {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    border: 0.8px solid #DEDEDE;
+    border-radius: 50%;
+    color: white;
+    background-color: navy;
+}
+
+.bt_ucl {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    border: 0.8px solid #DEDEDE;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.bt_cl:hover,
+.bt_ucl:hover {
+    filter: brightness(90%);
+}
+
+.btg_a {
 }

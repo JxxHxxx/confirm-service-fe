@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import VacationSidebar from "./VacationSidebar";
 import { getVacations } from "../../api/vacationApi";
-import { getDeparmentMembers } from "../../api/memberApi";
+import { getDeparmentMemberLeaves } from "../../api/memberApi";
 import { convertVacationStatus, convertVacationType } from "../../converter/VacationConverter";
 import { convertDate } from "../../converter/DateTimeConvert";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ export default function MyVacation() {
     }
 
     const handleApprovalLine = async () => {
-        const findDepartmentMembers = await getDeparmentMembers();
+        const findDepartmentMembers = await getDeparmentMemberLeaves();
         setDepartmentMembers(findDepartmentMembers);
     }
 

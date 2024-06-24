@@ -2,15 +2,12 @@ import createAxiosInstance from "./GlobalApiConfiguration";
 
 const instance = createAxiosInstance('http://localhost:8080', true)
 
-export const getDeparmentMembers = function () {
+export const getDeparmentMemberLeaves = function (params) {
 
     const departmentId = sessionStorage.getItem('departmentId');
+    const companyId = sessionStorage.getItem('companyId');
 
-    const params = {
-        cid: sessionStorage.getItem('companyId')
-    }
-
-    return instance.get(`/api/departments/${departmentId}/member-leaves`, { params })
+    return instance.get(`/api/companies/${companyId}/departments/${departmentId}/member-leaves`, {params})
         .then((res) => res.data)
         .catch((err) => alert(err))
 }
