@@ -113,8 +113,8 @@ export default function ApprovalLine({ vacationId }) {
         const orgResult = await getOrganizationTree();
         setOrganizationTree(orgResult.data.data);
 
-        const departmentMembersReuslt = await getDeparmentMemberLeaves(sessionStorage.getItem('departmentId'));
-        setSearchResultMembers(departmentMembersReuslt);
+        const departmentMembersReuslt = await getDeparmentMemberLeaves();
+        setSearchResultMembers(departmentMembersReuslt.content);
     }
 
     const handleOnClickOrgItem = async (event) => {
