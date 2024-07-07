@@ -110,7 +110,7 @@ export default function MoreDayForm({ vacationType }) {
 
     return (
         <Fragment>
-            <Title name="연차 신청서" />
+            <Title className='titlt_left' name="연차 신청서" />
             <div style={{ display: 'grid', gridTemplateColumns: '4fr 4fr', gridRowGap: '50px' }}>
                 <div>
                     <div style={{ 'display': 'inline-block' }}>

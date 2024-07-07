@@ -1,10 +1,13 @@
 import { Fragment } from "react";
 
-export default function Title({name = ''}) {
+export default function Title({
+    name = '',
+    className = 'titlt_b'
+}) {
 
     return (
         <Fragment>
-            <h3 style={{'textAlign':'center'}}>{name}</h3>
+            <h3 className={className}>{name}</h3>
         </Fragment>
     )
 }
