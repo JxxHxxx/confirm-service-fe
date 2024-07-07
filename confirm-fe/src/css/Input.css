@@ -36,3 +36,14 @@
     padding: 0px;
     border: 0.8px solid grey;
 }
+
+.label_b {
+    color: gray;
+    font-size: 13px;
+}
+
+.input_cal {
+ width: 200px;
+ height: 30px;
+ margin-right: 10px;
+}

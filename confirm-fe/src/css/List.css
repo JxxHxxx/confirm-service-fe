@@ -44,14 +44,24 @@
 
 .member-list .item {
     font-size: 14px;
-    /* justify-content: space-between; */
     background-color: whitesmoke;
     border: black 1px solid;
     padding: 12px;
     margin-bottom: 1px;
+    cursor: pointer;
 }
 
-.member-list .item:hover {
+.member-list .item_narrow {
+    font-size: 14px;
+    background-color: whitesmoke;
+    border: black 1px solid;
+    padding: 6px;
+    margin-bottom: 1px;
+    cursor: pointer;
+}
+
+.member-list .item:hover,
+.member-list .item_narrow:hover  {
     filter: brightness(90%);
 }
 

@@ -2,20 +2,24 @@ import { Fragment, useEffect, useState } from "react";
 import { applyVacation } from "../../api/vacationApi";
 import Calendar from "../../components/calendar/Calendar";
 import { searchCompanyMembers } from "../../api/memberApi";
-import DatePicker from 'react-datepicker';
 import '../../css/List.css'
 import { useNavigate } from "react-router-dom";
 import { ApplyVacationTransfer } from "../../transfer/ApplyVacationTransfer";
 import DelegatorSearch from "./DelegatorSearch";
 import List from "../../components/list/List";
 import Button from "../../components/button/Button";
-import { convertDate } from "../../converter/DateTimeConvert";
+import Title from "../document/Title";
+import Input from "../../components/input/Input";
+import { format } from "date-fns";
+import { NOW_DATE } from "../../constant/timeConst";
+
+
 
 export default function MoreDayForm({ vacationType }) {
     const [vacationForm, setVacationForm] = useState({
         duration: {
-            'startDateTime': '',
-            'endDateTime': ''
+            'startDateTime': NOW_DATE,
+            'endDateTime': NOW_DATE
         },
         reason: '',
     });
@@ -72,10 +76,12 @@ export default function MoreDayForm({ vacationType }) {
         }));
     }
 
-    const handleOnSubmitSearchValue = async (event) => {
-        event.preventDefault();
+    const handleSearchDelegator = async (event, paramsKey, paramsValue) => {
+        if (event !== null) {
+            event.preventDefault();
+        }
         const params = {
-            'memberName': delegator.keyword
+            [paramsKey]: paramsValue
         }
         const response = await searchCompanyMembers(params);
         setDelegator((prev) => ({
@@ -99,55 +105,59 @@ export default function MoreDayForm({ vacationType }) {
     }
 
     useEffect(() => {
+        handleSearchDelegator(null, 'departmentId', sessionStorage.getItem('departmentId'))
     }, [])
 
     return (
         <Fragment>
-            <h2>연차 신청</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '4fr 4fr 4fr', gridRowGap: '50px' }}>
+            <Title name="연차 신청서" />
+            <div style={{ display: 'grid', gridTemplateColumns: '4fr 4fr', gridRowGap: '50px' }}>
                 <div>
-                    <p style={{ 'color': 'grey', 'fontSize': '13px' }}>시작일을 지정해주세요</p>
-                    <Calendar
-                        id="startDateTime"
-                        onChange={handleOnChangeDate}
-                    />
+                    <div style={{ 'display': 'inline-block' }}>
+                        <Calendar
+                            className={{ 'cnInput': "input_cal", 'cnLabel': 'label_b' }}
+                            title='시작일을 지정해주세요'
+                            id="startDateTime"
+                            onChange={handleOnChangeDate}
+                        />
+                    </div>
+                    <div style={{ 'display': 'inline-block' }}>
+                        <Calendar
+                            className={{ 'cnInput': "input_cal", 'cnLabel': 'label_b' }}
+                            title='종료일을 지정해주세요'
+                            id="endDateTime"
+                            onChange={handleOnChangeDate} />
+                    </div>
+                    <div style={{ 'marginTop': '20px' }}>
+                        <Input
+                            id="vacation-reason"
+                            onChange={hnadleOnChangeReasonInput}
+                            type="text"
+                            style={{ 'width': '300px', 'height': '40px' }}
+                            title="사유를 입력해주세요"
+                            placeholder="셀렉트박스로 바꿀거임" />
+                    </div>
                 </div>
                 <div>
-                    <p style={{ 'color': 'grey', 'fontSize': '13px' }}>종료일을 지정해주세요</p>
-                    <Calendar
-                        id="endDateTime"
-                        onChange={handleOnChangeDate} />
-                </div>
-                <div className="empty-div"></div>
-                <div>
-                    <DelegatorSearch onChange={onChangeSearchValue} onSubmit={handleOnSubmitSearchValue} />
+                    <DelegatorSearch
+                        onChange={onChangeSearchValue}
+                        onSubmit={(event) => handleSearchDelegator(event, 'memberName', delegator.keyword)} />
                     <List
-                        cn={{ ul: 'member-list', li: 'item' }}
+                        cn={{ ul: 'member-list', li: 'item_narrow' }}
                         listProperty={{
                             'items': delegator.searchResult,
                             'itemKey': 'memberPk',
                             'itemValue': 'memberId',
                             'onClick': handleOnClickSelectDelegator,
-                            'itemContent': (item) => (
-                                <Fragment>
-                                    {item.departmentName}/{item.name}
-                                </Fragment>
-                            )
+                            'itemContent': (item) => (<>{item.departmentName}/{item.name}/{item.enteredDate}</>)
                         }} />
                 </div>
-                <div>
-                    <label htmlFor="vacation-reason" />사유
-                    <input
-                        id="vacation-reasont"
-                        type="text"
-                        onChange={hnadleOnChangeReasonInput} />
-                </div>
-                <div className="empty-div"></div>
-                <div>
-                    <Button name="신청" onClick={handleOnSubmmit} />
-                </div>
-            </div>
 
+            </div>
+            <div className="empty-div"></div>
+            <div>
+                <Button name="신청" onClick={handleOnSubmmit} />
+            </div>
         </Fragment>
 
     )
