@@ -9,14 +9,12 @@ export const getConfirmDocumentWithApprovalLines = function (params) {
     .catch((err) => err)
 }
 
-export const getConfirmDocuments = function (params) {
+export const getConfirmDocumentsWrittenSelf = function (params) {
 
-  return instance.get(`/api/confirm-documents`, { params })
+  return instance.get(`/api/confirm-documents/written-self`, { params })
     .then((res) => res)
     .catch((err) => err)
 }
-
-
 
 export const getDepartmentConfirmDocuments = function () {
   const params = {
@@ -29,17 +27,6 @@ export const getDepartmentConfirmDocuments = function () {
     .catch((err) => err)
 }
 
-export const getConfirmDocumentIncludeApproval = function () {
-  const defaultParams = {
-    approvalId: sessionStorage.getItem('memberId')
-  }
-
-  return instance.get(`/api/confirm-documents`, { params: defaultParams })
-    .then((res) => res.data)
-    .catch((err) => err)
-}
-
-// back 에 구현 안되어있음
 export const getApprovalLines = function (confirmDocumentId) {
   return instance.get(`/api/confirm-documents/${confirmDocumentId}/approval-lines`)
     .then((res) => res)

@@ -3,7 +3,7 @@ import { Header } from "../../components/layout/Header";
 import Page from "../../components/layout/Page";
 import Table from "../../components/table/Table";
 import ConfirmSidebar from "./ConfirmSidebar";
-import { getConfirmDocumentWithApprovalLines, getConfirmDocuments } from "../../api/confirmApi";
+import { getConfirmDocumentWithApprovalLines, getConfirmDocumentsWrittenSelf } from "../../api/confirmApi";
 import { convertApproveStatus, convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
 import { convertDateTime } from "../../converter/DateTimeConvert";
 import ConfirmDocument from "../document/ConfirmDocument";
@@ -36,7 +36,7 @@ export default function MyConfirmDocument() {
             requesterId: sessionStorage.getItem('memberId')
         }
         try {
-            const response = await getConfirmDocuments(param);
+            const response = await getConfirmDocumentsWrittenSelf(param);
             // TODO => 결재 라인 두 명 이 상 일 떄 PK 겹침
             const confirmDocuments = response.data === undefined ? [] : response.data.data;
             setDrafteConfirmDoucments(confirmDocuments);
