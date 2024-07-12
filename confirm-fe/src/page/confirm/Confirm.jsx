@@ -7,6 +7,7 @@ import Table from "../../components/table/Table";
 import { convertDateTime } from "../../converter/DateTimeConvert";
 import { convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
 import ConfirmDocument from "../document/ConfirmDocument";
+import { format } from "date-fns";
 
 export function DepartmentConfirmDocumentPage() {
 
@@ -53,7 +54,7 @@ export function DepartmentConfirmDocumentPage() {
                             <td>{convertDocumentType(confirm.documentType)}</td>
                             <td>{confirm.requesterName}</td>
                             <td>{convertConfirmStatus(confirm.confirmStatus)}</td>
-                            <td>{confirm.approvalTime ? convertDateTime(confirm.approvalTime) : '결재 진행중'}</td>
+                            <td>{confirm.completedTime ? format(confirm.completedTime, 'yyyy/MM/dd HH:mm:ss') : '결재 진행중'}</td>
                         </tr>
                     )),
                     showCondition: true
