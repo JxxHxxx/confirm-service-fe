@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Button from "./Button";
-import ButtonGroup from "./ButtonGroup";
+import Button from "../button/Button";
+import ButtonGroup from "../button/ButtonGroup";
 
 const showButtonAmount = 5;
 
-export default function PaginationButtons({ totalPages, sendPageNumCallback }) {
+export default function Pagination({ totalPages, sendPageNumCallback }) {
     const [buttonInfo, setButtonInfo] = useState({
         nowPageNum: 0,
         startPageNum: 0, // 현재 버튼그룹의 시작 인덱스

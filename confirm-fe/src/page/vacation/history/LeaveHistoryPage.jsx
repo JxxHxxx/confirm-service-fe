@@ -1,7 +1,7 @@
 import { Header } from "../../../components/layout/Header";
 import Page from "../../../components/layout/Page";
 import VacationSidebar from "../VacationSidebar";
-import LeaveHistory from "./LeaveHistory";
+import DepartmentMembersLeaveHistory from "./DepartmentMembersLeaveHistory";
 
 export default function LeaveHistoryPage() {
 
@@ -9,7 +9,7 @@ export default function LeaveHistoryPage() {
         <Page
             header={<Header />}
             sidebar={<VacationSidebar />}>
-            <LeaveHistory />
+            <DepartmentMembersLeaveHistory />
         </Page>
     )
 }

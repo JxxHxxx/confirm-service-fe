@@ -18,12 +18,14 @@ function Node({ item, onClickItem }) {
                 {hasChildren && (
                     isOpen ? <HiChevronUp onClick={toggleOpen} /> : <HiChevronDown onClick={toggleOpen} />
                 )}
-                <span value={item.departmentId} onClick={onClickItem}>{item.departmentName}</span>
+                <span style={{ cursor: 'pointer' }}
+                    value={item.departmentId}
+                    onClick={onClickItem}>{item.departmentName}</span>
             </div>
             {hasChildren && (
                 <ul style={{ listStyleType: 'none', display: isOpen ? 'block' : 'none' }}>
                     {item.subDepartments.map(child => (
-                        <Node key={child.id} item={child} onClickItem= {onClickItem} />
+                        <Node key={child.id} item={child} onClickItem={onClickItem} />
                     ))}
                 </ul>
             )}

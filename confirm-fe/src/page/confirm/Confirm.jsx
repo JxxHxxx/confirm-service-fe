@@ -30,9 +30,12 @@ export function DepartmentConfirmDocumentPage() {
         }
     }
 
+    // 최초 리랜더링, 모달이 open/close 될 때 마다 리랜더링 함... 
+    // 더 효율적으로 하려면 모달에서 상신/반려 버튼이 눌렸을 때만 리랜더링 하는게 나아보임...
     useEffect(() => {
         getDateToServer();
     }, []);
+
 
     return (
         <Page header={<Header />} sidebar={<ConfirmSidebar />}>

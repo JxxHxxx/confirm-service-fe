@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
 import { getDeparmentMemberLeaves } from "../../../api/memberApi"
 import Table from "../../../components/table/Table";
-import PaginationButtons from "../../../components/button/PaginationButtons";
+import Pagination from "../../../components/pagination/Pagination";
 
 const size = 5;
 
-export default function LeaveHistory() {
+export default function DepartmentMembersLeaveHistory() {
     const [memberLeaves, setMemberLeaves] = useState([]);
     const [pagination, setPagination] = useState({
         page: 0,
@@ -54,7 +54,7 @@ export default function LeaveHistory() {
                     )))
                 }} />
             <div style={{ 'marginBottom': '30px' }}></div>
-            <PaginationButtons
+            <Pagination
                 totalPages={pagination.totalPages}
                 sendPageNumCallback={handleCallback} />
         </Fragment>
