@@ -10,16 +10,18 @@ import List from "../../components/list/List";
 import Button from "../../components/button/Button";
 import Title from "../document/Title";
 import Input from "../../components/input/Input";
-import { format } from "date-fns";
+import DatePicker from 'react-datepicker';
 import { NOW_DATE } from "../../constant/timeConst";
+import { convertDate } from "../../converter/DateTimeConvert";
+import { format } from "date-fns";
 
 
 
 export default function MoreDayForm({ vacationType }) {
     const [vacationForm, setVacationForm] = useState({
         duration: {
-            'startDateTime': NOW_DATE,
-            'endDateTime': NOW_DATE
+            startDateTime: NOW_DATE,
+            endDateTime: NOW_DATE
         },
         reason: '',
     });
@@ -112,21 +114,49 @@ export default function MoreDayForm({ vacationType }) {
         <Fragment>
             <Title className='titlt_left' name="연차 신청서" />
             <div style={{ display: 'grid', gridTemplateColumns: '4fr 4fr', gridRowGap: '50px' }}>
-                <div>
-                    <div style={{ 'display': 'inline-block' }}>
-                        <Calendar
-                            className={{ 'cnInput': "input_cal", 'cnLabel': 'label_b' }}
-                            title='시작일을 지정해주세요'
-                            id="startDateTime"
-                            onChange={handleOnChangeDate}
-                        />
+                <div style={{ border: '1px dashed blue' }}>
+                    <div className="basic-dp">
                     </div>
-                    <div style={{ 'display': 'inline-block' }}>
-                        <Calendar
-                            className={{ 'cnInput': "input_cal", 'cnLabel': 'label_b' }}
-                            title='종료일을 지정해주세요'
-                            id="endDateTime"
-                            onChange={handleOnChangeDate} />
+                    <div className="basic-dp" style={{ 'display': 'inline-block', marginRight: '10px' }}>
+                        <label htmlFor="startDateTime" style={{ fontSize: '12px' }}>
+                            시작일을 입력해주세요
+                            <div>
+                                <DatePicker
+                                    id="startDateTime"
+                                    required
+                                    dateFormat="yyyy-MM-dd"
+                                    minDate={convertDate(new Date())}
+                                    selected={vacationForm.duration.startDateTime}
+                                    onChange={(date) => setVacationForm((prev) => ({
+                                        ...prev,
+                                        duration: {
+                                            ...prev.duration,
+                                            startDateTime: format(date, 'yyyy-MM-dd')
+                                        }
+                                    })
+                                    )}
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div className="basic-dp" style={{ 'display': 'inline-block' }}>
+                        <label htmlFor="endDateTime" style={{ fontSize: '12px' }}>종료일을 입력해주세요</label>
+                        <div>
+                            <DatePicker
+                                id="endDateTime"
+                                required
+                                dateFormat="yyyy-MM-dd"
+                                minDate={format(new Date(), 'yyyy-MM-dd')}
+                                selected={vacationForm.duration.endDateTime}
+                                onChange={(date) => setVacationForm((prev) => ({
+                                    ...prev,
+                                    duration: {
+                                        ...prev.duration,
+                                        endDateTime: format(date, 'yyyy-MM-dd')
+                                    }
+                                })
+                                )}
+                            /></div>
                     </div>
                     <div style={{ 'marginTop': '20px' }}>
                         <Input
