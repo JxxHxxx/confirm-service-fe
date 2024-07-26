@@ -1,3 +1,4 @@
+
 import { Fragment, useEffect, useState } from "react";
 import { applyVacation } from "../../api/vacationApi";
 import Calendar from "../../components/calendar/Calendar";
@@ -14,10 +15,11 @@ import DatePicker from 'react-datepicker';
 import { NOW_DATE } from "../../constant/timeConst";
 import { convertDate } from "../../converter/DateTimeConvert";
 import { format } from "date-fns";
+import Searchbar from "../../components/input/Searchbar";
 
 
 
-export default function MoreDayForm({ vacationType }) {
+export default function MoreDayFormV2({ vacationType }) {
     const [vacationForm, setVacationForm] = useState({
         duration: {
             startDateTime: NOW_DATE,
@@ -112,8 +114,20 @@ export default function MoreDayForm({ vacationType }) {
 
     return (
         <Fragment>
-            <Title className='titlt_left' name="연차 신청서" />
-            <div style={{ display: 'grid', gridTemplateColumns: '4fr 4fr', gridRowGap: '50px' }}>
+            <div style={{ margin: '30px' }}></div>
+            <div style={{ display: 'grid', gridTemplateColumns: '4fr 4fr', gridRowGap: '5px' }}>
+                <div style={{ paddingBottom: '3px', borderBottom: '1px solid black', display: 'flex', justifyContent: "space-between" }}>
+                    <span style={{
+                        fontSize: '18px',
+                        fontWeight: 'bold'
+                    }}>연차 신청서</span>
+                    <button style={{
+                        padding: '0px 15px 0px 15px',
+                        backgroundColor: "white",
+                        border: '0.5px solid black'
+                    }} onClick={handleOnSubmmit}>신청</button>
+                </div>
+                <div></div>
                 <div style={{ border: '1px dashed blue' }}>
                     <div className="basic-dp">
                     </div>
@@ -158,38 +172,20 @@ export default function MoreDayForm({ vacationType }) {
                                 )}
                             /></div>
                     </div>
-                    <div style={{ 'marginTop': '20px' }}>
-                        <Input
-                            id="vacation-reason"
-                            onChange={hnadleOnChangeReasonInput}
-                            type="text"
-                            style={{ 'width': '300px', 'height': '40px' }}
-                            title="사유를 입력해주세요"
-                            placeholder="셀렉트박스로 바꿀거임" />
+                    <div style={{ marginTop: '20px' }}>
+                        <p style={{ fontSize: '12px', margin: '0px' }}>사유</p>
+                        <textarea style={{
+                            width: '425px',
+                            height: '75px'
+                        }}></textarea>
+                    </div>
+                    <div style={{ marginTop: '20px' }}>
+                        <p style={{ fontSize: '12px', margin: '0px' }}>직무대행자</p>
+                        <Searchbar/>
                     </div>
                 </div>
-                <div>
-                    <DelegatorSearch
-                        onChange={onChangeSearchValue}
-                        onSubmit={(event) => handleSearchDelegator(event, 'memberName', delegator.keyword)} />
-                    <div style={{ border: '1px dashed red', height: '500px', width: '350px', padding :'10px', overflowY : 'auto' }}>
-                        <List
-                            cn={{ ul: 'member-list', li: 'item_narrow' }}
-                            listProperty={{
-                                'items': delegator.searchResult,
-                                'itemKey': 'memberPk',
-                                'itemValue': 'memberId',
-                                'onClick': handleOnClickSelectDelegator,
-                                'itemContent': (item) => (<>{item.departmentName}/{item.name}/{item.enteredDate}</>)
-                            }} />
-                    </div>
-                </div>
-
             </div>
             <div className="empty-div"></div>
-            <div>
-                <Button name="신청" onClick={handleOnSubmmit} />
-            </div>
         </Fragment>
 
     )
