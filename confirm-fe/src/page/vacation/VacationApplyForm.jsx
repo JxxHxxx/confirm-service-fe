@@ -42,8 +42,8 @@ export function VacationApplyForm() {
                         </Radio>
                     </RadioGroup>
                 </form>
-                {vacationType === 'MORE_DAY' && <MoreDayForm vacationType={vacationType} />}
-                {/* {vacationType === 'MORE_DAY' && <MoreDayFormV2 vacationType={vacationType} />} */}
+                {/* {vacationType === 'MORE_DAY' && <MoreDayForm vacationType={vacationType} />} */}
+                {vacationType === 'MORE_DAY' && <MoreDayFormV2 vacationType={vacationType} />}
                 {vacationType === 'HALF_MORNING' && <HalfDayForm vacationType={vacationType} />}
                 {vacationType === 'SPECIAL' && <h2>경조사 신청 폼</h2>}
             </div>

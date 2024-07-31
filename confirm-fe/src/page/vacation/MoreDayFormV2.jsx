@@ -1,15 +1,12 @@
 
 import { Fragment, useEffect, useRef, useState } from "react";
 import { applyVacation } from "../../api/vacationApi";
-import { searchCompanyMembers } from "../../api/memberApi";
 import '../../css/List.css'
 import { useNavigate } from "react-router-dom";
-import { ApplyVacationTransfer } from "../../transfer/ApplyVacationTransfer";
 import DatePicker from 'react-datepicker';
 import { NOW_DATE } from "../../constant/timeConst";
 import { convertDate } from "../../converter/DateTimeConvert";
 import { format } from "date-fns";
-import Searchbar from "../../components/input/Searchbar";
 import VacationReason from "./apply/VacationReason";
 import Button from "../../components/button/Button";
 import { IoIosSearch } from "react-icons/io";
@@ -29,9 +26,9 @@ export default function MoreDayFormV2({ vacationType }) {
     const [memberSearchModalOpen, setMemberSearchModalOpen] = useState(false);
 
     const [delegator, setDelegator] = useState({
-        keyword: '',
-        searchResult: [],
-        selected: { delegatorId: '', delegatorName: '' }
+        delegatorId: '',
+        delegatorName: '',
+        departmentName: ''
     });
 
     const [vacationId, setVactionId] = useState('');
@@ -44,8 +41,24 @@ export default function MoreDayFormV2({ vacationType }) {
             endDateTime: vacationForm.duration.endDateTime + "T00:00"
         }
 
-        const requestVacationForm = new ApplyVacationTransfer(vacationType, 'DEDUCT', duration, reasonRef.current, delegator.selected);
-
+        const requestVacationForm = {
+            requesterId: sessionStorage.getItem('memberId'),
+            requesterName: sessionStorage.getItem('name'),
+            departmentId: sessionStorage.getItem('departmentId'),
+            departmentName: sessionStorage.getItem('departmentName'),
+            vacationType: vacationType,
+            leaveDeduct: 'DEDUCT',
+            requestVacationDurations: [
+                {
+                    startDateTime: duration.startDateTime,
+                    endDateTime: duration.endDateTime
+                }
+            ],
+            title: '휴가신청서',
+            reason: reasonRef.current,
+            delegatorId: delegator.delegatorId,
+            delegatorName: delegator.delegatorName,
+        }
 
         const response = await applyVacation(requestVacationForm);
 
@@ -67,36 +80,16 @@ export default function MoreDayFormV2({ vacationType }) {
         )
     }
 
-    const handleSearchDelegator = async (event, paramsKey, paramsValue) => {
-        if (event !== null) {
-            event.preventDefault();
-        }
-        const params = {
-            [paramsKey]: paramsValue
-        }
-        const response = await searchCompanyMembers(params);
+    const onHandleSelectMember = (delegatorId, delgatorName, departmentName) => {
         setDelegator((prev) => ({
             ...prev,
-            searchResult: response.data.length > 0 ? response.data : []
-        }));
-    }
-
-    const handleOnClickSelectDelegator = (event) => {
-        const selectedMember = delegator.searchResult.filter(member => member.memberId === event.target.getAttribute('value'));
-        alert(event.target.innerHTML + "을 직무 대행자로 지정합니다");
-
-        setDelegator((prev) => ({
-            ...prev,
-            searchResult: selectedMember,
-            selected: {
-                delegatorId: selectedMember[0].memberId,
-                delegatorName: selectedMember[0].name
-            }
+            delegatorId: delegatorId,
+            delegatorName: delgatorName,
+            departmentName: departmentName
         }))
     }
 
     useEffect(() => {
-        handleSearchDelegator(null, 'departmentId', sessionStorage.getItem('departmentId'))
     }, [])
 
     return (
@@ -144,14 +137,15 @@ export default function MoreDayFormV2({ vacationType }) {
                         <p style={{ fontSize: '12px', margin: '0px' }}>직무대행자</p>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <ul style={{ display: 'flex', alignItems: 'center', width: '211px', height: '36px', margin: '0px', padding: '0px', border: '1px solid black' }}>
-                                <li style={{ listStyleType: 'none' }}>이재헌</li>
+                                <li style={{ listStyleType: 'none' }}>{delegator.delegatorId && <>{delegator.delegatorName}/{delegator.departmentName}</>}</li>
                             </ul>
                             <IoIosSearch
                                 size={25}
                                 onClick={() => setMemberSearchModalOpen(true)} />
                             <MemberSearchModal
                                 modalOpen={memberSearchModalOpen}
-                                setModalOpen={setMemberSearchModalOpen} />
+                                setModalOpen={setMemberSearchModalOpen}
+                                onHandleSelectMember={(memberId, memberName, departmentName) => onHandleSelectMember(memberId, memberName, departmentName)} />
                         </div>
                     </div>
                 </div>
