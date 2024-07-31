@@ -6,7 +6,9 @@
 
 body,
 input::placeholder,
+textarea::placeholder,
 input,
+textarea,
 button {
   font-family: "MaruBuri";
 }

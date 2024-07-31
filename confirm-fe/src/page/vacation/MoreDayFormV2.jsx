@@ -1,21 +1,19 @@
 
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { applyVacation } from "../../api/vacationApi";
-import Calendar from "../../components/calendar/Calendar";
 import { searchCompanyMembers } from "../../api/memberApi";
 import '../../css/List.css'
 import { useNavigate } from "react-router-dom";
 import { ApplyVacationTransfer } from "../../transfer/ApplyVacationTransfer";
-import DelegatorSearch from "./DelegatorSearch";
-import List from "../../components/list/List";
-import Button from "../../components/button/Button";
-import Title from "../document/Title";
-import Input from "../../components/input/Input";
 import DatePicker from 'react-datepicker';
 import { NOW_DATE } from "../../constant/timeConst";
 import { convertDate } from "../../converter/DateTimeConvert";
 import { format } from "date-fns";
 import Searchbar from "../../components/input/Searchbar";
+import VacationReason from "./apply/VacationReason";
+import Button from "../../components/button/Button";
+import { IoIosSearch } from "react-icons/io";
+import MemberSearchModal from "./apply/MemberSearchModal";
 
 
 
@@ -24,9 +22,11 @@ export default function MoreDayFormV2({ vacationType }) {
         duration: {
             startDateTime: NOW_DATE,
             endDateTime: NOW_DATE
-        },
-        reason: '',
+        }
     });
+
+    const reasonRef = useRef();
+    const [memberSearchModalOpen, setMemberSearchModalOpen] = useState(false);
 
     const [delegator, setDelegator] = useState({
         keyword: '',
@@ -44,7 +44,7 @@ export default function MoreDayFormV2({ vacationType }) {
             endDateTime: vacationForm.duration.endDateTime + "T00:00"
         }
 
-        const requestVacationForm = new ApplyVacationTransfer(vacationType, 'DEDUCT', duration, vacationForm.reason, delegator.selected);
+        const requestVacationForm = new ApplyVacationTransfer(vacationType, 'DEDUCT', duration, reasonRef.current, delegator.selected);
 
 
         const response = await applyVacation(requestVacationForm);
@@ -56,28 +56,15 @@ export default function MoreDayFormV2({ vacationType }) {
         navigate(`/vacation/${response.data.vacationId}/ApprovalLine`)
     }
 
-    const handleOnChangeDate = (event) => {
-        setVacationForm(prev => ({
+    const handleOnChangeDate = (fieldName, date) => {
+        setVacationForm((prev) => ({
             ...prev,
             duration: {
                 ...prev.duration,
-                [event.target.id]: event.target.value
+                [fieldName]: format(date, 'yyyy-MM-dd')
             }
-        }))
-    }
-
-    const hnadleOnChangeReasonInput = (event) => {
-        setVacationForm(prev => ({
-            ...prev,
-            reason: event.target.value
-        }));
-    }
-
-    const onChangeSearchValue = (event) => {
-        setDelegator((prev) => ({
-            ...prev,
-            keyword: event.target.value
-        }));
+        })
+        )
     }
 
     const handleSearchDelegator = async (event, paramsKey, paramsValue) => {
@@ -121,37 +108,24 @@ export default function MoreDayFormV2({ vacationType }) {
                         fontSize: '18px',
                         fontWeight: 'bold'
                     }}>연차 신청서</span>
-                    <button style={{
-                        padding: '0px 15px 0px 15px',
-                        backgroundColor: "white",
-                        border: '0.5px solid black'
-                    }} onClick={handleOnSubmmit}>신청</button>
+                    <Button cn="vacation_request_submmit" name='신청' onClick={handleOnSubmmit} />
                 </div>
                 <div></div>
                 <div style={{ border: '1px dashed blue' }}>
                     <div className="basic-dp">
                     </div>
                     <div className="basic-dp" style={{ 'display': 'inline-block', marginRight: '10px' }}>
-                        <label htmlFor="startDateTime" style={{ fontSize: '12px' }}>
-                            시작일을 입력해주세요
-                            <div>
-                                <DatePicker
-                                    id="startDateTime"
-                                    required
-                                    dateFormat="yyyy-MM-dd"
-                                    minDate={convertDate(new Date())}
-                                    selected={vacationForm.duration.startDateTime}
-                                    onChange={(date) => setVacationForm((prev) => ({
-                                        ...prev,
-                                        duration: {
-                                            ...prev.duration,
-                                            startDateTime: format(date, 'yyyy-MM-dd')
-                                        }
-                                    })
-                                    )}
-                                />
-                            </div>
-                        </label>
+                        <label htmlFor="startDateTime" style={{ fontSize: '12px' }}>시작일을 입력해주세요</label>
+                        <div>
+                            <DatePicker
+                                id="startDateTime"
+                                required
+                                dateFormat="yyyy-MM-dd"
+                                minDate={convertDate(new Date())}
+                                selected={vacationForm.duration.startDateTime}
+                                onChange={(date) => handleOnChangeDate('startDateTime', date)}
+                            />
+                        </div>
                     </div>
                     <div className="basic-dp" style={{ 'display': 'inline-block' }}>
                         <label htmlFor="endDateTime" style={{ fontSize: '12px' }}>종료일을 입력해주세요</label>
@@ -162,26 +136,23 @@ export default function MoreDayFormV2({ vacationType }) {
                                 dateFormat="yyyy-MM-dd"
                                 minDate={format(new Date(), 'yyyy-MM-dd')}
                                 selected={vacationForm.duration.endDateTime}
-                                onChange={(date) => setVacationForm((prev) => ({
-                                    ...prev,
-                                    duration: {
-                                        ...prev.duration,
-                                        endDateTime: format(date, 'yyyy-MM-dd')
-                                    }
-                                })
-                                )}
+                                onChange={(date) => handleOnChangeDate('endDateTime', date)}
                             /></div>
                     </div>
-                    <div style={{ marginTop: '20px' }}>
-                        <p style={{ fontSize: '12px', margin: '0px' }}>사유</p>
-                        <textarea style={{
-                            width: '425px',
-                            height: '75px'
-                        }}></textarea>
-                    </div>
+                    <VacationReason onChange={(event) => reasonRef.current = event.target.value} />
                     <div style={{ marginTop: '20px' }}>
                         <p style={{ fontSize: '12px', margin: '0px' }}>직무대행자</p>
-                        <Searchbar/>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <ul style={{ display: 'flex', alignItems: 'center', width: '211px', height: '36px', margin: '0px', padding: '0px', border: '1px solid black' }}>
+                                <li style={{ listStyleType: 'none' }}>이재헌</li>
+                            </ul>
+                            <IoIosSearch
+                                size={25}
+                                onClick={() => setMemberSearchModalOpen(true)} />
+                            <MemberSearchModal
+                                modalOpen={memberSearchModalOpen}
+                                setModalOpen={setMemberSearchModalOpen} />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -190,3 +161,4 @@ export default function MoreDayFormV2({ vacationType }) {
 
     )
 }
+

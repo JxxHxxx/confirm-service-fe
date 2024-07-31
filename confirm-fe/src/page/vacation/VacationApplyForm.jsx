@@ -34,18 +34,18 @@ export function VacationApplyForm() {
                             반차
                         </Radio>
                         <Radio
-                            name="special"
-                            value="special"
-                            checked={vacationType === "special" ? true : false}
+                            name="SPECIAL"
+                            value="SPECIAL"
+                            checked={vacationType === "SPECIAL" ? true : false}
                             onChange={handleOnChange}>
                             경조사
                         </Radio>
                     </RadioGroup>
                 </form>
-                {/* {vacationType === 'MORE_DAY' && <MoreDayForm vacationType={vacationType} />} */}
-                {vacationType === 'MORE_DAY' && <MoreDayFormV2 vacationType={vacationType} />}
+                {vacationType === 'MORE_DAY' && <MoreDayForm vacationType={vacationType} />}
+                {/* {vacationType === 'MORE_DAY' && <MoreDayFormV2 vacationType={vacationType} />} */}
                 {vacationType === 'HALF_MORNING' && <HalfDayForm vacationType={vacationType} />}
-                {vacationType === 'special' && <h2>경조사 신청 폼</h2>}
+                {vacationType === 'SPECIAL' && <h2>경조사 신청 폼</h2>}
             </div>
         </Fragment>
     )

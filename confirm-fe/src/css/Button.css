@@ -111,3 +111,14 @@
 
 .btg_a {
 }
+
+.vacation_request_submmit {
+    padding: 0px 15px 0px 15px;
+    background-color: white;
+    border: 0.5px solid black;
+}
+
+.vacation_request_submmit:hover {
+    filter : brightness(90%);
+    font-weight: bold;
+}
