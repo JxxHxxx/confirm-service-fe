@@ -1,7 +1,6 @@
 import { Fragment, useState } from "react";
 import { RadioGroup } from "../../components/button/RadioGroup";
 import { Radio } from "../../components/button/Radio";
-import MoreDayForm from "./MoreDayForm";
 import HalfDayForm from "./HalfDayForm";
 import MoreDayFormV2 from "./MoreDayFormV2";
 
@@ -42,7 +41,6 @@ export function VacationApplyForm() {
                         </Radio>
                     </RadioGroup>
                 </form>
-                {/* {vacationType === 'MORE_DAY' && <MoreDayForm vacationType={vacationType} />} */}
                 {vacationType === 'MORE_DAY' && <MoreDayFormV2 vacationType={vacationType} />}
                 {vacationType === 'HALF_MORNING' && <HalfDayForm vacationType={vacationType} />}
                 {vacationType === 'SPECIAL' && <h2>경조사 신청 폼</h2>}
