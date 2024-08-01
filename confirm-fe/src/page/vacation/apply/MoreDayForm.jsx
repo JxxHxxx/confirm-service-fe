@@ -1,20 +1,20 @@
 
 import { Fragment, useEffect, useRef, useState } from "react";
-import { applyVacation } from "../../api/vacationApi";
+import { applyVacation } from "../../../api/vacationApi";
 import '../../css/List.css'
 import { useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
-import { NOW_DATE } from "../../constant/timeConst";
-import { convertDate } from "../../converter/DateTimeConvert";
+import { NOW_DATE } from "../../../constant/timeConst";
+import { convertDate } from "../../../converter/DateTimeConvert";
 import { format } from "date-fns";
-import VacationReason from "./apply/VacationReason";
-import Button from "../../components/button/Button";
+import VacationReason from "./VacationReason";
+import Button from "../../../components/button/Button";
 import { IoIosSearch } from "react-icons/io";
-import MemberSearchModal from "./apply/MemberSearchModal";
+import MemberSearchModal from "./MemberSearchModal";
 
 
 
-export default function MoreDayFormV2({ vacationType }) {
+export default function MoreDayForm({ vacationType }) {
     const [vacationForm, setVacationForm] = useState({
         duration: {
             startDateTime: NOW_DATE,
