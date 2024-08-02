@@ -9,3 +9,7 @@
     color: grey;
     cursor: pointer;
 }
+
+.hov:hover {
+    cursor: pointer;
+  }

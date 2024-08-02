@@ -28,3 +28,12 @@ export const raiseConfirmDoucment = function (vacationId) {
         .then(res => res)
         .catch(err => err)
 }
+
+export const getVacationTypePolicy = function () {
+    const params = {
+        companyId: sessionStorage.getItem('companyId')
+    }
+    return instance.get(`/api/vacations/type-policies`, { params })
+        .then(res => res)
+        .catch(err => err)
+}

@@ -73,7 +73,7 @@ export function VacationSearchResult({ vacations }) {
 
     return (
         <Fragment>
-                <h2>부서 휴가자 현황</h2>
+                <p style={{fontSize : '22px'}}>부서 휴가자 현황</p>
                 <div className="chip-group">
                     <button className={chip.className.myVacation} onClick={() => handleMyVacationChipClick('myVacation', 'myVacation')}>내 휴가</button>
                     <button className={chip.className.request} onClick={() => handleChipClick('request', 'request')}>상신</button>

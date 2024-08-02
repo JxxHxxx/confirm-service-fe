@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import { CommonProvider } from './context/CommonProvider';
 import { DepartmentConfirmDocumentPage } from './page/confirm/Confirm';
-import { VacationApply } from './page/vacation/VacationApply';
 import MyVacation from './page/vacation/MyVacation';
 import ApprovalLine from './page/vacation/ApprovalLine';
 import Modal from 'react-modal';
@@ -18,6 +17,7 @@ import MyConfirmDocument from './page/confirm/MyConfirmDocument';
 import VacationSidebar from './page/vacation/VacationSidebar';
 import Page from './components/layout/Page';
 import LeaveHistoryPage from './page/vacation/history/LeaveHistoryPage';
+import { VacationApply } from './page/vacation/apply/VacationApply';
 
 const router = createBrowserRouter([
   {

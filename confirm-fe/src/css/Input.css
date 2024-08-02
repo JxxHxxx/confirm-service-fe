@@ -1,11 +1,10 @@
 .search {
     position: relative;
-    width: 300px;
+    width: 350px;
     height: 29px;
 }
 
 .basic-sb {
-    border-radius: 20px;
     border: 1px solid #ccc;
     padding: 5px 10px;
     box-shadow: 2px 2px 5px rgba(156, 142, 142, 0.2);
@@ -16,11 +15,22 @@
     margin-left: 5px;
 }
 
+.circle {
+    border-radius: 20px;
+}
+
 .sb-icon {
-   position: absolute;
-   height: 75%;
-   top: 10px;
-   left: 100%;
+    position: absolute;
+    height: 75%;
+    top: 10px;
+    left: 100%;
+}
+
+.sb-icon-v2 {
+    position: absolute;
+    height: 75%;
+    top: 10px;
+    left: 100%;
 }
 
 .basic-dp input {
@@ -43,7 +53,7 @@
 }
 
 .input_cal {
- width: 200px;
- height: 30px;
- margin-right: 10px;
+    width: 200px;
+    height: 30px;
+    margin-right: 10px;
 }

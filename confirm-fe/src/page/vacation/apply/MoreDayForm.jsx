@@ -1,7 +1,6 @@
 
 import { Fragment, useEffect, useRef, useState } from "react";
 import { applyVacation } from "../../../api/vacationApi";
-import '../../css/List.css'
 import { useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import { NOW_DATE } from "../../../constant/timeConst";
@@ -11,8 +10,7 @@ import VacationReason from "./VacationReason";
 import Button from "../../../components/button/Button";
 import { IoIosSearch } from "react-icons/io";
 import MemberSearchModal from "./MemberSearchModal";
-
-
+import ApplyVacationFormLayout from "./ApplyVacationFormLayout";
 
 export default function MoreDayForm({ vacationType }) {
     const [vacationForm, setVacationForm] = useState({
@@ -94,17 +92,7 @@ export default function MoreDayForm({ vacationType }) {
 
     return (
         <Fragment>
-            <div style={{ margin: '30px' }}></div>
-            <div style={{ display: 'grid', gridTemplateColumns: '4fr 4fr', gridRowGap: '5px' }}>
-                <div style={{ paddingBottom: '3px', borderBottom: '1px solid black', display: 'flex', justifyContent: "space-between" }}>
-                    <span style={{
-                        fontSize: '18px',
-                        fontWeight: 'bold'
-                    }}>연차 신청서</span>
-                    <Button cn="vacation_request_submmit" name='신청' onClick={handleOnSubmmit} />
-                </div>
-                <div></div>
-                <div style={{ border: '1px dashed blue' }}>
+            <ApplyVacationFormLayout title="연차 신청서" onApplyVacation={handleOnSubmmit}>
                     <div className="basic-dp">
                     </div>
                     <div className="basic-dp" style={{ 'display': 'inline-block', marginRight: '10px' }}>
@@ -139,18 +127,16 @@ export default function MoreDayForm({ vacationType }) {
                             <ul style={{ display: 'flex', alignItems: 'center', width: '211px', height: '36px', margin: '0px', padding: '0px', border: '1px solid black' }}>
                                 <li style={{ listStyleType: 'none' }}>{delegator.delegatorId && <>{delegator.delegatorName}/{delegator.departmentName}</>}</li>
                             </ul>
-                            <IoIosSearch
-                                size={25}
-                                onClick={() => setMemberSearchModalOpen(true)} />
+                                <IoIosSearch className="hov"
+                                    size={25}
+                                    onClick={() => setMemberSearchModalOpen(true)} />
                             <MemberSearchModal
                                 modalOpen={memberSearchModalOpen}
                                 setModalOpen={setMemberSearchModalOpen}
                                 onHandleSelectMember={(memberId, memberName, departmentName) => onHandleSelectMember(memberId, memberName, departmentName)} />
                         </div>
                     </div>
-                </div>
-            </div>
-            <div className="empty-div"></div>
+            </ApplyVacationFormLayout>
         </Fragment>
 
     )

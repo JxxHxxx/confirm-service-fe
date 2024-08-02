@@ -6,7 +6,7 @@ export default function Table({ cn = {}, title = '', tableProperty = {}}) {
 
     return (
         <Fragment>
-            <h2>{title}</h2>
+            <p style={{fontSize : '22px'}}>{title}</p>
             <table className={table}>
                 <thead>
                     <tr key={"confirm-table-columns"}>

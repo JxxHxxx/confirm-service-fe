@@ -39,6 +39,7 @@ export default function DepartmentMembersLeaveHistory() {
 
     return (
         <Fragment>
+            <p style={{fontSize : '22px'}}>부서 연차 현황</p>
             <leaveHistoryContext.Provider value={memberLeaveHistPgn}>
                 <Pagination
                     pageContext={leaveHistoryContext}

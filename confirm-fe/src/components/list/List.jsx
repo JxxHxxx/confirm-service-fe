@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import '../../css/List.css'
 
 export default function List({ title = '',
     cn = { ul: 'member-list', li: 'item' }, showCondition = true,

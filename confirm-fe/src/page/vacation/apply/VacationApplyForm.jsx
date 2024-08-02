@@ -3,6 +3,7 @@ import { RadioGroup } from "../../../components/button/RadioGroup";
 import { Radio } from "../../../components/button/Radio";
 import HalfDayForm from "./HalfDayForm";
 import MoreDayForm from "./MoreDayForm";
+import SpecialVacationForm from "./SpecialVacationForm";
 
 
 export function VacationApplyForm() {
@@ -43,7 +44,7 @@ export function VacationApplyForm() {
                 </form>
                 {vacationType === 'MORE_DAY' && <MoreDayForm vacationType={vacationType} />}
                 {vacationType === 'HALF_MORNING' && <HalfDayForm vacationType={vacationType} />}
-                {vacationType === 'SPECIAL' && <h2>경조사 신청 폼</h2>}
+                {vacationType === 'SPECIAL' && <SpecialVacationForm vacationType={vacationType} />}
             </div>
         </Fragment>
     )
