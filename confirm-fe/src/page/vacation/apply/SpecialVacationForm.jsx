@@ -24,8 +24,8 @@ export default function SpecialVacationForm() {
         reason: '',
         delegatorId: delegator.delegatorId,
         delegatorName: delegator.delegatorName,
-        vacationType : undefined,
-        vacationDay : undefined
+        vacationType: undefined,
+        vacationDay: undefined
     })
 
     const [specialVacation, setSpecialVacation] = useState({
@@ -55,8 +55,8 @@ export default function SpecialVacationForm() {
     const handleSelectVacationType = (option) => {
         setVacationForm((prev) => ({
             ...prev,
-            vacationType : option.vacationType,
-            vacationDay : option.vacationDay
+            vacationType: option.vacationType,
+            vacationDay: option.vacationDay
         }))
     }
 
@@ -99,7 +99,7 @@ export default function SpecialVacationForm() {
 
     const vacationTypeOptions = specialVacation.vacationTypePolicies.map(vtp => ({
         vacationType: vtp.vacationType,
-        vacationDay : vtp.vacationDay,
+        vacationDay: vtp.vacationDay,
         label: vtp.vacationTypeName + "/(" + vtp.vacationDay + "일)"
     }))
 
@@ -125,9 +125,13 @@ export default function SpecialVacationForm() {
             <>
                 <div style={{ fontFamily: 'MaruBuri', fontWeight: 'normal' }}>
                     {specialVacation.vacationTypePolicies.length > 0 ?
-                        <ul style={{ listStyleType: 'none', fontSize: '12px', paddingLeft: '0px' }}>
-                            {specialVacation.vacationTypePolicies.map(vtp => <li key={vtp.vacationType}>{vtp.vacationTypeName} : {vtp.vacationDay}일</li>)}
-                        </ul>
+                        <>
+                            <p style={{ fontSize: '12px' }}>경조사 시작일은 휴무와 관계 없이, <span style={{ fontWeight: 'bold' }}>경조사 시작일</span>로 지정바랍니다.
+                                <br />경조사 휴가 기간 내 휴일이 포함되어 있을 시 자동으로 연장됩니다.(기능 구현 중)</p>
+                            <ul style={{ listStyleType: 'none', fontSize: '12px', paddingLeft: '0px' }}>
+                                {specialVacation.vacationTypePolicies.map(vtp => <li key={vtp.vacationType}>{vtp.vacationTypeName} : {vtp.vacationDay}일</li>)}
+                            </ul>
+                        </>
                         : <p style={{ fontSize: '12px' }}>{specialVacation.emptyMessage}</p>
                     }
                     <p style={{ fontSize: '12px', color: 'gray', textDecoration: 'underLine', cursor: 'pointer' }} onClick={() => setSpecialVacation((prev) => ({
@@ -140,7 +144,7 @@ export default function SpecialVacationForm() {
         <ApplyVacationFormLayout title="경조사 신청서" onApplyVacation={handleApplyVacation}>
             <div>
                 <div style={{ display: 'inline-block' }}>
-                <label htmlFor="vacationType" style={{ fontSize: '12px' }}>경조사 유형을 선택해주세요</label>
+                    <label htmlFor="vacationType" style={{ fontSize: '12px' }}>경조사 유형을 선택해주세요</label>
                     <Select
                         id="vacationType"
                         placeholder="경조사 유형을 지정해주세요"

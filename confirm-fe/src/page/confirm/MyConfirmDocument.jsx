@@ -17,6 +17,7 @@ export default function MyConfirmDocument() {
         try {
             const params = {
                 approveStatus: 'PENDING',
+                confirmStatus: 'RAISE',
                 approvalId: sessionStorage.getItem('memberId')
             }
 
