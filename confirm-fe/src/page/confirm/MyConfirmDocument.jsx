@@ -16,6 +16,7 @@ export default function MyConfirmDocument() {
     const fetchApprovalPendingConfirmDocuments = async () => {
         try {
             const params = {
+                confirmStatus: 'RAISE', // 상신 상태인 문서만 조회
                 approveStatus: 'PENDING',
                 approvalId: sessionStorage.getItem('memberId')
             }

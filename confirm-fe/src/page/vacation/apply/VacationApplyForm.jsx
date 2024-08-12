@@ -44,7 +44,7 @@ export function VacationApplyForm() {
                 </form>
                 {vacationType === 'MORE_DAY' && <MoreDayForm vacationType={vacationType} />}
                 {vacationType === 'HALF_MORNING' && <HalfDayForm vacationType={vacationType} />}
-                {vacationType === 'SPECIAL' && <SpecialVacationForm vacationType={vacationType} />}
+                {vacationType === 'SPECIAL' && <SpecialVacationForm />}
             </div>
         </Fragment>
     )
