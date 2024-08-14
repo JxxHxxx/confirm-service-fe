@@ -74,3 +74,12 @@ export const getConfirmDocumentElements = function (confirmDocumentFormId) {
     .then((res) => res)
     .catch((err) => err)
 }
+
+export const getConfirmDocumentElementsV2 = function (confirmDocumentFormId) {
+  const defaultParams = {
+    companyId: 'COM,' + sessionStorage.getItem('companyId')
+  }
+  return instance.get(`/api/v2/confirm-document-forms/${confirmDocumentFormId}/elements`, { params: defaultParams })
+    .then((res) => res)
+    .catch((err) => err)
+}
