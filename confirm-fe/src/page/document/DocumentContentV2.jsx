@@ -28,15 +28,10 @@ export default function DocumentContentV2({ documentElements
                 oneElements = documentElement.elements.sort((e1, e2) => e1.elementOrder - e2.elementOrder);
                 const arrayName = oneElements[0].elementKey.split('.')[0];
 
-                // 아래 부분을 추상화 해야함
-                const keyName1 = oneElements[0].elementKey.split('.')[1];
-                const keyName2 = oneElements[1].elementKey.split('.')[1];
-
                 let tmpKeyNames = [];
                 for (const idx in oneElements) {
                     tmpKeyNames.push(oneElements[idx].elementKey.split('.')[1])
                 }
-                console.log('tmpKeyNames', tmpKeyNames);
 
                 return <>
                     <table>
