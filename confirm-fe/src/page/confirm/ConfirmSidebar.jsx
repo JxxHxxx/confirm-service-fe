@@ -17,6 +17,12 @@ export default function ConfirmSidebar({}) {
                         <a>내 결재함</a>
                     </div>
                 </Link>
+                <Link to={'/confirm/draft'}
+                    className="menu-item-wrapper">
+                    <div className="menu-item-wrapper">
+                        <a>결재 문서 작성하기</a>
+                    </div>
+                </Link>
             </div>
     )
 }

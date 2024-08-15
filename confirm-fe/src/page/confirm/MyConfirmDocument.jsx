@@ -18,7 +18,6 @@ export default function MyConfirmDocument() {
             const params = {
                 confirmStatus: 'RAISE', // 상신 상태인 문서만 조회
                 approveStatus: 'PENDING',
-                confirmStatus: 'RAISE',
                 approvalId: sessionStorage.getItem('memberId')
             }
 
