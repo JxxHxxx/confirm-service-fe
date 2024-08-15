@@ -93,3 +93,29 @@
     width: 200px;
     border: 1px solid black
 }
+
+.confirm_document_table {
+    border-collapse: collapse;
+    width: 700px;
+}
+
+/* cdt = confirm_document_table */
+
+/* 테이블 내 요소의 이름 */
+.cdt_th_name {
+    border: 1px solid black;
+}
+
+.cdt_td_name {
+    background-color: #E2E2E2;
+}
+
+.cdt_pair_td_name {
+    background-color: #E2E2E2;
+    width: 150px;
+}
+
+/* 테이블 내 요소의 값 */
+.cdt_td_val {
+
+}

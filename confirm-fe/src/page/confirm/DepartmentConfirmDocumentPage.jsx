@@ -6,7 +6,6 @@ import { Header } from "../../components/layout/Header";
 import Table from "../../components/table/Table";
 import { convertDateTime } from "../../converter/DateTimeConvert";
 import { convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
-import ConfirmDocument from "../document/ConfirmDocument";
 import { format } from "date-fns";
 import ConfirmDocumentWrapper from "../document/ConfirmDocumentWrapper";
 
@@ -40,12 +39,6 @@ export function DepartmentConfirmDocumentPage() {
 
     return (
         <Page header={<Header />} sidebar={<ConfirmSidebar />}>
-            {/* {<ConfirmDocument
-                confirmDocumentContentPk={selectedDocumentContentPk}
-                confirmDocument={selectedDocument}
-                setConfirmDocument={setSelectedDocument}
-                modalOpen={modalOpen}
-                setModalOpen={setModalOpen} />} */}
             {<ConfirmDocumentWrapper
                 confirmDocumentContentPk={selectedDocumentContentPk}
                 confirmDocument={selectedDocument}

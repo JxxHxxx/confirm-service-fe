@@ -6,7 +6,7 @@ import ConfirmSidebar from "./ConfirmSidebar";
 import { getConfirmDocumentWithApprovalLines, getConfirmDocumentsWrittenSelf } from "../../api/confirmApi";
 import { convertApproveStatus, convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
 import { convertDateTime } from "../../converter/DateTimeConvert";
-import ConfirmDocument from "../document/ConfirmDocument";
+import ConfirmDocumentWrapper from "../document/ConfirmDocumentWrapper";
 
 
 export default function MyConfirmDocument() {
@@ -67,12 +67,11 @@ export default function MyConfirmDocument() {
     return (
         <Page header={<Header />}
             sidebar={<ConfirmSidebar />}>
-            {<ConfirmDocument
-                confirmDocumentContentPk={selectedDocumentContentPk}
+            <ConfirmDocumentWrapper
                 confirmDocument={selectedDocument}
                 setConfirmDocument={setSelectedDocument}
                 modalOpen={modelOpen}
-                setModalOpen={setModalOpen} />}
+                setModalOpen={setModalOpen} />
             <Table title={"결재 대기중인 문서"} cn={{ table: "vacation_table" }}
                 tableProperty={{
                     columns: ['문서 ID', '상신 일시', '문서 유형', '기안자 부서', '기안자명', '승인/반려', '승인/반려 일시'],

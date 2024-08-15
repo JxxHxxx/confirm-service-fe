@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getConfirmDocumentContent, getConfirmDocumentElements, getConfirmDocumentElementsV2 } from "../../api/confirmApi";
+import { getConfirmDocumentContent, getConfirmDocumentElementsV2 } from "../../api/confirmApi";
 import ConfirmDocumentModalV2 from "./ConfirmDocumentModalV2";
 import DocumentContentV2 from "./DocumentContentV2";
 
