@@ -7,8 +7,7 @@ export default function MyWorkTicketContent() {
 
     const [workTickets, setWorkTickets] = useState([]);
 
-    const callApi = async () => {
-
+    const requestReadWorkTickets = async () => {
         try {
             const params = {
                 chargeCompanyId: sessionStorage.getItem('companyId'),
@@ -31,7 +30,7 @@ export default function MyWorkTicketContent() {
     }
 
     useEffect(() => {
-        callApi();
+        requestReadWorkTickets();
     }, [])
 
     return <>

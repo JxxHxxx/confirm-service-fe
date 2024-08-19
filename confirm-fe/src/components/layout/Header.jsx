@@ -19,7 +19,7 @@ export function Header({ children }) {
                     <Link to={'/vacation'}>
                         <a className='menu-item'>휴가</a>
                     </Link>
-                    <Link to={'/work'}>
+                    <Link to={'/work/search'}>
                         <a className='menu-item'>업무요청</a>
                     </Link>
                     <Link to={'/schedule'}>
