@@ -74,7 +74,7 @@ const router = createBrowserRouter([
     element: <LeaveHistoryPage />
   },
   {
-    path : '/work',
+    path : '/work/request',
     element: <WorkRequestPage />
   },
   {
