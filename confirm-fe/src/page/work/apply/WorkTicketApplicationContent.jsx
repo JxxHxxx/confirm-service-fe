@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "../../../components/button/Button";
 
-export default function WorkRequestContent() {
+export default function WorkTicketApplicationContent() {
 
     const [workTicket, setWorkTicket] = useState({
         chargeDepartmentName: '',

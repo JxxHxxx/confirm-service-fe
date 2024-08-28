@@ -1,15 +1,14 @@
 import { Header } from "../../../components/layout/Header";
 import Page from "../../../components/layout/Page";
 import WorkSidebar from "../WorkSidebar";
-import WorkRequestContent from "./WorkRequestContent";
+import ReceiveWorkTicketContent from "./ReceiveWorkTicketContent";
 
 
-export default function WorkRequestPage() {
+export default function ReceiveWorkTicketPage() {
+
     return <Page
         header={<Header />}
-        sidebar={<WorkSidebar />}
-    >
-        <WorkRequestContent />
+        sidebar={<WorkSidebar />}>
+        <ReceiveWorkTicketContent />
     </Page>
-
 }

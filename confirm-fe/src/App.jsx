@@ -19,8 +19,8 @@ import LeaveHistoryPage from './page/vacation/history/LeaveHistoryPage';
 import { VacationApply } from './page/vacation/apply/VacationApply';
 import { DepartmentConfirmDocumentPage } from './page/confirm/DepartmentConfirmDocumentPage';
 import ConfirmDocumentDraftPage from './page/confirm/draft/ConfirmDocumentDraftPage';
-import WorkRequestPage from './page/work/request/WorkRequestPage';
-import MyWorkTicketPage from './page/work/myWork/MyWorkTicketPage';
+import WorkTicketApplicationPage from './page/work/apply/WorkTicketApplicationPage';
+import ReceiveWorkTicketPage from './page/work/receive/ReceiveWorkTicketPage';
 
 const router = createBrowserRouter([
   {
@@ -75,11 +75,11 @@ const router = createBrowserRouter([
   },
   {
     path : '/work/request',
-    element: <WorkRequestPage />
+    element: <WorkTicketApplicationPage />
   },
   {
     path : '/work/search',
-    element: <MyWorkTicketPage />
+    element: <ReceiveWorkTicketPage />
   }
 ]);
 

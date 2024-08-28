@@ -3,7 +3,7 @@ import WorkApi from "../../../api/workApi";
 import Table from "../../../components/table/Table";
 import { format } from "date-fns";
 
-export default function MyWorkTicketContent() {
+export default function ReceiveWorkTicketContent() {
 
     const [workTickets, setWorkTickets] = useState([]);
 
