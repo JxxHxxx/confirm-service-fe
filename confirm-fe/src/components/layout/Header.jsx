@@ -3,6 +3,7 @@ import '../../css/header.css'
 import { Link, Outlet } from 'react-router-dom'
 import { LoginLogout } from '../../page/login/LoginLogout'
 import { CommonContext } from '../../context/CommonProvider'
+import { URL_RECEIVE_WORK_TICKET } from '../../constant/pageURL'
 
 
 export function Header({ children }) {
@@ -19,7 +20,7 @@ export function Header({ children }) {
                     <Link to={'/vacation'}>
                         <a className='menu-item'>휴가</a>
                     </Link>
-                    <Link to={'/work/search'}>
+                    <Link to={URL_RECEIVE_WORK_TICKET}>
                         <a className='menu-item'>업무요청</a>
                     </Link>
                     <Link to={'/schedule'}>

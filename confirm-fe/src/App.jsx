@@ -21,6 +21,8 @@ import { DepartmentConfirmDocumentPage } from './page/confirm/DepartmentConfirmD
 import ConfirmDocumentDraftPage from './page/confirm/draft/ConfirmDocumentDraftPage';
 import WorkTicketApplicationPage from './page/work/apply/WorkTicketApplicationPage';
 import ReceiveWorkTicketPage from './page/work/receive/ReceiveWorkTicketPage';
+import RequestWorkTicketPage from './page/work/request/RequestWorkTicketPage';
+import { URL_RECEIVE_WORK_TICKET } from './constant/pageURL';
 
 const router = createBrowserRouter([
   {
@@ -37,7 +39,7 @@ const router = createBrowserRouter([
     element: <MyConfirmDocument />
   },
   {
-    path : '/confirm/draft',
+    path: '/confirm/draft',
     element: <ConfirmDocumentDraftPage />
   },
   {
@@ -74,12 +76,16 @@ const router = createBrowserRouter([
     element: <LeaveHistoryPage />
   },
   {
-    path : '/work/request',
+    path: '/work/apply',
     element: <WorkTicketApplicationPage />
   },
   {
-    path : '/work/search',
+    path: URL_RECEIVE_WORK_TICKET,
     element: <ReceiveWorkTicketPage />
+  },
+  {
+    path: '/work/request',
+    element: <RequestWorkTicketPage />
   }
 ]);
 
