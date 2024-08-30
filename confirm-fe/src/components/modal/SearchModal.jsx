@@ -44,6 +44,5 @@ export default function SearchModal({
                 {children}
             </div>
         </Modal>
-
     )
 }

@@ -34,7 +34,7 @@ export default function WorkTicketApplicationContent() {
                         <span style={{ margin: '0px' }}>
                             {workTicket.chargeDepartmentName ? workTicket.chargeDepartmentName : ' '}
                         </span>
-                        <OrgSearchModal />
+                        <OrgSearchModal setWorkTicket={setWorkTicket}/>
                     </div>
                 </div>
             </div>
