@@ -17,8 +17,22 @@
 
 .titlt_b {
     text-align: center;
+    font-size: 22px;
+    margin: 0px;
+}
+
+.basicTitle {
+    font-size: 22px;
+    margin: 0px;
 }
 
 .titlt_left {
     text-align: left;
+}
+
+.basicDesc {
+    margin : 0px;
+    font-size: 12px;
+    color: gray;
+    font-family: 'MaruBuri';
 }

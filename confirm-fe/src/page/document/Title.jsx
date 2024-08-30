@@ -7,7 +7,7 @@ export default function Title({
 
     return (
         <Fragment>
-            <h3 className={className}>{name}</h3>
+            <p className={className}>{name}</p>
         </Fragment>
     )
 }
