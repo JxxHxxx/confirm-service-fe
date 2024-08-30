@@ -37,12 +37,11 @@ export default function ReceiveWorkTicketContent() {
         <div style={{ border: '1px dashed red', margin: '50px 0px 50px 0px', padding: '20px' }}>
             <p style={{ fontSize: '22px' }}>요청받은 업무</p>
             <Table tableProperty={{
-                columns: ['티켓 ID', '요청자', '제목', '요청일시'],
+                columns: ['요청일시', '요청자', '제목'],
                 data: workTickets.map(wt => <tr>
-                    <td>{wt.workTicketId}</td>
+                    <td>{format(wt.createdTime, 'yyyy-MM-dd HH:mm:ss')}</td>
                     <td>{wt.workRequester.name}</td>
                     <td>{wt.requestTitle}</td>
-                    <td>{format(wt.createdTime, 'yyyy-MM-dd HH:mm:ss')}</td>
                 </tr>)
             }
             } />
