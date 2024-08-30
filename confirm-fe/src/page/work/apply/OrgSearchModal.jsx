@@ -62,6 +62,7 @@ export default function OrgSearchModal({ setWorkTicket }) {
         setOrgSerachModalOpen(false);
         setWorkTicket((prev) => ({
             ...prev,
+            chargeCompanyId : selectedOrg.companyId,
             chargeDepartmentId: selectedOrg.departmentId,
             chargeDepartmentName: selectedOrg.departmentName
         }))
