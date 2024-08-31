@@ -3,6 +3,7 @@ import Title from "../../document/Title";
 import Table from "../../../components/table/Table";
 import { format } from "date-fns";
 import WorkApi from "../../../api/workApi";
+import MainContainer from "../../../components/layout/container/MainContainer";
 
 
 export default function RequestWorkTicketContent() {
@@ -14,9 +15,9 @@ export default function RequestWorkTicketContent() {
             const params = {
                 memberId: sessionStorage.getItem('memberId')
             }
-            const {status, data} = await WorkApi.readWorkTicket(params);
+            const { status, data } = await WorkApi.readWorkTicket(params);
 
-            if(status === 200) {
+            if (status === 200) {
                 setRequestWorkTickets(data.data);
             }
         }
@@ -30,9 +31,9 @@ export default function RequestWorkTicketContent() {
     }, [])
 
     return <>
-        <div id="mainContainer" style={{ border: '1px dashed red', margin: '50px 0px 50px 0px', padding: '20px' }}>
+        <MainContainer profile='dev'>
             <div id="requestWorkTicketContainer" style={{ border: '1px dashed blue', width: '900px', margin: '0px 0px 50px 0px', padding: '20px' }}>
-                <Title className="basicTitle" name="요청한 업무" />
+                <Title className="basicTitle" name="요청한 티켓" />
                 {requestWorkTickets.length > 0 ?
                     <Table tableProperty={{
                         columns: ['요청일', '요청자', '제목', '작업 티켓 상태'],
@@ -45,8 +46,7 @@ export default function RequestWorkTicketContent() {
                     }} /> :
                     <p style={{ marginTop: '20px' }} className="basicDesc">요청한 티켓이 없습니다</p>
                 }
-
             </div>
-        </div>
+        </MainContainer>
     </>
 }

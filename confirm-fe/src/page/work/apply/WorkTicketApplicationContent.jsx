@@ -3,6 +3,7 @@ import Button from "../../../components/button/Button";
 import OrgSearchModal from "./OrgSearchModal";
 import WorkApi from "../../../api/workApi";
 import Title from "../../document/Title";
+import MainContainer from "../../../components/layout/container/MainContainer";
 
 export default function WorkTicketApplicationContent() {
     const [workTicket, setWorkTicket] = useState({
@@ -59,7 +60,7 @@ export default function WorkTicketApplicationContent() {
         }, [applyFlag])
     }
     return <>
-        <div id="mainContainer" style={{ border: '1px dashed red', margin: '50px 0px 50px 0px', padding: '20px' }}>
+        <MainContainer profile='dev'>
             <div id="applyWorkTicketFormContainer" style={{ border: '1px dashed blue', width: '500px', margin: '0px 0px 50px 0px', padding: '20px' }}>
                 <div id="applyWorkTicketTitleDiv" style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid black', marginBottom: '10px' }}>
                     <Title className="basicTitle" name="업무 요청" />
@@ -93,6 +94,6 @@ export default function WorkTicketApplicationContent() {
                         onChange={(event) => handleOnChangeTextarea(requestContentRef, event)} />
                 </div>
             </div>
-        </div>
+        </MainContainer>
     </>
 }
