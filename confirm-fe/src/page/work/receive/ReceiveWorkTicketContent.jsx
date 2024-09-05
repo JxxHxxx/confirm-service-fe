@@ -3,6 +3,9 @@ import WorkApi from "../../../api/workApi";
 import Table from "../../../components/table/Table";
 import { format } from "date-fns";
 import WorkConverter from "../../../converter/work/WorkConverter";
+import MainContainer from "../../../components/layout/container/MainContainer";
+import Title from "../../document/Title";
+
 
 export default function ReceiveWorkTicketContent() {
 
@@ -35,18 +38,22 @@ export default function ReceiveWorkTicketContent() {
     }, [])
 
     return <>
-        <div style={{ border: '1px dashed red', margin: '50px 0px 50px 0px', padding: '20px' }}>
-            <p style={{ fontSize: '22px' }}>요청받은 업무</p>
-            <Table tableProperty={{
-                columns: ['요청일시', '요청자', '제목', '티켓 상태'],
-                data: workTickets.map(wt => <tr key={wt.workTicketId}>
-                    <td>{format(wt.createdTime, 'yyyy-MM-dd HH:mm:ss')}</td>
-                    <td>{wt.workRequester.name}</td>
-                    <td>{wt.requestTitle}</td>
-                    <td>{WorkConverter.convertWorkStatus(wt.workStatus)}</td>
-                </tr>)
-            }
-            } />
-        </div>
+        <MainContainer profile='dev'>
+            <div id="receiveWorkTicketContainer" style={{ border: '1px dashed blue', width: '900px', margin: '0px 0px 50px 0px', padding: '20px' }}>
+            <Title className="basicTitle" name="요청받은 티켓" />
+                {workTickets.length > 0 ?
+                    <Table tableProperty={{
+                        columns: ['요청일', '요청자', '제목', '티켓 상태'],
+                        data: workTickets.map(wt => <tr key={wt.workTicketPk}>
+                            <td>{format(wt.createdTime, 'yyyy-MM-dd')}</td>
+                            <td>{wt.workRequester.name}</td>
+                            <td>{wt.requestTitle}</td>
+                            <td>{WorkConverter.convertWorkStatus(wt.workStatus)}</td>
+                        </tr>)
+                    }
+                    } /> :
+                    <p style={{ marginTop: '20px' }} className="basicDesc">요청받은 티켓이 없습니다</p>}
+            </div>
+        </MainContainer>
     </>
 }
