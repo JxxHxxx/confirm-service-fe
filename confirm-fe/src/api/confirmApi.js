@@ -27,6 +27,18 @@ export const getDepartmentConfirmDocuments = function () {
     .catch((err) => err)
 }
 
+export const getApprovalPendingDocuments = function () {
+  const params = {
+    approvalId: sessionStorage.getItem('memberId'),
+    approvalStatus: 'PENDING',
+    confirmStatus: 'RAISE'
+  }
+
+  return instance.get(`/api/confirm-documents/search`, { params })
+    .then((res) => res)
+    .catch((err) => err)
+}
+
 export const getApprovalLines = function (confirmDocumentId) {
   return instance.get(`/api/confirm-documents/${confirmDocumentId}/approval-lines`)
     .then((res) => res)
@@ -82,4 +94,8 @@ export const getConfirmDocumentElementsV2 = function (confirmDocumentFormId) {
   return instance.get(`/api/v2/confirm-document-forms/${confirmDocumentFormId}/elements`, { params: defaultParams })
     .then((res) => res)
     .catch((err) => err)
+}
+
+export const ConfirmApi = {
+  getApprovalPendingDocuments
 }

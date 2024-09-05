@@ -1,3 +1,5 @@
+import { format } from "date-fns"
+
 const approveStatusConst = {
     PENDING: '미결',
     REJECT: '반려',
@@ -12,7 +14,8 @@ const confirmStatusConst = {
 
 const documentTypeConst = {
     VAC: '휴가',
-    COST:'지출내역서'
+    COST:'지출내역서',
+    WRK: '작업 요청'
 }
 
 export const convertApproveStatus = (approveStatus) => {
@@ -25,4 +28,8 @@ export const convertConfirmStatus = (confirmStatus) => {
 
 export const convertDocumentType = (documentType) => {
     return documentTypeConst[documentType] || ''
+}
+
+export const convertCompletedTime = (completedTime) => {
+    return completedTime !== null ? format(completedTime, 'yyyy-MM-dd HH:mm') : '결재 진행중' 
 }

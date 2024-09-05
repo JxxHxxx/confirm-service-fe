@@ -82,6 +82,7 @@ export default function ConfirmDocumentModalV2({ modalOpen, setModalOpen, childr
                 </div>
                 <Title name={confirmDocument.contents.title} />
                 {/* 결재 라인 */}
+                <div style={{marginBottom : '20px'}}></div>
                 <ApprovalLineList confirmDocument={confirmDocument} />
                 <div style={{ 'padding': '15px' }}></div>
                 {children}

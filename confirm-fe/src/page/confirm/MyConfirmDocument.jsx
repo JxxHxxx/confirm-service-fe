@@ -3,10 +3,11 @@ import { Header } from "../../components/layout/Header";
 import Page from "../../components/layout/Page";
 import Table from "../../components/table/Table";
 import ConfirmSidebar from "./ConfirmSidebar";
-import { getConfirmDocumentWithApprovalLines, getConfirmDocumentsWrittenSelf } from "../../api/confirmApi";
-import { convertApproveStatus, convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
+import { ConfirmApi, getConfirmDocumentWithApprovalLines, getConfirmDocumentsWrittenSelf } from "../../api/confirmApi";
+import { convertApproveStatus, convertCompletedTime, convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
 import { convertDateTime } from "../../converter/DateTimeConvert";
 import ConfirmDocumentWrapper from "../document/ConfirmDocumentWrapper";
+import { format } from "date-fns";
 
 
 export default function MyConfirmDocument() {
@@ -15,19 +16,25 @@ export default function MyConfirmDocument() {
 
     const fetchApprovalPendingConfirmDocuments = async () => {
         try {
-            const params = {
-                confirmStatus: 'RAISE', // 상신 상태인 문서만 조회
-                approveStatus: 'PENDING',
-                approvalId: sessionStorage.getItem('memberId')
-            }
-
-            const response = await getConfirmDocumentWithApprovalLines(params);
-
+            const response = await ConfirmApi.getApprovalPendingDocuments();
             setApprovalConfirmDocuments(response.data === undefined ? [] : response.data.data);
         } catch (error) {
-            alert('check server connection');
+            alert(error);
         }
 
+        // try {
+        //     const params = {
+        //         confirmStatus: 'RAISE', // 상신 상태인 문서만 조회
+        //         approveStatus: 'PENDING',
+        //         approvalId: sessionStorage.getItem('memberId')
+        //     }
+
+        //     const response = await getConfirmDocumentWithApprovalLines(params);
+
+        //     setApprovalConfirmDocuments(response.data === undefined ? [] : response.data.data);
+        // } catch (error) {
+        //     alert('check server connection');
+        // }
     }
 
     const fetchDrafteConfirmDocuments = async () => {
@@ -47,7 +54,7 @@ export default function MyConfirmDocument() {
         }
     }
 
-    const [modelOpen, setModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
     const [selectedDocumentContentPk, setDocumentContentPk] = useState();
     const [selectedDocument, setSelectedDocument] = useState();
 
@@ -57,11 +64,16 @@ export default function MyConfirmDocument() {
         setModalOpen(true);
     }
 
+    // 의존성 배열에 modalOpen 없어도 되는거아님?
+    // useEffect(() => {
+    //     fetchApprovalPendingConfirmDocuments();
+    //     fetchDrafteConfirmDocuments();
+    // }, [modalOpen]);
 
     useEffect(() => {
         fetchApprovalPendingConfirmDocuments();
         fetchDrafteConfirmDocuments();
-    }, [modelOpen]);
+    }, []);
 
     return (
         <Page header={<Header />}
@@ -69,7 +81,7 @@ export default function MyConfirmDocument() {
             <ConfirmDocumentWrapper
                 confirmDocument={selectedDocument}
                 setConfirmDocument={setSelectedDocument}
-                modalOpen={modelOpen}
+                modalOpen={modalOpen}
                 setModalOpen={setModalOpen} />
             <Table title={"결재 대기중인 문서"} cn={{ table: "vacation_table" }}
                 tableProperty={{
@@ -78,12 +90,12 @@ export default function MyConfirmDocument() {
                         <tr key={document.pk}
                             onClick={() => handleOpenModal(document, document.confirmDocumentContentPk)}>
                             <td>{document.confirmDocumentId}</td>
-                            <td>{convertDateTime(document.createTime)}</td>
+                            <td>{format(document.createTime, 'yyyy-MM-dd HH:mm')}</td>
                             <td>{convertDocumentType(document.documentType)}</td>
-                            <td>{document.contents.department_name}</td>
-                            <td>{document.contents.requester_name}</td>
-                            <td>{convertApproveStatus(document.approvalStatus)}</td>
-                            <td>{convertDateTime(document.completedTime)}</td>
+                            <td>{document.departmentName}</td>
+                            <td>{document.requesterName}</td>
+                            <td>{convertConfirmStatus(document.confirmStatus)}</td>
+                            <td>{convertCompletedTime(document.completedTime)}</td>
                         </tr>
                     )),
                     showCondition: true
