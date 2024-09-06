@@ -23,6 +23,8 @@ import WorkTicketApplicationPage from './page/work/apply/WorkTicketApplicationPa
 import ReceiveWorkTicketPage from './page/work/receive/ReceiveWorkTicketPage';
 import RequestWorkTicketPage from './page/work/request/RequestWorkTicketPage';
 import { URL_RECEIVE_WORK_TICKET } from './constant/pageURL';
+import OneReceiveWorkTicketContent from './page/work/receive/OneReceiveWorkTicketContent';
+import OneReceiveWorkTicketPage from './page/work/receive/OneReceiveWorkTicketPage';
 
 const router = createBrowserRouter([
   {
@@ -82,6 +84,10 @@ const router = createBrowserRouter([
   {
     path: URL_RECEIVE_WORK_TICKET,
     element: <ReceiveWorkTicketPage />
+  },
+  {
+    path : URL_RECEIVE_WORK_TICKET + '/:workTicketPk',
+    element: <OneReceiveWorkTicketPage />
   },
   {
     path: '/work/request',

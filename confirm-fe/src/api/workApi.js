@@ -9,15 +9,22 @@ const createWorkTicket = (requestBody) => {
         .catch(err => alert(err))
 }
 // 작업 티켓 검색 API
-const readWorkTicket = (params) => {
+const searchWorkTicket = (params) => {
     return instance.get(`/api/work-tickets/search`, { params })
+        .then(res => res)
+        .catch(err => alert(err))
+}
+
+const getOneWorkTicket = (workTicketPk) => {
+    return instance.get(`/api/work-tickets/${workTicketPk}`)
         .then(res => res)
         .catch(err => alert(err))
 }
 
 const WorkApi = {
     createWorkTicket,
-    readWorkTicket
+    searchWorkTicket,
+    getOneWorkTicket
 }
 
 

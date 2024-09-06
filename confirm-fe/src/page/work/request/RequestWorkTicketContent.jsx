@@ -4,6 +4,7 @@ import Table from "../../../components/table/Table";
 import { format } from "date-fns";
 import WorkApi from "../../../api/workApi";
 import MainContainer from "../../../components/layout/container/MainContainer";
+import WorkConverter from "../../../converter/work/WorkConverter";
 
 
 export default function RequestWorkTicketContent() {
@@ -15,7 +16,7 @@ export default function RequestWorkTicketContent() {
             const params = {
                 memberId: sessionStorage.getItem('memberId')
             }
-            const { status, data } = await WorkApi.readWorkTicket(params);
+            const { status, data } = await WorkApi.searchWorkTicket(params);
 
             if (status === 200) {
                 setRequestWorkTickets(data.data);
@@ -41,7 +42,7 @@ export default function RequestWorkTicketContent() {
                             <td>{format(wt.createdTime, 'yyyy-MM-dd')}</td>
                             <td>{wt.workRequester.name}</td>
                             <td>{wt.requestTitle}</td>
-                            <td>{wt.workStatus}</td>
+                            <td>{WorkConverter.convertWorkStatus(wt.workStatus)}</td>
                         </tr>)
                     }} /> :
                     <p style={{ marginTop: '20px' }} className="basicDesc">요청한 티켓이 없습니다</p>

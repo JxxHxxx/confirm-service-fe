@@ -5,10 +5,11 @@ import { format } from "date-fns";
 import WorkConverter from "../../../converter/work/WorkConverter";
 import MainContainer from "../../../components/layout/container/MainContainer";
 import Title from "../../document/Title";
+import { useNavigate } from "react-router-dom";
 
 
 export default function ReceiveWorkTicketContent() {
-
+    const nav = useNavigate();
     const [workTickets, setWorkTickets] = useState([]);
 
     const requestReadWorkTickets = async () => {
@@ -18,7 +19,7 @@ export default function ReceiveWorkTicketContent() {
                 chargeDepartmentId: sessionStorage.getItem('departmentId'),
             }
 
-            const { data } = await WorkApi.readWorkTicket(params);
+            const { data } = await WorkApi.searchWorkTicket(params);
 
             if (data.status === 200) {
                 setWorkTickets(data.data);
@@ -44,7 +45,7 @@ export default function ReceiveWorkTicketContent() {
                 {workTickets.length > 0 ?
                     <Table tableProperty={{
                         columns: ['요청일', '요청자', '제목', '티켓 상태'],
-                        data: workTickets.map(wt => <tr key={wt.workTicketPk}>
+                        data: workTickets.map(wt => <tr key={wt.workTicketPk} onClick={() => nav('/work/receive/' + wt.workTicketPk)}>
                             <td>{format(wt.createdTime, 'yyyy-MM-dd')}</td>
                             <td>{wt.workRequester.name}</td>
                             <td>{wt.requestTitle}</td>
