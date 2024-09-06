@@ -22,8 +22,7 @@ import ConfirmDocumentDraftPage from './page/confirm/draft/ConfirmDocumentDraftP
 import WorkTicketApplicationPage from './page/work/apply/WorkTicketApplicationPage';
 import ReceiveWorkTicketPage from './page/work/receive/ReceiveWorkTicketPage';
 import RequestWorkTicketPage from './page/work/request/RequestWorkTicketPage';
-import { URL_RECEIVE_WORK_TICKET } from './constant/pageURL';
-import OneReceiveWorkTicketContent from './page/work/receive/OneReceiveWorkTicketContent';
+import { URL_WORKTICKET_APPLY, URL_CONFIRM_DEPARTMENT, URL_CONFIRM_DRAFT, URL_CONFIRM_MY, URL_LOGIN, URL_WORKTICKET_RECEIVE, URL_WORKTICKET_REQUEST, URL_VACATION, URL_VACATION_APPLY, URL_VACATION_HIST, URL_VACATION_MY, URL_WORK_TICKET_ONE, URL_WORKTICKET_RECEIVE_ONE } from './constant/pageURL';
 import OneReceiveWorkTicketPage from './page/work/receive/OneReceiveWorkTicketPage';
 
 const router = createBrowserRouter([
@@ -33,16 +32,29 @@ const router = createBrowserRouter([
     children: [],
   },
   {
-    path: '/confirm',
+    path: URL_CONFIRM_DEPARTMENT,
     element: <DepartmentConfirmDocumentPage />,
   },
   {
-    path: '/confirm/my-confirm',
+    path: URL_CONFIRM_MY,
     element: <MyConfirmDocument />
   },
   {
-    path: '/confirm/draft',
+    path: URL_CONFIRM_DRAFT,
     element: <ConfirmDocumentDraftPage />
+  },
+  {
+    path: '/schedule',
+    element: <Schedule />
+  },
+  {
+    path: URL_LOGIN,
+    element: <Login />
+  }
+  ,
+  {
+    path: URL_VACATION,
+    element: <Vacation />
   },
   {
     path: '/vacation/:vacationId/ApprovalLine',
@@ -53,44 +65,31 @@ const router = createBrowserRouter([
     </Page>
   },
   {
-    path: '/schedule',
-    element: <Schedule />
-  },
-  {
-    path: '/login',
-    element: <Login />
-  }
-  ,
-  {
-    path: '/vacation',
-    element: <Vacation />
-  },
-  {
-    path: '/vacation/apply',
+    path: URL_VACATION_APPLY,
     element: <VacationApply />,
   },
   {
-    path: '/vacation/myVacation',
+    path: URL_VACATION_MY,
     element: <MyVacation />
   },
   {
-    path: '/vacation/leave-hist',
+    path: URL_VACATION_HIST,
     element: <LeaveHistoryPage />
   },
   {
-    path: '/work/apply',
+    path: URL_WORKTICKET_APPLY,
     element: <WorkTicketApplicationPage />
   },
   {
-    path: URL_RECEIVE_WORK_TICKET,
+    path: URL_WORKTICKET_RECEIVE,
     element: <ReceiveWorkTicketPage />
   },
   {
-    path : URL_RECEIVE_WORK_TICKET + '/:workTicketPk',
+    path : URL_WORKTICKET_RECEIVE_ONE,
     element: <OneReceiveWorkTicketPage />
   },
   {
-    path: '/work/request',
+    path: URL_WORKTICKET_REQUEST,
     element: <RequestWorkTicketPage />
   }
 ]);
