@@ -21,10 +21,38 @@ const getOneWorkTicket = (workTicketPk) => {
         .catch(err => alert(err))
 }
 
+const receiveWorkTicket = (workTicketId) => {
+    const requestBody = {
+        receiverCompanyId : sessionStorage.getItem('companyId'),
+        receiverDepartmentId : sessionStorage.getItem('departmentId'),
+        receiverId : sessionStorage.getItem('memberId'),
+        receiverName : sessionStorage.getItem('name')
+    }
+
+    return instance.post(`/api/work-tickets/${workTicketId}/receive`, requestBody)
+    .then(res => res)
+    .catch(err => alert(err))
+}
+
+const beginAnalysisWorkTicket = (workTicketId) => {
+    const requestBody = {
+        receiverCompanyId : sessionStorage.getItem('companyId'),
+        receiverDepartmentId : sessionStorage.getItem('departmentId'),
+        receiverId : sessionStorage.getItem('memberId'),
+        receiverName : sessionStorage.getItem('name')
+    }
+
+    return instance.patch(`/api/work-tickets/${workTicketId}/begin-analysis`, requestBody)
+    .then(res => res)
+    .catch(err => alert(err))
+}
+
 const WorkApi = {
     createWorkTicket,
     searchWorkTicket,
-    getOneWorkTicket
+    getOneWorkTicket,
+    receiveWorkTicket,
+    beginAnalysisWorkTicket
 }
 
 
