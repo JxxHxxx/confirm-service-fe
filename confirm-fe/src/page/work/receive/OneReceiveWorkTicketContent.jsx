@@ -3,7 +3,6 @@ import WorkApi from "../../../api/workApi"
 import { useParams } from "react-router-dom";
 import MainContainer from "../../../components/layout/container/MainContainer";
 import Title from "../../document/Title";
-import Table from "../../../components/table/Table";
 import WorkConverter from "../../../converter/work/WorkConverter";
 import Button from "../../../components/button/Button";
 
@@ -61,6 +60,11 @@ export default function OneReceiveWorkTicketContent() {
 
     const { workTicket, workDetail } = oneWork;
 
+    // 티켓 정보 접기/펴기 상태
+    const [reqContent, setReqContent] = useState(true);
+    // 티켓 정보 접기/펴기 상태
+    const [analContent, setAnalContent] = useState(true);
+
     useEffect(() => {
         fetchOneWorkTicket();
     }, [renderFlag])
@@ -68,9 +72,9 @@ export default function OneReceiveWorkTicketContent() {
 
     return <MainContainer>
         <div id="oneReceiveWorkTicketContainer" style={{ border: '1px dashed blue', width: '900px', margin: '0px 0px 50px 0px', padding: '20px' }}>
-            <div id="ticketMetaInformation">
+            <div id="ticketMetaInformation" style={{ border: '1px solid gray', margin: '10px 0px 10px 0px', padding: '5px' }}>
                 <Title className="titleTicket" name="티켓 정보" />
-                <Button cn="btn_normal"
+                <Button cn="btnTicket"
                     name={WorkConverter.convertReceiveButtonName(workTicket.workStatus)}
                     onClick={() => handleWorkTicketButton(workTicket)} />
                 <div style={{ marginBottom: '5px' }}></div>
@@ -95,14 +99,24 @@ export default function OneReceiveWorkTicketContent() {
                     </tbody>
                 </table>
             </div>
-            <div id="ticketReqInformation" style={{border : '1px solid gray', margin : '10px 0px 10px 0px'}}>
-                <Title className="titleTicket" name="요청 정보"/>
-                <p style={{fontFamily : 'Maruburi', margin :'0px' , marginBottom : '5px'}}>요청 제목 : {workTicket.requestTitle}</p>
-                <p style={{fontFamily : 'Maruburi', margin :'0px'}}>요청 내용 <br /></p>
-                <p style={{fontFamily : 'Maruburi', margin :'0px' , fontWeight: 'normal'}}>{workTicket.requestContent}</p>
+            <div>
+                <Button cn="btn_normal" name={reqContent ? "요청 정보 접기" : "요청 정보 펴기"}
+                    onClick={() => setReqContent(!reqContent)} />
             </div>
-            {analysisContentRenderCondition() &&
-                <div id="idanalysisWorkTicket" style={{border : '1px solid gray', margin : '10px 0px 10px 0px'}}>
+            {reqContent &&
+                <div id="ticketReqInformation" style={{ border: '1px solid gray', margin: '10px 0px 10px 0px', padding: '5px' }}>
+                    <Title className="titleTicket" name="요청 정보" />
+                    <p style={{ fontFamily: 'Maruburi', margin: '0px', marginBottom: '5px' }}>요청 제목 : {workTicket.requestTitle}</p>
+                    <p style={{ fontFamily: 'Maruburi', margin: '0px' }}>요청 내용 <br /></p>
+                    <pre style={{ fontFamily: 'Maruburi', margin: '0px', fontWeight: 'normal' }}>{workTicket.requestContent}</pre>
+                </div>
+            }
+            <div>
+                <Button cn="btn_normal" name={analContent ? "분석 내용 접기" : "분석 내용 펴기"}
+                    onClick={() => setAnalContent(!analContent)} />
+            </div>
+            {(analContent && analysisContentRenderCondition()) &&
+                <div id="idanalysisWorkTicket" style={{ border: '1px solid gray', margin: '10px 0px 10px 0px', padding: '5px' }}>
                     <Title className="titleTicket" name="분석 내용" />
                 </div>
             }

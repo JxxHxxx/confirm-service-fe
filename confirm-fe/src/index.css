@@ -1,3 +1,10 @@
+:root {
+  --main-color : rgb(0, 40, 94);
+  --main-color-05 : rgb(0, 40, 94, 0.5);
+  --main-color-lightly : rgb(0, 40, 94, 0.05);
+  --main-color-border : #DEDEDE;
+}
+
 @font-face {
   font-family: 'MaruBuri';
   src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.eot);

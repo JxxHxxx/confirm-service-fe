@@ -122,3 +122,13 @@
     filter : brightness(90%);
     font-weight: bold;
 }
+
+.btnTicket {
+    padding: 5px 15px 5px 15px;
+    background-color: var(--main-color);
+    color: white;
+    border: 0.5px solid var(--main-color);
+}
+
+.btnTicket:hover {
+}
