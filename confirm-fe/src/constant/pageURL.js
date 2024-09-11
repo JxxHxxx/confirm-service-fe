@@ -6,6 +6,7 @@ export const URL_LOGIN = '/login';
 export const URL_CONFIRM_DEPARTMENT = '/confirm';
 export const URL_CONFIRM_MY = '/confirm/my-confirm';
 export const URL_CONFIRM_DRAFT = '/confirm/draft';
+export const ULR_CONFIRM_TEMP = '/confirm/temporary';
 
 // 휴가 페이지
 export const URL_VACATION = '/vacation';

@@ -47,12 +47,71 @@ const beginAnalysisWorkTicket = (workTicketId) => {
     .catch(err => alert(err))
 }
 
+const completeAnalysisWorkTicket = (workTicketId, analyzeContent) => {
+    const requestBody = {
+        receiverCompanyId : sessionStorage.getItem('companyId'),
+        receiverDepartmentId : sessionStorage.getItem('departmentId'),
+        receiverId : sessionStorage.getItem('memberId'),
+        receiverName : sessionStorage.getItem('name'),
+        analyzeContent : analyzeContent
+    }
+
+    return instance.patch(`/api/work-tickets/${workTicketId}/complete-analysis`, requestBody)
+    .then(res => res)
+    .catch(err => alert(err))
+}
+
+const beginPlanningWorkTicket = (workTicketId) => {
+    const requestBody = {
+        receiverCompanyId : sessionStorage.getItem('companyId'),
+        receiverDepartmentId : sessionStorage.getItem('departmentId'),
+        receiverId : sessionStorage.getItem('memberId'),
+        receiverName : sessionStorage.getItem('name')
+    }
+
+    return instance.patch(`/api/work-tickets/${workTicketId}/begin-plan`, requestBody)
+    .then(res => res)
+    .catch(err => alert(err))
+}
+
+const completePlanningWorkTicket = (workTicketId, workPlanContent) => {
+    const requestBody = {
+        receiverCompanyId : sessionStorage.getItem('companyId'),
+        receiverDepartmentId : sessionStorage.getItem('departmentId'),
+        receiverId : sessionStorage.getItem('memberId'),
+        receiverName : sessionStorage.getItem('name'),
+        workPlanContent : workPlanContent
+    }
+
+    return instance.patch(`/api/work-tickets/${workTicketId}/complete-plan`, requestBody)
+    .then(res => res)
+    .catch(err => alert(err))
+}
+
+const requestConfirmWorkTicket = (workTicketId) => {
+    const requestBody = {
+        receiverCompanyId : sessionStorage.getItem('companyId'),
+        receiverDepartmentId : sessionStorage.getItem('departmentId'),
+        receiverId : sessionStorage.getItem('memberId'),
+        receiverName : sessionStorage.getItem('name'),
+    }
+
+    return instance.patch(`/api/work-tickets/${workTicketId}/request-confirm`, requestBody)
+    .then(res => res)
+    .catch(err => alert(err))
+}
+
+
 const WorkApi = {
     createWorkTicket,
     searchWorkTicket,
     getOneWorkTicket,
     receiveWorkTicket,
-    beginAnalysisWorkTicket
+    beginAnalysisWorkTicket,
+    completeAnalysisWorkTicket,
+    beginPlanningWorkTicket,
+    completePlanningWorkTicket,
+    requestConfirmWorkTicket
 }
 
 

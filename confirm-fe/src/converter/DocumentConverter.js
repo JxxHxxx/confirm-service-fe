@@ -33,3 +33,10 @@ export const convertDocumentType = (documentType) => {
 export const convertCompletedTime = (completedTime) => {
     return completedTime !== null ? format(completedTime, 'yyyy-MM-dd HH:mm') : '결재 진행중' 
 }
+
+export const DocumentConverter = {
+    convertApproveStatus,
+    convertConfirmStatus,
+    convertDocumentType,
+    convertCompletedTime,
+}

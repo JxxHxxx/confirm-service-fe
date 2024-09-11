@@ -30,11 +30,13 @@ const convertReceiveButtonName = (workStatus) => {
         case 'MAKE_PLAN_COMPLETE':
             return '결재 요청';
         case 'REQUEST_CONFIRM':
-            return '요청 부서 승인';
+            return '요청 부서 승인 대기';
         case 'ACCEPT':
-            return '작업 시작';
+            return '요청 부서 승인 완료 - 작업 시작';
         case 'WORKING' :
             return '작업 완료';
+        case 'DONE' : 
+            return '티켓 종료';
     }
 }
 

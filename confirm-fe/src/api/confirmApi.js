@@ -39,6 +39,13 @@ export const getApprovalPendingDocuments = function () {
     .catch((err) => err)
 }
 
+export const searchConfirmDocuments = function (params) {
+
+  return instance.get(`/api/confirm-documents/search`, { params })
+    .then((res) => res)
+    .catch((err) => err)
+}
+
 export const getApprovalLines = function (confirmDocumentId) {
   return instance.get(`/api/confirm-documents/${confirmDocumentId}/approval-lines`)
     .then((res) => res)
@@ -97,5 +104,6 @@ export const getConfirmDocumentElementsV2 = function (confirmDocumentFormId) {
 }
 
 export const ConfirmApi = {
-  getApprovalPendingDocuments
+  getApprovalPendingDocuments,
+  searchConfirmDocuments
 }
