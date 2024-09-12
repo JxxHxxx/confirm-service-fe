@@ -119,3 +119,12 @@
 .cdt_td_val {
 
 }
+
+.tempConfirmBody td {
+    padding: 10px 0px 10px 0px;
+}
+
+.tempConfirmBody tr:hover {
+    cursor: pointer;
+    background-color: var(--main-color-border);
+}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getConfirmDocumentContent, getConfirmDocumentElementsV2 } from "../../api/confirmApi";
 import ConfirmDocumentModalV2 from "./ConfirmDocumentModalV2";
 import DocumentContentV2 from "./DocumentContentV2";
+import Button from "../../components/button/Button";
 
 
 export default function ConfirmDocumentWrapper({
@@ -37,6 +38,7 @@ export default function ConfirmDocumentWrapper({
             setConfirmDocument={setConfirmDocument}
             modalOpen={modalOpen}
             setModalOpen={setModalOpen}>
+                {confirmDocument.approvalLineLifecycle === 'BEFORE_CREATE' && <Button cn="btnInsideConfirmDocument" name="결재선 지정"/>}
             <DocumentContentV2 documentElements={documentElements} contents={documentContents} />
         </ConfirmDocumentModalV2>
     );

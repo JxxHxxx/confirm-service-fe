@@ -132,3 +132,14 @@
 
 .btnTicket:hover {
 }
+
+.btnInsideConfirmDocument {
+    padding: 5px 15px 5px 15px;
+    background-color: white;
+    border: 0.5px solid black;
+}
+
+.btnInsideConfirmDocument:hover {
+    filter : brightness(90%);
+    font-weight: bold;
+}
