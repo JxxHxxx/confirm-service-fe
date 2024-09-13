@@ -47,7 +47,10 @@ export const searchConfirmDocuments = function (params) {
 }
 
 export const getApprovalLines = function (confirmDocumentId) {
-  return instance.get(`/api/confirm-documents/${confirmDocumentId}/approval-lines`)
+  const params = {
+    companyId : sessionStorage.getItem('companyId')
+  }
+  return instance.get(`/api/confirm-documents/${confirmDocumentId}/approval-lines`, {params})
     .then((res) => res)
     .catch((err) => err)
 }
