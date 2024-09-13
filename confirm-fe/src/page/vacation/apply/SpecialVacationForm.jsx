@@ -77,7 +77,13 @@ export default function SpecialVacationForm() {
 
         const response = await applyVacation(requestVacationForm);
 
-        navigate(`/vacation/${response.data.vacationId}/ApprovalLine`)
+        const confirmDocumentId = 'VAC' + sessionStorage.getItem('companyId') + response.data.vacationId
+        navigate(`/confirm/${confirmDocumentId}/ApprovalLine`, {
+            state : {
+                resourceId : response.data.vacationId,
+                documentType : 'VAC'
+            }
+        })
     }
 
     const handleShowVacationPolicyInformation = async () => {

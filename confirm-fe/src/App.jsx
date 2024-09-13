@@ -25,6 +25,7 @@ import RequestWorkTicketPage from './page/work/request/RequestWorkTicketPage';
 import { URL_WORKTICKET_APPLY, URL_CONFIRM_DEPARTMENT, URL_CONFIRM_DRAFT, URL_CONFIRM_MY, URL_LOGIN, URL_WORKTICKET_RECEIVE, URL_WORKTICKET_REQUEST, URL_VACATION, URL_VACATION_APPLY, URL_VACATION_HIST, URL_VACATION_MY, URL_WORKTICKET_RECEIVE_ONE, ULR_CONFIRM_TEMP } from './constant/pageURL';
 import OneReceiveWorkTicketPage from './page/work/receive/OneReceiveWorkTicketPage';
 import TemporaryConfirmDocumentPage from './page/confirm/temporary/TemporaryConfirmDocumentPage';
+import ConfirmSidebar from './page/confirm/ConfirmSidebar';
 
 const router = createBrowserRouter([
   {
@@ -62,10 +63,10 @@ const router = createBrowserRouter([
     element: <Vacation />
   },
   {
-    path: '/vacation/:vacationId/ApprovalLine',
+    path: '/confirm/:confirmDocumentId/ApprovalLine',
     element: <Page
       header={<Header />}
-      sidebar={<VacationSidebar />}>
+      sidebar={<ConfirmSidebar />}>
       <ApprovalLine />
     </Page>
   },

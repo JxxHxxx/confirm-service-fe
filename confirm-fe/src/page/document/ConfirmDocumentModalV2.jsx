@@ -75,7 +75,7 @@ export default function ConfirmDocumentModalV2({ modalOpen, setModalOpen, childr
                     size={'1.5em'}
                     onClick={closeModal} />
                 <div style={{ 'display': 'inline-block' }}>
-                    <Button cn="btnInsideConfirmDocument" name="상신" style={{'marginRight' : '5px'}}
+                    <Button cn="btnInsideConfirmDocument" name="승인" style={{'marginRight' : '5px'}}
                         onClick={() => handleAccept(confirmDocument.confirmDocumentId)} />
                     <Button cn="btnInsideConfirmDocument" name="반려"
                         onClick={() => handleReject(confirmDocument.confirmDocumentId)} />

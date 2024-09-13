@@ -23,7 +23,7 @@ export const applyVacation = function (requestVacationForm) {
         .catch(err => err)
 }
 
-export const raiseConfirmDoucment = function (vacationId) {
+const raiseConfirmDoucment = function (vacationId) {
     return instance.post(`/api/vacations/${vacationId}/raise`)
         .then(res => res)
         .catch(err => err)
@@ -36,4 +36,8 @@ export const getVacationTypePolicy = function () {
     return instance.get(`/api/vacations/type-policies`, { params })
         .then(res => res)
         .catch(err => err)
+}
+
+export const VacationApi = {
+    raiseConfirmDoucment
 }

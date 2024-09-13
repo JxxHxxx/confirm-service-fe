@@ -103,7 +103,19 @@ export const getConfirmDocumentElementsV2 = function (confirmDocumentFormId) {
     .catch((err) => err)
 }
 
+const raiseConfirmDocument = function (confirmDocumentId) {
+  const requestBody = {
+    companyId : sessionStorage.getItem('companyId'),
+    departmentId : sessionStorage.getItem('departmentId'), 
+    requesterId : sessionStorage.getItem('memberId')
+  }
+  return instance.post(`/api/confirm-documents/${confirmDocumentId}/raise`, requestBody)
+    .then((res) => res)
+    .catch((err) => alert(err.response.data.message))
+}
+
 export const ConfirmApi = {
   getApprovalPendingDocuments,
-  searchConfirmDocuments
+  searchConfirmDocuments,
+  raiseConfirmDocument
 }

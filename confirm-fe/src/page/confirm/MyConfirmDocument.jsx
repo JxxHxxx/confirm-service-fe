@@ -3,8 +3,8 @@ import { Header } from "../../components/layout/Header";
 import Page from "../../components/layout/Page";
 import Table from "../../components/table/Table";
 import ConfirmSidebar from "./ConfirmSidebar";
-import { ConfirmApi, getConfirmDocumentWithApprovalLines, getConfirmDocumentsWrittenSelf } from "../../api/confirmApi";
-import { convertApproveStatus, convertCompletedTime, convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
+import { ConfirmApi, getConfirmDocumentsWrittenSelf } from "../../api/confirmApi";
+import { convertCompletedTime, convertConfirmStatus, convertDocumentType } from "../../converter/DocumentConverter";
 import { convertDateTime } from "../../converter/DateTimeConvert";
 import ConfirmDocumentWrapper from "../document/ConfirmDocumentWrapper";
 import { format } from "date-fns";
@@ -21,20 +21,6 @@ export default function MyConfirmDocument() {
         } catch (error) {
             alert(error);
         }
-
-        // try {
-        //     const params = {
-        //         confirmStatus: 'RAISE', // 상신 상태인 문서만 조회
-        //         approveStatus: 'PENDING',
-        //         approvalId: sessionStorage.getItem('memberId')
-        //     }
-
-        //     const response = await getConfirmDocumentWithApprovalLines(params);
-
-        //     setApprovalConfirmDocuments(response.data === undefined ? [] : response.data.data);
-        // } catch (error) {
-        //     alert('check server connection');
-        // }
     }
 
     const fetchDrafteConfirmDocuments = async () => {
@@ -64,11 +50,14 @@ export default function MyConfirmDocument() {
         setModalOpen(true);
     }
 
-    // 의존성 배열에 modalOpen 없어도 되는거아님?
-    // useEffect(() => {
-    //     fetchApprovalPendingConfirmDocuments();
-    //     fetchDrafteConfirmDocuments();
-    // }, [modalOpen]);
+    // contents 내 기안자 부서, 기안자 랜더링, 결재 문서 데이터 양식의 불일치로 발생
+    const renderRequesterDepartmentName = (contents) => {
+        return contents.department_name ? contents.department_name : contents.requestDepartmentName
+    }
+    // contents 내 기안자 부서, 기안자 랜더링, 결재 문서 데이터 양식의 불일치로 발생
+    const renderRequesterName = (contents) => {
+        return contents.requester_name ? contents.requester_name : contents.requesterName
+    }
 
     useEffect(() => {
         fetchApprovalPendingConfirmDocuments();
@@ -110,9 +99,8 @@ export default function MyConfirmDocument() {
                             <td>{document.confirmDocumentId}</td>
                             <td>{convertDateTime(document.createTime)}</td>
                             <td>{convertDocumentType(document.documentType)}</td>
-                            <td>{document.contents.department_name}</td>
-                            <td>{document.contents.requester_name}</td>
-
+                            <td>{renderRequesterDepartmentName(document.contents)}</td>
+                            <td>{renderRequesterName(document.contents)}</td>
                             <td>{convertConfirmStatus(document.confirmStatus)}</td>
                             <td>{convertDateTime(document.completedTime)}</td>
                         </tr>

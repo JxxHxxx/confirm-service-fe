@@ -1,18 +1,23 @@
 import { useEffect, useState } from "react";
-import { getConfirmDocumentContent, getConfirmDocumentElementsV2 } from "../../api/confirmApi";
+import { ConfirmApi, getConfirmDocumentContent, getConfirmDocumentElementsV2 } from "../../api/confirmApi";
 import ConfirmDocumentModalV2 from "./ConfirmDocumentModalV2";
 import DocumentContentV2 from "./DocumentContentV2";
 import Button from "../../components/button/Button";
+import { useNavigate } from "react-router-dom";
 
+const approvalLineButtonDisplayStatus = ['CREATED', 'BEFORE_CREATE']
+const raiseButtonDisplayStatus = ['CREATE', 'UPDATE']
 
 export default function ConfirmDocumentWrapper({
     modalOpen,
     setModalOpen,
     confirmDocument = { confirmDocumentId: '', contentPk: '', contents: { title: '' } },
-    setConfirmDocument
-}) {
+    setConfirmDocument }) {
+
+    const nav = useNavigate();
+
     const [documentContents, setDocumentContents] = useState({});
-    const [documentElements, setDocumentElements] = useState([{ elementGroupName: '' , elements : [] }]);
+    const [documentElements, setDocumentElements] = useState([{ elementGroupName: '', elements: [] }]);
     const requestToServer = async () => {
         if (confirmDocument.contentPk) {
             const contentsResponse = await getConfirmDocumentContent(confirmDocument.contentPk);
@@ -27,6 +32,28 @@ export default function ConfirmDocumentWrapper({
         }
     }
 
+    const handleOnClickConfirmDocumentRaise = async () => {
+        try {
+            const res = await ConfirmApi.raiseConfirmDocument(confirmDocument.confirmDocumentId);
+
+            if (res.status === 200) {
+                alert('상신 완료되었습니다');
+            }
+        }
+        catch (e) {
+            
+        }
+    }
+
+    const handleOnClickSetApprovalLineBtn = () => {
+        nav(`/confirm/${confirmDocument.confirmDocumentId}/ApprovalLine`, {
+            state : {
+                apiDestination : 'CONFIRM',
+                confirmDocumentId : confirmDocument.confirmDocumentId
+            }
+        })
+    }
+
     useEffect(() => {
         requestToServer();
     }, [confirmDocument])
@@ -38,7 +65,23 @@ export default function ConfirmDocumentWrapper({
             setConfirmDocument={setConfirmDocument}
             modalOpen={modalOpen}
             setModalOpen={setModalOpen}>
-                {confirmDocument.approvalLineLifecycle === 'BEFORE_CREATE' && <Button cn="btnInsideConfirmDocument" name="결재선 지정"/>}
+            {/* 기안자일 경우에 결재선 지정, 상신 버튼 표시 */}
+            {confirmDocument.requesterId === sessionStorage.getItem('memberId') &&
+                <div id="approvalLineAndRaiseDiv"
+                    style={{ display: 'flex', paddingBottom: '5px' }}>
+                    {raiseButtonDisplayStatus.includes(confirmDocument.confirmStatus) &&
+                        <Button cn="btnInsideConfirmDocument"
+                            name="상신"
+                            onClick={handleOnClickConfirmDocumentRaise}
+                            style={{ marginRight: '5px' }} />
+                    }
+                    {approvalLineButtonDisplayStatus.includes(confirmDocument.approvalLineLifecycle) &&
+                        <Button cn="btnInsideConfirmDocument"
+                            name="결재선 지정"
+                            onClick={handleOnClickSetApprovalLineBtn} />
+                    }
+                </div>
+            }
             <DocumentContentV2 documentElements={documentElements} contents={documentContents} />
         </ConfirmDocumentModalV2>
     );

@@ -40,10 +40,14 @@ export default function MyVacation() {
     const raiseBeforeVacations = createdMyVacations.filter(vacation => vacation.vacationStatus === 'CREATE')
 
     const handleOnClickTableRow = (vacationId) => {
-        navigate(`/vacation/${vacationId}/ApprovalLine`,
+        console.log('vacationId', vacationId)
+        const vacationConfirmDocumentId = 'VAC' + sessionStorage.getItem('companyId') + vacationId;
+        navigate(`/confirm/${vacationConfirmDocumentId}/ApprovalLine`,
             {
                 state: {
-                    departmentId: sessionStorage.getItem('departmentId')
+                    departmentId: sessionStorage.getItem('departmentId'),
+                    resourceId : vacationId,
+                    documentType : 'VAC'
                 }
             })
     }

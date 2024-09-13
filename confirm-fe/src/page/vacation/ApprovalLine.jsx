@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react"
-import { getApprovalLines, postApprovalLines } from "../../api/confirmApi";
-import { raiseConfirmDoucment } from "../../api/vacationApi";
-import { useNavigate, useParams } from "react-router-dom";
+import { ConfirmApi, getApprovalLines, postApprovalLines } from "../../api/confirmApi";
+import { VacationApi } from "../../api/vacationApi";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import List from "../../components/list/List";
 import Tree from "../../components/list/Tree";
 import { getOrganizationTree } from "../../api/organizationApi";
@@ -12,13 +12,10 @@ import Button from "../../components/button/Button";
 const tag = '[ApprovalLine] COMPONENT'
 
 export default function ApprovalLine({ vacationId }) {
-    console.log(tag);
     const params = useParams();
     const navigate = useNavigate();
-
-    if (vacationId === undefined) {
-        vacationId = params.vacationId;
-    }
+    const location = useLocation();
+    console.log('location', location)
 
     const [selectedMembers, setSelectedMemebers] = useState([]);
     const [organizationTree, setOrganizationTree] = useState([]);
@@ -64,7 +61,7 @@ export default function ApprovalLine({ vacationId }) {
     }
 
     const handleOnClickCompleteApprovaLine = async () => {
-        const confirmDocumentId = "VAC" + sessionStorage.getItem('companyId') + vacationId;
+        const confirmDocumentId = params.confirmDocumentId;
         const approvalLineForm = selectedMembers.map(member => ({
             approvalOrder: member.approvalOrder,
             approvalId: member.memberId,
@@ -84,15 +81,39 @@ export default function ApprovalLine({ vacationId }) {
     }
 
     const handleOnClickRaiseConfirmDocument = async () => {
-        const result = await raiseConfirmDoucment(vacationId);
-        if (result.status === 200) {
-            setApprovalLines((prev) => updateApprovalLinesFlag(prev, 'submitted', true))
-            alert('상신 완료')
-            navigate('/vacation')
+
+        if (location.state.apiDestination === 'CONFIRM') {
+            try {
+                const result = await ConfirmApi.raiseConfirmDocument(location.state.confirmDocumentId);
+
+                if (result.status === 200) {
+                    alert('상신 완료');
+                    navigate('/confirm/my-confirm');
+                    return;
+                }
+            } 
+            catch(e) {
+
+            }
         }
-        else {
-            alert('잠시 후 다시 시도해주세요.')
+
+        // 휴가 신청서의 경우, 결재 문서를 상신할 때 휴가 서버를 거쳐야 한다.
+        if (location.state.documentType === 'VAC') {
+            const result = await VacationApi.raiseConfirmDoucment(location.state.resourceId);
+
+            if (result.status === 200) {
+                setApprovalLines((prev) => updateApprovalLinesFlag(prev, 'submitted', true))
+                alert('상신 완료')
+                navigate('/confirm/my-confirm')
+                return;
+            }
+            else {
+                alert(result.response.data.message);
+                return;
+            }
+
         }
+
 
     }
 
@@ -100,7 +121,7 @@ export default function ApprovalLine({ vacationId }) {
     // 랜더링 시 사용
 
     const amountApprovalLines = async () => {
-        const confirmDocumentId = "VAC" + sessionStorage.getItem('companyId') + vacationId;
+        const confirmDocumentId = params.confirmDocumentId;
         // 결재선이 이미 등록된 경우 START
         const result = await getApprovalLines(confirmDocumentId);
         setSavedApprovalLines(result.data.data);

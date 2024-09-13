@@ -4,7 +4,6 @@ import DatePicker from 'react-datepicker';
 import ReactSelect from 'react-select';
 import "react-datepicker/dist/react-datepicker.css"
 import { applyVacation } from "../../../api/vacationApi";
-import { ApplyVacationTransfer } from "../../../transfer/ApplyVacationTransfer";
 import { useNavigate } from "react-router-dom";
 import ApplyVacationFormLayout from "./ApplyVacationFormLayout";
 import VacationReason from "./VacationReason";
@@ -90,28 +89,34 @@ export default function HalfDayForm({ vacationType }) {
 
         // 임시
         const requestVacationForm = {
-            requesterId : sessionStorage.getItem('memberId'),
-            requesterName : sessionStorage.getItem('name'),
-            departmentId : sessionStorage.getItem('departmentId'),
-            departmentName : sessionStorage.getItem('departmentName'),
-    
-            vacationType : vacationType,
-            leaveDeduct : 'DEDUCT',
-            requestVacationDurations : [
+            requesterId: sessionStorage.getItem('memberId'),
+            requesterName: sessionStorage.getItem('name'),
+            departmentId: sessionStorage.getItem('departmentId'),
+            departmentName: sessionStorage.getItem('departmentName'),
+
+            vacationType: vacationType,
+            leaveDeduct: 'DEDUCT',
+            requestVacationDurations: [
                 {
                     startDateTime: duration.startDateTime,
                     endDateTime: duration.endDateTime
                 }
             ],
-                title : '휴가신청서',
-            reason : reasonRef.current,
-            delegatorId : delegator.delegatorId,
-            delegatorName : delegator.delegatorName,
+            title: '휴가신청서',
+            reason: reasonRef.current,
+            delegatorId: delegator.delegatorId,
+            delegatorName: delegator.delegatorName,
         }
 
         const response = await applyVacation(requestVacationForm);
 
-        navigate(`/vacation/${response.data.vacationId}/ApprovalLine`)
+        const confirmDocumentId = 'VAC' + sessionStorage.getItem('companyId') + response.data.vacationId
+        navigate(`/confirm/${confirmDocumentId}/ApprovalLine`, {
+            state: {
+                resourceId: response.data.vacationId,
+                documentType : 'VAC'
+            }
+        })
     }
 
     return (<Fragment>
@@ -130,7 +135,7 @@ export default function HalfDayForm({ vacationType }) {
                 </div>
             </div>
             <div className="gInlineBlock">
-                <label htmlFor="vacationTime" style={{ fontSize: '12px', marginLeft : '10px' }}>시간을 지정해주세요</label>
+                <label htmlFor="vacationTime" style={{ fontSize: '12px', marginLeft: '10px' }}>시간을 지정해주세요</label>
                 <ReactSelect
                     id="vacationTime"
                     className="basic-slnr"
