@@ -71,6 +71,9 @@ export default function OneReceiveWorkTicketContent() {
             setRenderFlag((prev) => prev + 1);
             alert('요청 부서에 결재를 요청합니다.');
         }
+        else if(workStatus === 'REQUEST_CONFIRM') {
+            alert('결재 진행중입니다. 승인을 기다려주세요')
+        }
         else {
             alert('미구현')
         }

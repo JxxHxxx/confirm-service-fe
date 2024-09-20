@@ -35,6 +35,8 @@ const convertReceiveButtonName = (workStatus) => {
             return '요청 부서 승인 완료 - 작업 시작';
         case 'WORKING' :
             return '작업 완료';
+        case 'REJECT_FROM_REQUESTER':
+            return '작업 반려';
         case 'DONE' : 
             return '티켓 종료';
     }
