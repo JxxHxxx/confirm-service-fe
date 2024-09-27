@@ -33,11 +33,13 @@ const convertReceiveButtonName = (workStatus) => {
             return '요청 부서 승인 대기';
         case 'ACCEPT':
             return '요청 부서 승인 완료 - 작업 시작';
-        case 'WORKING' :
+        case 'WORKING':
             return '작업 완료';
         case 'REJECT_FROM_REQUESTER':
-            return '작업 반려';
-        case 'DONE' : 
+            return '작업 반려 - 요청 부서';
+        case 'REJECT_FROM_CHARGE':
+            return '작업 반려 - 담당 부서';
+        case 'DONE':
             return '티켓 종료';
     }
 }

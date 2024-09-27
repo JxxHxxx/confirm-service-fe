@@ -44,7 +44,7 @@ const beginAnalysisWorkTicket = (workTicketId) => {
 
     return instance.patch(`/api/work-tickets/${workTicketId}/begin-analysis`, requestBody)
     .then(res => res)
-    .catch(err => alert(err))
+    .catch(err => err.response)
 }
 
 const completeAnalysisWorkTicket = (workTicketId, analyzeContent) => {
@@ -101,6 +101,20 @@ const requestConfirmWorkTicket = (workTicketId) => {
     .catch(err => alert(err))
 }
 
+const rejectTicketFromReceiver = (workTicketId, rejectReason) => {
+    const requestBody = {
+        ticketReceiver: {
+            receiverCompanyId : sessionStorage.getItem('companyId'),
+            receiverDepartmentId : sessionStorage.getItem('departmentId'),
+            receiverId : sessionStorage.getItem('memberId')
+        },
+        rejectReason : rejectReason
+    }
+
+    return instance.patch(`/api/work-tickets/${workTicketId}/reject-from-receiver`, requestBody)
+    .then(res => res)
+    .catch(err => err)
+}
 
 const WorkApi = {
     createWorkTicket,
@@ -111,7 +125,8 @@ const WorkApi = {
     completeAnalysisWorkTicket,
     beginPlanningWorkTicket,
     completePlanningWorkTicket,
-    requestConfirmWorkTicket
+    requestConfirmWorkTicket,
+    rejectTicketFromReceiver
 }
 
 

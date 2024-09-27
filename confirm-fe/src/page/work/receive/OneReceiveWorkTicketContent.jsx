@@ -25,7 +25,8 @@ export default function OneReceiveWorkTicketContent() {
         workDetail: {
             analyzeContent: '',
             receiverName: '',
-        }
+        },
+        rejectReason: '',
     });
 
     const fetchOneWorkTicket = async () => {
@@ -40,6 +41,17 @@ export default function OneReceiveWorkTicketContent() {
         }
     }
 
+    const handleWorkTicketRejectFromRecevier = async (workTicket) => {
+        const { workTicketId } = workTicket;
+
+        const { status } = WorkApi.rejectTicketFromReceiver(workTicketId, oneWork.rejectReason);
+        console.log('status', status);
+        if (status === 200) {
+            setRenderFlag((prev) => prev + 1);
+            alert('작업 티켓이 반려되었습니다.')
+        }
+    }
+
     // 티켓 정보 하위 버튼 이름 랜더링 및 기능
     const handleWorkTicketButton = async (workTicket) => {
         const { workStatus, workTicketId } = workTicket;
@@ -50,9 +62,16 @@ export default function OneReceiveWorkTicketContent() {
             alert('티켓이 접수되었습니다.');
         }
         else if (workStatus === 'RECEIVE') {
-            await WorkApi.beginAnalysisWorkTicket(workTicketId);
-            setRenderFlag((prev) => prev + 1);
-            alert('티켓 분석을 시작합니다.');
+            const { data, status } = await WorkApi.beginAnalysisWorkTicket(workTicketId);
+
+            if (status === 200) {
+                setRenderFlag((prev) => prev + 1);
+                alert('티켓 분석을 시작합니다.');
+            }
+            else {
+                alert(data.message);
+            }
+
         }
         else if (workStatus === 'ANALYZE_BEGIN') {
             const { data, status } = await WorkApi.completeAnalysisWorkTicket(workTicketId, workDetail.analyzeContent);
@@ -69,6 +88,7 @@ export default function OneReceiveWorkTicketContent() {
             }
 
         }
+        else if (workStatus === 'ANALYZE_COMPLETE') {
         else if (workStatus === 'ANALYZE_COMPLETE') {
             await WorkApi.beginPlanningWorkTicket(workTicketId);
             setRenderFlag((prev) => prev + 1);
@@ -89,10 +109,12 @@ export default function OneReceiveWorkTicketContent() {
             }
         }
         else if (workStatus === 'MAKE_PLAN_COMPLETE') {
+        else if (workStatus === 'MAKE_PLAN_COMPLETE') {
             await WorkApi.requestConfirmWorkTicket(workTicketId);
             setRenderFlag((prev) => prev + 1);
             alert('요청 부서에 결재를 요청합니다.');
         }
+        else if (workStatus === 'REQUEST_CONFIRM') {
         else if (workStatus === 'REQUEST_CONFIRM') {
             alert('결재 진행중입니다. 승인을 기다려주세요')
         }
@@ -102,7 +124,15 @@ export default function OneReceiveWorkTicketContent() {
     }
 
     const analysisContentRenderCondition = () => {
-        return workTicket.workStatus === 'CREATE' || workTicket.workStatus === 'RECEIVE' ? false : true
+        return !['CREATE', 'RECEIVE'].includes(workTicket.workStatus)
+    }
+
+    const planContentRenderCondition = () => {
+        return ![ 'CREATE', 'RECEIVE', 'ANALYZE_BGIN', 'ANALYZE_COMPLETE'].includes(workTicket.workStatus);
+    }
+
+    const rejectButtonRenderCondition = () => {
+        return ['RECEIVE', 'ANALYZE_BGIN', 'ANALYZE_COMPLETE'].includes(workTicket.workStatus)
     }
 
     const handleOnChangeAnalyzeContent = (event) => {
@@ -158,9 +188,16 @@ export default function OneReceiveWorkTicketContent() {
             <div id="ticketMetaInformation" style={{ border: '1px solid gray', margin: '10px 0px 10px 0px', padding: '5px' }}>
                 {/* 요청 내용 컴포넌트 */}
                 <Title className="titleLeft" name="티켓 정보" />
-                <Button cn="btnTicket"
-                    name={WorkConverter.convertReceiveButtonName(workTicket.workStatus)}
-                    onClick={() => handleWorkTicketButton(workTicket)} />
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Button cn="btnTicket"
+                        name={WorkConverter.convertReceiveButtonName(workTicket.workStatus)}
+                        onClick={() => handleWorkTicketButton(workTicket)} />
+                    {/* TODO 버튼을 누르면 모달창 뜨고, 반려 사유를 입력할 수 있도록 변경해야함 */}
+                    {rejectButtonRenderCondition() &&
+                        <Button cn="btnTicket" name={'티켓 반려'}
+                            onClick={() => handleWorkTicketRejectFromRecevier(workTicket)} />
+                    }
+                </div>
                 <div style={{ marginBottom: '5px' }}></div>
                 <table style={{ borderCollapse: 'collapse' }}>
                     <thead>
@@ -222,6 +259,7 @@ export default function OneReceiveWorkTicketContent() {
                         <Title className="titleLeft" name="티켓 분석 내용" />
                         <p style={{
                             fontFamily: 'Maruburi',
+                            fontFamily: 'Maruburi',
                             fontWeight: 'normal',
                             margin: '0px'
                         }}>
@@ -259,6 +297,7 @@ export default function OneReceiveWorkTicketContent() {
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Title className="titleLeft" name="작업 계획 내용" />
                         <p style={{
+                            fontFamily: 'Maruburi',
                             fontFamily: 'Maruburi',
                             fontWeight: 'normal',
                             margin: '0px'
