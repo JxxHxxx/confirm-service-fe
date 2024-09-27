@@ -71,9 +71,16 @@ export default function OneReceiveWorkTicketContent() {
 
         }
         else if (workStatus === 'ANALYZE_BEGIN') {
-            await WorkApi.completeAnalysisWorkTicket(workTicketId, workDetail.analyzeContent);
-            setRenderFlag((prev) => prev + 1);
-            alert('티켓 분석을 완료합니다.');
+            const {status, data} = await WorkApi.completeAnalysisWorkTicket(workTicketId, workDetail.analyzeContent);
+            
+            if (status === 200) {
+                setRenderFlag((prev) => prev + 1);
+                alert('티켓 분석을 완료합니다.');
+            }
+            else {
+                alert(data.message);
+            }
+
         }
         else if (workStatus === 'ANALYZE_COMPLETE') {
             await WorkApi.beginPlanningWorkTicket(workTicketId);
