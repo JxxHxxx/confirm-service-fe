@@ -7,10 +7,13 @@ import WorkConverter from "../../../converter/work/WorkConverter";
 import Button from "../../../components/button/Button";
 import { format } from "date-fns";
 
-
 export default function OneReceiveWorkTicketContent() {
     const params = useParams();
     const [renderFlag, setRenderFlag] = useState(0);
+    const [valid, setValid] = useState({
+        workDetailAnalyze: true,
+        workDetailPlan: true
+    });
 
     const [oneWork, setOneWork] = useState({
         workTicket: {
@@ -52,26 +55,45 @@ export default function OneReceiveWorkTicketContent() {
             alert('티켓 분석을 시작합니다.');
         }
         else if (workStatus === 'ANALYZE_BEGIN') {
-            await WorkApi.completeAnalysisWorkTicket(workTicketId, workDetail.analyzeContent);
-            setRenderFlag((prev) => prev + 1);
-            alert('티켓 분석을 완료합니다.');
+            const { data, status } = await WorkApi.completeAnalysisWorkTicket(workTicketId, workDetail.analyzeContent);
+            if (status === 200) {
+                setRenderFlag((prev) => prev + 1);
+                alert('티켓 분석을 완료합니다.');
+            }
+            else {
+                alert(data.message);
+                setValid((prev) => ({
+                    ...prev,
+                    workDetailAnalyze: false
+                }))
+            }
+
         }
-        else if(workStatus === 'ANALYZE_COMPLETE') {
+        else if (workStatus === 'ANALYZE_COMPLETE') {
             await WorkApi.beginPlanningWorkTicket(workTicketId);
             setRenderFlag((prev) => prev + 1);
             alert('작업 계획을 시작합니다.');
         }
-        else if(workStatus === 'MAKE_PLAN_BEGIN') {
-            await WorkApi.completePlanningWorkTicket(workTicketId, workDetail.workPlanContent);
-            setRenderFlag((prev) => prev + 1);
-            alert('작업 계획을 완료합니다.');
+        else if (workStatus === 'MAKE_PLAN_BEGIN') {
+            const { data, status } = await WorkApi.completePlanningWorkTicket(workTicketId, workDetail.workPlanContent);
+            if (status === 200) {
+                setRenderFlag((prev) => prev + 1);
+                alert('작업 계획을 완료합니다.');
+            }
+            else {
+                alert(data.message);
+                setValid((prev) => ({
+                    ...prev,
+                    workDetailPlan: false
+                }))
+            }
         }
-        else if(workStatus === 'MAKE_PLAN_COMPLETE') {
+        else if (workStatus === 'MAKE_PLAN_COMPLETE') {
             await WorkApi.requestConfirmWorkTicket(workTicketId);
             setRenderFlag((prev) => prev + 1);
             alert('요청 부서에 결재를 요청합니다.');
         }
-        else if(workStatus === 'REQUEST_CONFIRM') {
+        else if (workStatus === 'REQUEST_CONFIRM') {
             alert('결재 진행중입니다. 승인을 기다려주세요')
         }
         else {
@@ -90,6 +112,10 @@ export default function OneReceiveWorkTicketContent() {
                 analyzeContent: event.target.value
             }
         }))
+        setValid((prev) => ({
+            ...prev,
+            workDetailAnalyze: true
+        }))
     }
 
     const planContentRenderCondition = () => {
@@ -106,6 +132,11 @@ export default function OneReceiveWorkTicketContent() {
             workDetail: {
                 workPlanContent: event.target.value
             }
+        }))
+
+        setValid((prev) => ({
+            ...prev,
+            workDetailAnalyze: true,
         }))
     }
 
@@ -182,11 +213,15 @@ export default function OneReceiveWorkTicketContent() {
                         onClick={() => setAnalContent(!analContent)} />
                 </div>}
             {(analContent && analysisContentRenderCondition()) &&
-                <div id="workDetailAnalysisContent" style={{ border: '1px solid gray', margin: '10px 0px 10px 0px', padding: '5px' }}>
+                <div id="workDetailAnalysisContent" style={{
+                    border: valid.workDetailAnalyze ? '1px solid gray' : '1px solid red',
+                    margin: '10px 0px 10px 0px',
+                    padding: '5px'
+                }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Title className="titleLeft" name="티켓 분석 내용" />
                         <p style={{
-                            fontFamily : 'Maruburi',
+                            fontFamily: 'Maruburi',
                             fontWeight: 'normal',
                             margin: '0px'
                         }}>
@@ -216,11 +251,15 @@ export default function OneReceiveWorkTicketContent() {
                 </div>
             }
             {(planContent && planContentRenderCondition()) &&
-                <div id="workDetailPlanContent" style={{ border: '1px solid gray', margin: '10px 0px 10px 0px', padding: '5px' }}>
+                <div id="workDetailPlanContent" style={{
+                    border: valid.workDetailPlan ? '1px solid gray' : '1px solid red',
+                    margin: '10px 0px 10px 0px',
+                    padding: '5px'
+                }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Title className="titleLeft" name="작업 계획 내용" />
                         <p style={{
-                            fontFamily : 'Maruburi',
+                            fontFamily: 'Maruburi',
                             fontWeight: 'normal',
                             margin: '0px'
                         }}>

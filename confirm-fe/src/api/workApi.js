@@ -58,7 +58,7 @@ const completeAnalysisWorkTicket = (workTicketId, analyzeContent) => {
 
     return instance.patch(`/api/work-tickets/${workTicketId}/complete-analysis`, requestBody)
     .then(res => res)
-    .catch(err => alert(err))
+    .catch(err => err.response)
 }
 
 const beginPlanningWorkTicket = (workTicketId) => {
@@ -85,7 +85,7 @@ const completePlanningWorkTicket = (workTicketId, workPlanContent) => {
 
     return instance.patch(`/api/work-tickets/${workTicketId}/complete-plan`, requestBody)
     .then(res => res)
-    .catch(err => alert(err))
+    .catch(err => err.response)
 }
 
 const requestConfirmWorkTicket = (workTicketId) => {
