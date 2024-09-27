@@ -89,7 +89,6 @@ export default function OneReceiveWorkTicketContent() {
 
         }
         else if (workStatus === 'ANALYZE_COMPLETE') {
-        else if (workStatus === 'ANALYZE_COMPLETE') {
             await WorkApi.beginPlanningWorkTicket(workTicketId);
             setRenderFlag((prev) => prev + 1);
             alert('작업 계획을 시작합니다.');
@@ -109,12 +108,10 @@ export default function OneReceiveWorkTicketContent() {
             }
         }
         else if (workStatus === 'MAKE_PLAN_COMPLETE') {
-        else if (workStatus === 'MAKE_PLAN_COMPLETE') {
             await WorkApi.requestConfirmWorkTicket(workTicketId);
             setRenderFlag((prev) => prev + 1);
             alert('요청 부서에 결재를 요청합니다.');
         }
-        else if (workStatus === 'REQUEST_CONFIRM') {
         else if (workStatus === 'REQUEST_CONFIRM') {
             alert('결재 진행중입니다. 승인을 기다려주세요')
         }
@@ -128,7 +125,7 @@ export default function OneReceiveWorkTicketContent() {
     }
 
     const planContentRenderCondition = () => {
-        return ![ 'CREATE', 'RECEIVE', 'ANALYZE_BGIN', 'ANALYZE_COMPLETE'].includes(workTicket.workStatus);
+        return ![ 'CREATE', 'RECEIVE', 'ANALYZE_BEGIN', 'ANALYZE_COMPLETE'].includes(workTicket.workStatus);
     }
 
     const rejectButtonRenderCondition = () => {
@@ -146,14 +143,6 @@ export default function OneReceiveWorkTicketContent() {
             ...prev,
             workDetailAnalyze: true
         }))
-    }
-
-    const planContentRenderCondition = () => {
-        return workTicket.workStatus === 'CREATE' ||
-            workTicket.workStatus === 'RECEIVE' ||
-            workTicket.workStatus === 'ANALYZE_BEGIN' ||
-            workTicket.workStatus === 'ANALYZE_COMPLETE'
-            ? false : true
     }
 
     const handleOnChangePlanContent = (event) => {
@@ -259,7 +248,6 @@ export default function OneReceiveWorkTicketContent() {
                         <Title className="titleLeft" name="티켓 분석 내용" />
                         <p style={{
                             fontFamily: 'Maruburi',
-                            fontFamily: 'Maruburi',
                             fontWeight: 'normal',
                             margin: '0px'
                         }}>
@@ -297,7 +285,6 @@ export default function OneReceiveWorkTicketContent() {
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Title className="titleLeft" name="작업 계획 내용" />
                         <p style={{
-                            fontFamily: 'Maruburi',
                             fontFamily: 'Maruburi',
                             fontWeight: 'normal',
                             margin: '0px'
