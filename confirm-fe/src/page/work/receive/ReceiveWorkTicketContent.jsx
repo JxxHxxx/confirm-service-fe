@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 import WorkApi from "../../../api/workApi";
-import Table from "../../../components/table/Table";
-import { format } from "date-fns";
-import WorkConverter from "../../../converter/work/WorkConverter";
 import MainContainer from "../../../components/layout/container/MainContainer";
 import Title from "../../document/Title";
 import { useNavigate } from "react-router-dom";
-import { URL_WORKTICKET_RECEIVE } from "../../../constant/pageURL";
+import WorkTicketTable from "../WorkTicketTable";
 
 
 export default function ReceiveWorkTicketContent() {
-    const nav = useNavigate();
     const [workTickets, setWorkTickets] = useState([]);
 
     const requestReadWorkTickets = async () => {
@@ -18,6 +14,7 @@ export default function ReceiveWorkTicketContent() {
             const params = {
                 chargeCompanyId: sessionStorage.getItem('companyId'),
                 chargeDepartmentId: sessionStorage.getItem('departmentId'),
+                workStatus : 'CREATE,RECEIVE,ANALYZE_BEGIN,ANALYZE_COMPLETE,MAKE_PLAN_BEGIN,MAKE_PLAN_COMPLETE,REQUEST_CONFIRM,ACCEPT,WORKING',
             }
 
             const { data } = await WorkApi.searchWorkTicket(params);
@@ -43,17 +40,9 @@ export default function ReceiveWorkTicketContent() {
         <MainContainer profile='dev'>
             <div id="receiveWorkTicketContainer" style={{ border: '1px dashed blue', width: '900px', margin: '0px 0px 50px 0px', padding: '20px' }}>
                 <Title className="basicTitle" name="요청받은 티켓" />
+                <p style={{marginTop : '5px'}} className="basicDesc">작업이 완료됐거나 반려된 티켓을 확인하려면 티켓 조회 기능을 이용하세요</p>
                 {workTickets.length > 0 ?
-                    <Table tableProperty={{
-                        columns: ['요청일', '요청자', '제목', '티켓 상태'],
-                        data: workTickets.map(wt => <tr key={wt.workTicketPk} onClick={() => nav(URL_WORKTICKET_RECEIVE + "/" + wt.workTicketPk)}>
-                            <td>{format(wt.createdTime, 'yyyy-MM-dd')}</td>
-                            <td>{wt.workRequester.name}</td>
-                            <td>{wt.requestTitle}</td>
-                            <td>{WorkConverter.convertWorkStatus(wt.workStatus)}</td>
-                        </tr>)
-                    }
-                    } /> :
+                    <WorkTicketTable workTickets={workTickets} readType='RECEIVE' /> :
                     <p style={{ marginTop: '20px' }} className="basicDesc">요청받은 티켓이 없습니다</p>}
             </div>
         </MainContainer>

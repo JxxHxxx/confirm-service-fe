@@ -23,97 +23,125 @@ const getOneWorkTicket = (workTicketPk) => {
 
 const receiveWorkTicket = (workTicketId) => {
     const requestBody = {
-        receiverCompanyId : sessionStorage.getItem('companyId'),
-        receiverDepartmentId : sessionStorage.getItem('departmentId'),
-        receiverId : sessionStorage.getItem('memberId'),
-        receiverName : sessionStorage.getItem('name')
+        receiverCompanyId: sessionStorage.getItem('companyId'),
+        receiverDepartmentId: sessionStorage.getItem('departmentId'),
+        receiverId: sessionStorage.getItem('memberId'),
+        receiverName: sessionStorage.getItem('name')
     }
 
     return instance.post(`/api/work-tickets/${workTicketId}/receive`, requestBody)
-    .then(res => res)
-    .catch(err => alert(err))
+        .then(res => res)
+        .catch(err => alert(err))
 }
 
 const beginAnalysisWorkTicket = (workTicketId) => {
     const requestBody = {
-        receiverCompanyId : sessionStorage.getItem('companyId'),
-        receiverDepartmentId : sessionStorage.getItem('departmentId'),
-        receiverId : sessionStorage.getItem('memberId'),
-        receiverName : sessionStorage.getItem('name')
+        receiverCompanyId: sessionStorage.getItem('companyId'),
+        receiverDepartmentId: sessionStorage.getItem('departmentId'),
+        receiverId: sessionStorage.getItem('memberId'),
+        receiverName: sessionStorage.getItem('name')
     }
 
     return instance.patch(`/api/work-tickets/${workTicketId}/begin-analysis`, requestBody)
-    .then(res => res)
-    .catch(err => err.response)
+        .then(res => res)
+        .catch(err => err.response)
 }
 
 const completeAnalysisWorkTicket = (workTicketId, analyzeContent) => {
     const requestBody = {
-        receiverCompanyId : sessionStorage.getItem('companyId'),
-        receiverDepartmentId : sessionStorage.getItem('departmentId'),
-        receiverId : sessionStorage.getItem('memberId'),
-        receiverName : sessionStorage.getItem('name'),
-        analyzeContent : analyzeContent
+        receiverCompanyId: sessionStorage.getItem('companyId'),
+        receiverDepartmentId: sessionStorage.getItem('departmentId'),
+        receiverId: sessionStorage.getItem('memberId'),
+        receiverName: sessionStorage.getItem('name'),
+        analyzeContent: analyzeContent
     }
 
     return instance.patch(`/api/work-tickets/${workTicketId}/complete-analysis`, requestBody)
-    .then(res => res)
-    .catch(err => err.response)
+        .then(res => res)
+        .catch(err => err.response)
 }
 
 const beginPlanningWorkTicket = (workTicketId) => {
     const requestBody = {
-        receiverCompanyId : sessionStorage.getItem('companyId'),
-        receiverDepartmentId : sessionStorage.getItem('departmentId'),
-        receiverId : sessionStorage.getItem('memberId'),
-        receiverName : sessionStorage.getItem('name')
+        receiverCompanyId: sessionStorage.getItem('companyId'),
+        receiverDepartmentId: sessionStorage.getItem('departmentId'),
+        receiverId: sessionStorage.getItem('memberId'),
+        receiverName: sessionStorage.getItem('name')
     }
 
     return instance.patch(`/api/work-tickets/${workTicketId}/begin-plan`, requestBody)
-    .then(res => res)
-    .catch(err => alert(err))
+        .then(res => res)
+        .catch(err => alert(err))
 }
 
 const completePlanningWorkTicket = (workTicketId, workPlanContent) => {
     const requestBody = {
-        receiverCompanyId : sessionStorage.getItem('companyId'),
-        receiverDepartmentId : sessionStorage.getItem('departmentId'),
-        receiverId : sessionStorage.getItem('memberId'),
-        receiverName : sessionStorage.getItem('name'),
-        workPlanContent : workPlanContent
+        receiverCompanyId: sessionStorage.getItem('companyId'),
+        receiverDepartmentId: sessionStorage.getItem('departmentId'),
+        receiverId: sessionStorage.getItem('memberId'),
+        receiverName: sessionStorage.getItem('name'),
+        workPlanContent: workPlanContent
     }
 
     return instance.patch(`/api/work-tickets/${workTicketId}/complete-plan`, requestBody)
-    .then(res => res)
-    .catch(err => err.response)
+        .then(res => res)
+        .catch(err => err.response)
 }
 
 const requestConfirmWorkTicket = (workTicketId) => {
     const requestBody = {
-        receiverCompanyId : sessionStorage.getItem('companyId'),
-        receiverDepartmentId : sessionStorage.getItem('departmentId'),
-        receiverId : sessionStorage.getItem('memberId'),
-        receiverName : sessionStorage.getItem('name'),
+        receiverCompanyId: sessionStorage.getItem('companyId'),
+        receiverDepartmentId: sessionStorage.getItem('departmentId'),
+        receiverId: sessionStorage.getItem('memberId'),
+        receiverName: sessionStorage.getItem('name'),
     }
 
     return instance.patch(`/api/work-tickets/${workTicketId}/request-confirm`, requestBody)
-    .then(res => res)
-    .catch(err => alert(err))
+        .then(res => res)
+        .catch(err => alert(err))
 }
 
 const rejectTicketFromReceiver = (workTicketId, rejectReason) => {
     const requestBody = {
         ticketReceiver: {
-            receiverCompanyId : sessionStorage.getItem('companyId'),
-            receiverDepartmentId : sessionStorage.getItem('departmentId'),
-            receiverId : sessionStorage.getItem('memberId')
+            receiverCompanyId: sessionStorage.getItem('companyId'),
+            receiverDepartmentId: sessionStorage.getItem('departmentId'),
+            receiverId: sessionStorage.getItem('memberId')
         },
-        rejectReason : rejectReason
+        rejectReason: rejectReason
     }
 
     return instance.patch(`/api/work-tickets/${workTicketId}/reject-from-receiver`, requestBody)
-    .then(res => res)
-    .catch(err => err)
+        .then(res => res)
+        .catch(err => err)
+}
+
+const beginWork = (workTicketId) => {
+    const requestBody = {
+        ticketReceiver: {
+            receiverCompanyId: sessionStorage.getItem('companyId'),
+            receiverDepartmentId: sessionStorage.getItem('departmentId'),
+            receiverId: sessionStorage.getItem('memberId')
+        }
+    }
+
+    return instance.patch(`/api/work-tickets/${workTicketId}/begin-work`, requestBody)
+        .then(res => res)
+        .catch(err => err.response)
+}
+
+const completeWork = (workTicketId) => {
+    const requestBody = {
+        ticketReceiver: {
+            receiverCompanyId: sessionStorage.getItem('companyId'),
+            receiverDepartmentId: sessionStorage.getItem('departmentId'),
+            receiverId: sessionStorage.getItem('memberId')
+        }
+    }
+
+    return instance.patch(`/api/work-tickets/${workTicketId}/complete-work`, requestBody)
+        .then(res => res)
+        .catch(err => err.response)
 }
 
 const WorkApi = {
@@ -126,7 +154,9 @@ const WorkApi = {
     beginPlanningWorkTicket,
     completePlanningWorkTicket,
     requestConfirmWorkTicket,
-    rejectTicketFromReceiver
+    rejectTicketFromReceiver,
+    beginWork,
+    completeWork
 }
 
 

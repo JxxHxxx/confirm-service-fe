@@ -115,8 +115,32 @@ export default function OneReceiveWorkTicketContent() {
         else if (workStatus === 'REQUEST_CONFIRM') {
             alert('결재 진행중입니다. 승인을 기다려주세요')
         }
+        else if (workStatus === 'ACCEPT') {
+            const {status, data} = await WorkApi.beginWork(workTicketId);
+            if (status === 200) {
+                alert('작업을 시작합니다.')
+                setRenderFlag((prev) => prev + 1);
+            }
+            else {
+                alert(data.message);
+            }
+
+        }
+        else if (workStatus === 'WORKING') {
+            const {status, data} = await WorkApi.completeWork(workTicketId);
+            if (status === 200) {
+                alert('작업을 종료합니다.')
+                setRenderFlag((prev) => prev + 1);
+            }
+            else {
+                alert(data.message);
+            }
+        }
+        else if (workStatus === 'DONE') {
+            alert('이미 종료 처리된 티켓입니다.')
+        }
         else {
-            alert('미구현')
+            alert('서비스 오류입니다. 관리자에게 문의하세요.')
         }
     }
 
