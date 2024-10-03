@@ -83,11 +83,10 @@ export function VacationSearchResult({ vacations }) {
                 <table className="vacation_table">
                     <thead>
                         <tr>
-                            <td>휴가ID</td>
-                            <td>부서</td>
-                            <td>이름</td>
-                            <td>시작일</td>
-                            <td>종료일</td>
+                            <td className="tdMinWidthDepartmentName">부서</td>
+                            <td className="tdMinWidthMemberName">이름</td>
+                            <td className="tdMinWidthDate">시작일</td>
+                            <td className="tdMinWidthDate">종료일</td>
                             <td>휴가 진행 상태</td>
                             <td>휴가 유형</td>
                         </tr>
@@ -95,7 +94,6 @@ export function VacationSearchResult({ vacations }) {
                     <tbody>
                         {filterVacations().length > 0 && filterVacations().map(vacation => {
                             return (<tr id={vacation.vacationDurationId} key={vacation.vacationDurationId}>
-                                <td>{vacation.vacationId}</td>
                                 <td>{vacation.departmentName}</td>
                                 <td>{vacation.name}</td>
                                 <td>{convertDate(vacation.startDateTime)}</td>

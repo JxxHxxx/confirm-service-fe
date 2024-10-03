@@ -128,3 +128,16 @@
     cursor: pointer;
     background-color: var(--main-color-border);
 }
+
+/* td global min */
+.tdMinWidthDepartmentName {
+    min-width: 170px;
+}
+
+.tdMinWidthMemberName {
+    min-width: 45px;
+}
+
+.tdMinWidthDate {
+    min-width: 90px;
+}
