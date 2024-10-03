@@ -19,3 +19,4 @@ export const URL_WORKTICKET_RECEIVE = '/work/receive';
 export const URL_WORKTICKET_APPLY = '/work/apply';
 export const URL_WORKTICKET_REQUEST = '/work/request';
 export const URL_WORKTICKET_RECEIVE_ONE = '/work/receive/:workTicketPk';
+export const URL_WORKTICKET_SEARCH = '/work/search';

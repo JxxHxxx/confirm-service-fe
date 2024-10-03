@@ -153,7 +153,7 @@ export default function OneReceiveWorkTicketContent() {
     }
 
     const rejectButtonRenderCondition = () => {
-        return ['RECEIVE', 'ANALYZE_BGIN', 'ANALYZE_COMPLETE'].includes(workTicket.workStatus)
+        return ['RECEIVE', 'ANALYZE_BEGIN', 'ANALYZE_COMPLETE'].includes(workTicket.workStatus)
     }
 
     const handleOnChangeAnalyzeContent = (event) => {

@@ -1,9 +1,9 @@
 
 
-export default function ButtonGroup({cn = '', children}) {
+export default function ButtonGroup({cn = '', children, style}) {
     
     return (
-        <div className={cn}>
+        <div style={style} className={cn}>
             {children}
         </div>
     )

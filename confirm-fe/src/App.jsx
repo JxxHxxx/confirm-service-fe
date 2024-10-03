@@ -13,7 +13,6 @@ import ApprovalLine from './page/vacation/ApprovalLine';
 import Modal from 'react-modal';
 import Schedule from './page/schedule/Schedule';
 import MyConfirmDocument from './page/confirm/MyConfirmDocument';
-import VacationSidebar from './page/vacation/VacationSidebar';
 import Page from './components/layout/Page';
 import LeaveHistoryPage from './page/vacation/history/LeaveHistoryPage';
 import { VacationApply } from './page/vacation/apply/VacationApply';
@@ -22,7 +21,7 @@ import ConfirmDocumentDraftPage from './page/confirm/draft/ConfirmDocumentDraftP
 import WorkTicketApplicationPage from './page/work/apply/WorkTicketApplicationPage';
 import ReceiveWorkTicketPage from './page/work/receive/ReceiveWorkTicketPage';
 import RequestWorkTicketPage from './page/work/request/RequestWorkTicketPage';
-import { URL_WORKTICKET_APPLY, URL_CONFIRM_DEPARTMENT, URL_CONFIRM_DRAFT, URL_CONFIRM_MY, URL_LOGIN, URL_WORKTICKET_RECEIVE, URL_WORKTICKET_REQUEST, URL_VACATION, URL_VACATION_APPLY, URL_VACATION_HIST, URL_VACATION_MY, URL_WORKTICKET_RECEIVE_ONE, ULR_CONFIRM_TEMP } from './constant/pageURL';
+import { URL_WORKTICKET_APPLY, URL_CONFIRM_DEPARTMENT, URL_CONFIRM_DRAFT, URL_CONFIRM_MY, URL_LOGIN, URL_WORKTICKET_RECEIVE, URL_WORKTICKET_REQUEST, URL_VACATION, URL_VACATION_APPLY, URL_VACATION_HIST, URL_VACATION_MY, URL_WORKTICKET_RECEIVE_ONE, ULR_CONFIRM_TEMP, URL_WORKTICKET_SEARCH } from './constant/pageURL';
 import OneReceiveWorkTicketPage from './page/work/receive/OneReceiveWorkTicketPage';
 import TemporaryConfirmDocumentPage from './page/confirm/temporary/TemporaryConfirmDocumentPage';
 import ConfirmSidebar from './page/confirm/ConfirmSidebar';
@@ -97,6 +96,10 @@ const router = createBrowserRouter([
   {
     path: URL_WORKTICKET_REQUEST,
     element: <RequestWorkTicketPage />
+  },
+  {
+    path : URL_WORKTICKET_SEARCH,
+    element : <h2>페이지 미구현</h2>
   }
 ]);
 
