@@ -1,5 +1,6 @@
 
-export default function DocumentContentV2({ documentElements
+export default function DocumentContentV2({
+    documentElements
     , contents }) {
 
     const renderTable = (documentElement) => {
@@ -21,7 +22,7 @@ export default function DocumentContentV2({ documentElements
                             )}
                         </tbody>
                     </table>
-                    <div style={{marginBottom : '20px'}}></div>
+                    <div style={{ marginBottom: '20px' }}></div>
                 </>
             // 배열 타입의 데이터 => 테이블 화
             case 'ARRAY':
@@ -29,7 +30,7 @@ export default function DocumentContentV2({ documentElements
                 // elementKey 는 depth 를 . 으로 구분 vacation_durations.startDateTime 이런식 elementKeyArray 에는 [vacation_durations] 이 담김
                 // depth 는 최대 2까지만 가질 수 있음
                 const parentElementKey = oneElements[0].elementKey.split('.')[0];
-                
+                // console.log(parentElementKey)
                 // depth=2 인 startDateTime 을 담기 위한 배열
                 let childrenElementKeys = [];
                 // oneElements[idx].elementKey 에는 vacation_durations.startDateTime, vacation_durations.endDateTime 같이 존재
@@ -54,13 +55,15 @@ export default function DocumentContentV2({ documentElements
                             </tr>
                             {contents[parentElementKey].map((parentContent, index) => <>
                                 <tr key='array_col_val'>
-                                    <td>{index}</td>
-                                    {childrenElementKeys.map(keyName => <td className="cdt_td_val" key={index}>{parentContent[keyName]}</td>)}
+                                    <td key={index}>{index}</td>
+                                    {childrenElementKeys.map(keyName => <td
+                                        className="cdt_td_val"
+                                        key={keyName + index}>{parentContent[keyName]}</td>)}
                                 </tr>
                             </>)}
                         </tbody>
                     </table>
-                    <div style={{marginBottom : '20px'}}></div>
+                    <div style={{ marginBottom: '20px' }}></div>
                 </>
 
         }
