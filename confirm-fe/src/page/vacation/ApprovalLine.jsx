@@ -15,7 +15,6 @@ export default function ApprovalLine({ vacationId }) {
     const params = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    console.log('location', location)
 
     const [selectedMembers, setSelectedMemebers] = useState([]);
     const [organizationTree, setOrganizationTree] = useState([]);
@@ -81,22 +80,6 @@ export default function ApprovalLine({ vacationId }) {
     }
 
     const handleOnClickRaiseConfirmDocument = async () => {
-
-        if (location.state.apiDestination === 'CONFIRM') {
-            try {
-                const result = await ConfirmApi.raiseConfirmDocument(location.state.confirmDocumentId);
-
-                if (result.status === 200) {
-                    alert('상신 완료');
-                    navigate('/confirm/my-confirm');
-                    return;
-                }
-            } 
-            catch(e) {
-
-            }
-        }
-
         // 휴가 신청서의 경우, 결재 문서를 상신할 때 휴가 서버를 거쳐야 한다.
         if (location.state.documentType === 'VAC') {
             const result = await VacationApi.raiseConfirmDoucment(location.state.resourceId);
@@ -112,9 +95,19 @@ export default function ApprovalLine({ vacationId }) {
                 return;
             }
 
+        } else {
+            try {
+                const result = await ConfirmApi.raiseConfirmDocument(location.state.confirmDocumentId);
+                if (result.status === 200) {
+                    alert('상신 완료');
+                    navigate('/confirm/my-confirm');
+                    return;
+                }
+            } 
+            catch(e) {
+                alert(e);
+            }
         }
-
-
     }
 
     const [savedApprovalLines, setSavedApprovalLines] = useState([]);
