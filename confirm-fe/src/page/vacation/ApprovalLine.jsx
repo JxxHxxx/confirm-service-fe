@@ -82,7 +82,7 @@ export default function ApprovalLine({ vacationId }) {
     const handleOnClickRaiseConfirmDocument = async () => {
         // 휴가 신청서의 경우, 결재 문서를 상신할 때 휴가 서버를 거쳐야 한다.
         if (location.state.documentType === 'VAC') {
-            const result = await VacationApi.raiseConfirmDoucment(location.state.resourceId);
+            const result = await ConfirmApi.raiseConfirmDocument(params.confirmDocumentId);
 
             if (result.status === 200) {
                 setApprovalLines((prev) => updateApprovalLinesFlag(prev, 'submitted', true))
