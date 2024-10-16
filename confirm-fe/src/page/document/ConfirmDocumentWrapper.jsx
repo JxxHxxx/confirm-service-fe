@@ -4,8 +4,6 @@ import ConfirmDocumentModalV2 from "./ConfirmDocumentModalV2";
 import DocumentContentV2 from "./DocumentContentV2";
 import Button from "../../components/button/Button";
 import { useNavigate } from "react-router-dom";
-import { VacationApi } from "../../api/vacationApi";
-import ConfirmDocumentCore from "./Test";
 
 const approvalLineButtonDisplayStatus = ['CREATED', 'BEFORE_CREATE']
 const raiseButtonDisplayStatus = ['CREATE', 'UPDATE']

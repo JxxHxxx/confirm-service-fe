@@ -16,7 +16,8 @@ export const URL_VACATION_MY = '/vacation/MyVacation';
 
 // 작업 티켓 페이지
 export const URL_WORKTICKET_RECEIVE = '/work/receive';
+export const URL_WORKTICKET_RECEIVE_ONE = '/work/receive/:workTicketPk';
 export const URL_WORKTICKET_APPLY = '/work/apply';
 export const URL_WORKTICKET_REQUEST = '/work/request';
-export const URL_WORKTICKET_RECEIVE_ONE = '/work/receive/:workTicketPk';
+export const URL_WORKTICKET_REQUEST_ONE = '/work/request/:workTicketPk';
 export const URL_WORKTICKET_SEARCH = '/work/search';

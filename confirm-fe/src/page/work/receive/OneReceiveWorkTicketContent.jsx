@@ -9,6 +9,13 @@ import { format } from "date-fns";
 
 export default function OneReceiveWorkTicketContent() {
     const params = useParams();
+    // 티켓 정보 접기/펴기 상태
+    const [reqContent, setReqContent] = useState(true);
+    // 분석 내용 접기/펴기 상태
+    const [analContent, setAnalContent] = useState(true);
+    // 계획 내용 접기/펴기 상태
+    const [planContent, setPlanContent] = useState(true);
+    // 랜더링을 위한 상태
     const [renderFlag, setRenderFlag] = useState(0);
     const [valid, setValid] = useState({
         workDetailAnalyze: true,
@@ -116,7 +123,7 @@ export default function OneReceiveWorkTicketContent() {
             alert('결재 진행중입니다. 승인을 기다려주세요')
         }
         else if (workStatus === 'ACCEPT') {
-            const {status, data} = await WorkApi.beginWork(workTicketId);
+            const { status, data } = await WorkApi.beginWork(workTicketId);
             if (status === 200) {
                 alert('작업을 시작합니다.')
                 setRenderFlag((prev) => prev + 1);
@@ -127,7 +134,7 @@ export default function OneReceiveWorkTicketContent() {
 
         }
         else if (workStatus === 'WORKING') {
-            const {status, data} = await WorkApi.completeWork(workTicketId);
+            const { status, data } = await WorkApi.completeWork(workTicketId);
             if (status === 200) {
                 alert('작업을 종료합니다.')
                 setRenderFlag((prev) => prev + 1);
@@ -149,7 +156,7 @@ export default function OneReceiveWorkTicketContent() {
     }
 
     const planContentRenderCondition = () => {
-        return ![ 'CREATE', 'RECEIVE', 'ANALYZE_BEGIN', 'ANALYZE_COMPLETE'].includes(workTicket.workStatus);
+        return !['CREATE', 'RECEIVE', 'ANALYZE_BEGIN', 'ANALYZE_COMPLETE'].includes(workTicket.workStatus);
     }
 
     const rejectButtonRenderCondition = () => {
@@ -184,12 +191,6 @@ export default function OneReceiveWorkTicketContent() {
     }
 
     const { workTicket, workDetail } = oneWork;
-
-    // 티켓 정보 접기/펴기 상태
-    const [reqContent, setReqContent] = useState(true);
-    // 티켓 정보 접기/펴기 상태
-    const [analContent, setAnalContent] = useState(true);
-    const [planContent, setPlanContent] = useState(true);
 
     useEffect(() => {
         fetchOneWorkTicket();
