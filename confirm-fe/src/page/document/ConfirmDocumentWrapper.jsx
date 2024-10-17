@@ -62,6 +62,10 @@ export default function ConfirmDocumentWrapper({
         }
     }
 
+    const handleNavApprovalLine = (confirmDocumentId) => {
+        nav(`/confirm/${confirmDocumentId}/ApprovalLine`)
+    }
+
 
     useEffect(() => {
         requestToServer();
@@ -87,7 +91,7 @@ export default function ConfirmDocumentWrapper({
                     {approvalLineButtonDisplayStatus.includes(confirmDocument.approvalLineLifecycle) &&
                         <Button cn="btnInsideConfirmDocument"
                             name="결재선 지정"
-                            onClick={() => ConfirmDocumentCore.RequestRaise(nav, confirmDocument)} />
+                            onClick={() => handleNavApprovalLine(confirmDocument.confirmDocumentId)} />
                     }
                 </div>
             }

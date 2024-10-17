@@ -26,6 +26,7 @@ import OneReceiveWorkTicketPage from './page/work/receive/OneReceiveWorkTicketPa
 import TemporaryConfirmDocumentPage from './page/confirm/temporary/TemporaryConfirmDocumentPage';
 import ConfirmSidebar from './page/confirm/ConfirmSidebar';
 import OneRequestWorktTicketPage from './page/work/request/OneRequestWorkTicketPage';
+import SearchWorkTicketPage from './page/work/search/SearchWorkTicketPage';
 
 const router = createBrowserRouter([
   {
@@ -104,7 +105,7 @@ const router = createBrowserRouter([
   },
   {
     path : URL_WORKTICKET_SEARCH,
-    element : <h2>페이지 미구현</h2>
+    element : <SearchWorkTicketPage />
   }
 ]);
 

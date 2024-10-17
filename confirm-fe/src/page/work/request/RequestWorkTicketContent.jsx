@@ -3,10 +3,12 @@ import Title from "../../document/Title";
 import WorkApi from "../../../api/workApi";
 import MainContainer from "../../../components/layout/container/MainContainer";
 import WorkTicketTable from "../WorkTicketTable";
+import { useNavigate } from "react-router-dom";
 
 
 export default function RequestWorkTicketContent() {
-
+    const nav = useNavigate();
+    
     const [requestWorkTickets, setRequestWorkTickets] = useState([]);
 
     const callIRequestWorkTicket = async () => {
@@ -31,8 +33,21 @@ export default function RequestWorkTicketContent() {
 
     return <>
         <MainContainer profile='dev'>
-            <div id="requestWorkTicketContainer" style={{ border: '1px dashed blue', width: '900px', margin: '0px 0px 50px 0px', padding: '20px' }}>
+            <div id="requestWorkTicketContainer" 
+            style={{ border: '1px dashed blue', width: '900px', margin: '0px 0px 50px 0px', padding: '20px' }}>
                 <Title className="basicTitle" name="요청한 티켓" />
+                <div id="infoMessage" style={{ marginBottom: '10px' }}>
+                    <p style={{
+                        marginTop: '5px',
+                        fontWeight: "normal",
+                        cursor: "pointer"
+                    }}
+                        className="basicDesc"
+                        onClick={() => nav('/work/search')}>
+                        요청한 티켓은 자신이 요청한 티켓만 조회가 가능합니다. 
+                        <br />티켓 조회가 필요할 시 클릭하세요. 티켓 조회 페이지로 이동합니다
+                    </p>
+                </div>
                 {requestWorkTickets.length > 0 ? <WorkTicketTable workTickets={requestWorkTickets} readType='REQUEST'/> :
                     <p style={{ marginTop: '20px' }} className="basicDesc">요청한 티켓이 없습니다</p>}
             </div>
