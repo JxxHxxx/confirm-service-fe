@@ -228,7 +228,7 @@ export default function OneReceiveWorkTicketContent() {
                             <td value={workTicket.workTicketId}>{workTicket.workTicketPk}</td>
                             <td>{WorkConverter.convertWorkStatus(workTicket.workStatus)}</td>
                             <td>{workTicket.workRequester.name}</td>
-                            <td>{workTicket.chargeDepartmentId}</td>
+                            <td>{workTicket.chargeDepartmentName}</td>
                             <td>{workDetail && workDetail.receiverName}</td>
                         </tr>
                     </tbody>

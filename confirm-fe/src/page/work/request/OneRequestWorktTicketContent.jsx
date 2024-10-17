@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../../components/button/Button";
 import MainContainer from "../../../components/layout/container/MainContainer";
 import WorkConverter from "../../../converter/work/WorkConverter";
 import Title from "../../document/Title";
+import WorkApi from "../../../api/workApi";
+import { useParams } from "react-router-dom";
+import { format } from "date-fns";
 
 
 export default function OneRequestWorktTicketContent() {
+    const params = useParams();
+    const [contentPresent, setContentPresent] = useState({
+        reqContent: true,
+        analContent: true,
+        planContent: true
+
+    });
+
     const [oneWork, setOneWork] = useState({
         workTicket: {
             workStatus: '',
@@ -14,12 +25,36 @@ export default function OneRequestWorktTicketContent() {
             },
         },
 
-        workDetail : {
-            
+        workDetail: {
+
         }
     });
 
-    const {workTicket, workDetail} = oneWork;
+    const fetchOneWorkTicket = async () => {
+        try {
+            const { data, status } = await WorkApi.getOneWorkTicket(params.workTicketPk);
+
+            if (status === 200) {
+                setOneWork(data.data)
+            }
+        } catch (e) {
+            alert(e);
+        }
+    }
+
+    const analysisContentRenderCondition = () => {
+        return !['CREATE', 'RECEIVE'].includes(workTicket.workStatus)
+    }
+
+    const planContentRenderCondition = () => {
+        return !['CREATE', 'RECEIVE', 'ANALYZE_BEGIN', 'ANALYZE_COMPLETE'].includes(workTicket.workStatus);
+    }
+
+    const { workTicket, workDetail } = oneWork;
+
+    useEffect(() => {
+        fetchOneWorkTicket();
+    }, [])
 
     return <MainContainer>
         <div id="oneRequestWorkTicketContainer"
@@ -28,7 +63,7 @@ export default function OneRequestWorktTicketContent() {
                 style={{ border: '1px solid gray', margin: '10px 0px 10px 0px', padding: '5px' }}>
                 <Title className="titleLeft" name="티켓 정보" />
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button cn="btnTicket"
+                    <Button cn="btnTicket" style={{ cursor: 'default' }}
                         name={WorkConverter.convertReceiveButtonName(workTicket.workStatus)}
                     />
                 </div>
@@ -48,12 +83,119 @@ export default function OneRequestWorktTicketContent() {
                             <td value={workTicket.workTicketId}>{workTicket.workTicketPk}</td>
                             <td>{WorkConverter.convertWorkStatus(workTicket.workStatus)}</td>
                             <td>{workTicket.workRequester.name}</td>
-                            <td>{workTicket.chargeDepartmentId}</td>
+                            <td>{workTicket.chargeDepartmentName}</td>
                             <td>{workDetail && workDetail.receiverName}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <div>
+                <Button cn="btn_normal" name={contentPresent.reqContent ? "요청 정보 접기" : "요청 정보 열기"}
+                    onClick={() => setContentPresent((prev) => ({
+                        ...prev,
+                        reqContent: !contentPresent.reqContent
+                    }))} />
+            </div>
+            {contentPresent.reqContent &&
+                <div id="ticketReqInformation" style={{ border: '1px solid gray', margin: '10px 0px 10px 0px', padding: '5px' }}>
+                    <Title className="titleLeft" name="요청 정보" />
+                    <p style={{ fontFamily: 'Maruburi', margin: '0px', marginBottom: '5px' }}>요청 제목 : {workTicket.requestTitle}</p>
+                    <p style={{ fontFamily: 'Maruburi', margin: '0px' }}>요청 내용 <br /></p>
+                    <div>
+                        <textarea value={workTicket.requestContent} readOnly={true}
+                            style={{
+                                fontFamily: 'Maruburi',
+                                width: '882px',
+                                height: '200px',
+                                margin: '0px',
+                                fontWeight: 'normal',
+                                resize: 'none'
+                            }}>
+                        </textarea>
+                    </div>
+                </div>
+            }
+            {/* 분석 내용 컴포넌트 */}
+            {analysisContentRenderCondition() &&
+                <div>
+                    <Button cn="btn_normal" name={contentPresent.analContent ? "분석 내용 접기" : "분석 내용 열기"}
+                        onClick={() => setContentPresent((prev) => ({
+                            ...prev,
+                            analContent: !contentPresent.analContent
+                        }))} />
+                </div>}
+            {(contentPresent.analContent && analysisContentRenderCondition()) &&
+                <div id="workDetailAnalysisContent" style={{
+                    border: '1px solid gray',
+                    margin: '10px 0px 10px 0px',
+                    padding: '5px'
+                }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Title className="titleLeft" name="티켓 분석 내용" />
+                        <p style={{
+                            fontFamily: 'Maruburi',
+                            fontWeight: 'normal',
+                            margin: '0px'
+                        }}>
+                            {workDetail.analyzeCompletedTime && '완료 시간 : ' + format(workDetail.analyzeCompletedTime, 'yyyy-MM-dd HH:mm:ss')}
+                        </p>
+                    </div>
+                    <textarea style={{
+                        fontFamily: 'Maruburi',
+                        width: '882px',
+                        height: '200px',
+                        margin: '0px',
+                        fontWeight: 'normal',
+                        resize: 'none'
+                    }}
+                        value={workDetail.analyzeContent}
+                        onChange={(event) => handleOnChangeAnalyzeContent(event)}
+                        readOnly={workTicket.workStatus === 'ANALYZE_BEGIN' ? false : true}
+                    >
+                    </textarea>
+                </div>
+            }
+            {/* 계획 내용 컴포넌트 */}
+            {planContentRenderCondition() &&
+                <div>
+                    <Button cn="btn_normal" name={contentPresent.planContent ? "계획 내용 접기" : "계획 내용 열기"}
+                        onClick={() => setContentPresent((prev) => ({
+                            ...prev,
+                            planContent: !contentPresent.planContent
+                        }))} />
+                </div>
+            }
+            {(contentPresent.planContent && planContentRenderCondition()) &&
+                <div id="workDetailPlanContent" style={{
+                    border: '1px solid gray',
+                    margin: '10px 0px 10px 0px',
+                    padding: '5px'
+                }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Title className="titleLeft" name="작업 계획 내용" />
+                        <p style={{
+                            fontFamily: 'Maruburi',
+                            fontWeight: 'normal',
+                            margin: '0px'
+                        }}>
+                            {workDetail.workPlanCompletedTime && '완료 시간 : ' + format(workDetail.workPlanCompletedTime, 'yyyy-MM-dd HH:mm:ss')}
+                        </p>
+                    </div>
+                    <textarea style={{
+                        fontFamily: 'Maruburi',
+                        width: '882px',
+                        height: '200px',
+                        margin: '0px',
+                        fontWeight: 'normal',
+                        resize: 'none'
+                    }}
+                        value={workDetail.workPlanContent}
+                        onChange={(event) => handleOnChangePlanContent(event)}
+                        readOnly={workTicket.workStatus === 'MAKE_PLAN_BEGIN' ? false : true}
+                    >
+                    </textarea>
+                </div>
+            }
         </div>
     </MainContainer>
 }
