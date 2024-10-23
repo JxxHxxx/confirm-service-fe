@@ -1,24 +1,21 @@
 import { Fragment, useEffect, useState } from "react"
-import { ConfirmApi, getApprovalLines, postApprovalLines } from "../../api/confirmApi";
-import { VacationApi } from "../../api/vacationApi";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import ConfirmApi from "../../api/confirmApi";
+import { useNavigate, useParams } from "react-router-dom";
 import List from "../../components/list/List";
 import Tree from "../../components/list/Tree";
-import { getOrganizationTree } from "../../api/organizationApi";
-import { getDeparmentMemberLeaves, searchCompanyMembers } from "../../api/memberApi";
+import OrganizationApi from "../../api/organizationApi";
+import MemberApi from "../../api/memberApi";
 import MemberSearchV2 from "../confirm/MemberSearchV2";
 import Button from "../../components/button/Button";
-
-const tag = '[ApprovalLine] COMPONENT'
 
 export default function ApprovalLine({ vacationId }) {
     const params = useParams();
     const navigate = useNavigate();
-    const location = useLocation();
 
     const [selectedMembers, setSelectedMemebers] = useState([]);
     const [organizationTree, setOrganizationTree] = useState([]);
     const [searchResultMembers, setSearchResultMembers] = useState([]);
+    const [savedApprovalLines, setSavedApprovalLines] = useState([]);     // 랜더링 시 사용
 
     const [approvalLines, setApprovalLines] = useState({
         flag: {
@@ -69,7 +66,7 @@ export default function ApprovalLine({ vacationId }) {
             approvalDepartmentName: member.departmentName
         }));
 
-        const result = await postApprovalLines(confirmDocumentId, approvalLineForm);
+        const result = await ConfirmApi.postApprovalLines(confirmDocumentId, approvalLineForm);
         if (result.status === 200) {
             setApprovalLines((prev) => updateApprovalLinesFlag(prev, 'submitted', true))
         }
@@ -95,13 +92,10 @@ export default function ApprovalLine({ vacationId }) {
             }
         }
 
-    const [savedApprovalLines, setSavedApprovalLines] = useState([]);
-    // 랜더링 시 사용
-
     const amountApprovalLines = async () => {
         const confirmDocumentId = params.confirmDocumentId;
         // 결재선이 이미 등록된 경우 START
-        const result = await getApprovalLines(confirmDocumentId);
+        const result = await ConfirmApi.getApprovalLines(confirmDocumentId);
         setSavedApprovalLines(result.data.data);
         if (result.data.data.length > 0) {
             setApprovalLines((prev) => updateApprovalLinesFlag(prev, 'submitted', true));
@@ -109,10 +103,10 @@ export default function ApprovalLine({ vacationId }) {
         }
         // 결재선이 이미 등록된 경우 END
 
-        const orgResult = await getOrganizationTree();
+        const orgResult = await OrganizationApi.getOrganizationTree();
         setOrganizationTree(orgResult.data.data);
 
-        const departmentMembersReuslt = await getDeparmentMemberLeaves();
+        const departmentMembersReuslt = await MemberApi.getDeparmentMemberLeaves();
         setSearchResultMembers(departmentMembersReuslt.content);
     }
 
@@ -122,7 +116,7 @@ export default function ApprovalLine({ vacationId }) {
             departmentId: departmentId
         }
 
-        const response = await searchCompanyMembers(params);
+        const response = await MemberApi.searchCompanyMembers(params);
         setSearchResultMembers(response.data);
     }
 
@@ -135,7 +129,7 @@ export default function ApprovalLine({ vacationId }) {
         const searchConditionForm = {
             [keyword.option]: keyword.value
         }
-        const response = await searchCompanyMembers(searchConditionForm);
+        const response = await MemberApi.searchCompanyMembers(searchConditionForm);
         setSearchResultMembers(response.data);
     }
 

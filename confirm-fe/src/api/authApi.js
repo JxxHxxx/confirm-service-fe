@@ -39,3 +39,11 @@ export const checkMemberAuthentication = function () {
         .then((res) => res.data)
         .catch(err => err);
 }
+
+const AuthApi = {
+    signIn,
+    logout,
+    checkMemberAuthentication,
+}
+
+export default AuthApi;

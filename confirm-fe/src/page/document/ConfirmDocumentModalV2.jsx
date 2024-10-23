@@ -6,7 +6,7 @@ import "../../css/Icon.css";
 import "../../css/Button.css";
 import ApprovalLineList from "./ApprovalLineList";
 import Title from "./Title";
-import { acceptConfirmDocument, rejectConfirmDocument } from "../../api/confirmApi";
+import ConfirmApi from "../../api/confirmApi";
 
 export default function ConfirmDocumentModalV2({ modalOpen, setModalOpen, children, confirmDocument, setConfirmDocument }) {
     function closeModal() {
@@ -21,9 +21,7 @@ export default function ConfirmDocumentModalV2({ modalOpen, setModalOpen, childr
             approvalLineId: sessionStorage.getItem("memberId"),
         };
 
-        const response = await acceptConfirmDocument(
-            confirmDocumentId, approvalForm
-        );
+        const response = await ConfirmApi.acceptConfirmDocument(confirmDocumentId, approvalForm);
         if (response.status !== 200) {
             alert(response.data.message);
         }
@@ -40,7 +38,7 @@ export default function ConfirmDocumentModalV2({ modalOpen, setModalOpen, childr
             approvalLineId: sessionStorage.getItem("memberId"),
         };
 
-        const response = await rejectConfirmDocument(confirmDocumentId, rejectForm);
+        const response = await ConfirmApi.rejectConfirmDocument(confirmDocumentId, rejectForm);
         if (response.status !== 200) {
             alert(response.data.message);
         }

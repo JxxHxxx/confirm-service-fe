@@ -3,7 +3,6 @@ import "../../css/Table.css";
 import "../../css/Button.css";
 
 import { convertDate } from "../../converter/DateTimeConvert";
-
 import { convertVacationStatus, convertVacationType } from "../../converter/VacationConverter";
 
 const tag = "[vacationSearchResult]"

@@ -1,13 +1,13 @@
 import { Fragment, useState, useEffect } from "react";
 import { convertApproveStatus } from "../../converter/DocumentConverter";
 import { convertMonthTime } from "../../converter/DateTimeConvert";
-import { getApprovalLines } from "../../api/confirmApi";
+import ConfirmApi from "../../api/confirmApi";
 
 export default function ApprovalLineList({ confirmDocument }) {
     const [approvalLines, setApprovalLines] = useState([]);
 
     const handleAmount = async () => {
-        const response = await getApprovalLines(confirmDocument.confirmDocumentId);
+        const response = await ConfirmApi.getApprovalLines(confirmDocument.confirmDocumentId);
         const orderedApprovalLines = response.data.data.sort((now, next) => (now.approvalOrder - next.approvalOrder))
         setApprovalLines(orderedApprovalLines);
     };

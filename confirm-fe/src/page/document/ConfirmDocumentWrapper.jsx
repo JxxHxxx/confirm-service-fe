@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ConfirmApi, getConfirmDocumentContent, getConfirmDocumentElementsV2 } from "../../api/confirmApi";
+import  ConfirmApi from "../../api/confirmApi";
 import ConfirmDocumentModalV2 from "./ConfirmDocumentModalV2";
 import DocumentContentV2 from "./DocumentContentV2";
 import Button from "../../components/button/Button";
@@ -20,8 +20,8 @@ export default function ConfirmDocumentWrapper({
     const [documentElements, setDocumentElements] = useState([{ elementGroupName: '', elements: [] }]);
     const requestToServer = async () => {
         if (confirmDocument.contentPk) {
-            const contentsResponse = await getConfirmDocumentContent(confirmDocument.contentPk);
-            const elementsResponse = await getConfirmDocumentElementsV2(confirmDocument.documentType);
+            const contentsResponse = await ConfirmApi.getConfirmDocumentContent(confirmDocument.contentPk);
+            const elementsResponse = await ConfirmApi.getConfirmDocumentElements(confirmDocument.documentType);
 
             setDocumentContents(contentsResponse.data.contents);
 

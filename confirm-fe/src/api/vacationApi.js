@@ -2,7 +2,7 @@ import createAxiosInstance from "./GlobalApiConfiguration"
 
 const instance = createAxiosInstance('http://localhost:8080', true)
 
-export const getVacations = function (addParams) {
+const getVacations = function (addParams) {
     const defaultParams = {
         companyId: sessionStorage.getItem('companyId'),
         departmentId: sessionStorage.getItem('departmentId')
@@ -15,7 +15,7 @@ export const getVacations = function (addParams) {
         .catch((err) => alert(err))
 }
 
-export const applyVacation = function (requestVacationForm) {
+const applyVacation = function (requestVacationForm) {
     return instance.post(`/api/vacations`, requestVacationForm,
         { withCredentials: true }
     )
@@ -23,13 +23,7 @@ export const applyVacation = function (requestVacationForm) {
         .catch(err => err)
 }
 
-const raiseConfirmDoucment = function (vacationId) {
-    return instance.post(`/api/vacations/${vacationId}/raise`)
-        .then(res => res)
-        .catch(err => err)
-}
-
-export const getVacationTypePolicy = function () {
+const getVacationTypePolicy = function () {
     const params = {
         companyId: sessionStorage.getItem('companyId')
     }
@@ -38,6 +32,10 @@ export const getVacationTypePolicy = function () {
         .catch(err => err)
 }
 
-export const VacationApi = {
-    raiseConfirmDoucment
+const VacationApi = {
+    getVacations,
+    applyVacation,
+    getVacationTypePolicy
 }
+
+export default VacationApi;

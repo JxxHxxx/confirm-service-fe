@@ -3,7 +3,7 @@ import { convertDate } from "../../../converter/DateTimeConvert";
 import DatePicker from 'react-datepicker';
 import ReactSelect from 'react-select';
 import "react-datepicker/dist/react-datepicker.css"
-import { applyVacation } from "../../../api/vacationApi";
+import VacationApi from "../../../api/vacationApi";
 import { useNavigate } from "react-router-dom";
 import ApplyVacationFormLayout from "./ApplyVacationFormLayout";
 import VacationReason from "./VacationReason";
@@ -108,7 +108,7 @@ export default function HalfDayForm({ vacationType }) {
             delegatorName: delegator.delegatorName,
         }
 
-        const response = await applyVacation(requestVacationForm);
+        const response = await VacationApi.applyVacation(requestVacationForm);
 
         const confirmDocumentId = 'VAC' + sessionStorage.getItem('companyId') + response.data.vacationId
         navigate(`/confirm/${confirmDocumentId}/ApprovalLine`, {

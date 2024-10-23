@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { VacationSearchResult } from "./VacationSearchResult";
-import { getVacations } from "../../api/vacationApi";
+import VacationApi from "../../api/vacationApi";
 import VacationSidebar from "./VacationSidebar";
 import { Header } from "../../components/layout/Header";
 import Page from '../../components/layout/Page';
@@ -9,7 +9,7 @@ export function Vacation() {
     const [vacations, setVacations] = useState([]);
 
     const handleVacations = async () => {
-        const findVacations = await getVacations();
+        const findVacations = await VacationApi.getVacations();
         setVacations(findVacations);
     }
 

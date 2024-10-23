@@ -4,7 +4,7 @@ import MemberSearchModal from "./MemberSearchModal";
 import ApplyVacationFormLayout from "./ApplyVacationFormLayout";
 import DatePicker from 'react-datepicker';
 import { IoIosSearch } from "react-icons/io";
-import { applyVacation, getVacationTypePolicy } from "../../../api/vacationApi";
+import VacationApi from "../../../api/vacationApi";
 import { ApplyVacationTransfer } from "../../../transfer/ApplyVacationTransfer";
 import Select from 'react-select';
 import { useEffect } from "react";
@@ -75,19 +75,19 @@ export default function SpecialVacationForm() {
         const delegator = { delegatorId: '', delegatorName: '' }
         const requestVacationForm = new ApplyVacationTransfer(vacationForm.vacationType, 'NOT_DEDUCT', vacationDuration, vacationForm.reason, delegator);
 
-        const response = await applyVacation(requestVacationForm);
+        const response = await VacationApi.applyVacation(requestVacationForm);
 
         const confirmDocumentId = 'VAC' + sessionStorage.getItem('companyId') + response.data.vacationId
         navigate(`/confirm/${confirmDocumentId}/ApprovalLine`, {
-            state : {
-                resourceId : response.data.vacationId,
-                documentType : 'VAC'
+            state: {
+                resourceId: response.data.vacationId,
+                documentType: 'VAC'
             }
         })
     }
 
     const handleShowVacationPolicyInformation = async () => {
-        const { data } = await getVacationTypePolicy();
+        const { data } = await VacationApi.getVacationTypePolicy();
         if (data.data.length > 0) {
             setSpecialVacation((prev) => ({
                 ...prev,

@@ -1,7 +1,7 @@
 
 import Modal from "react-modal";
 import Searchbar from "../../../components/input/Searchbar";
-import { searchCompanyMembers } from "../../../api/memberApi";
+import MemberApi from "../../../api/memberApi";
 import { useEffect, useRef, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 
@@ -30,7 +30,7 @@ export default function MemberSearchModal({ modalOpen, setModalOpen, onHandleSel
             departmentId: sessionStorage.getItem('departmentId'),
             memberName: searchKeywordRef.current
         }
-        const { status, data } = await searchCompanyMembers(params);
+        const { status, data } = await MemberApi.searchCompanyMembers(params);
 
         if (status !== 200) {
             // 결과를 초기화 해야함

@@ -1,5 +1,5 @@
 import { Fragment, useContext } from "react";
-import { logout } from "../../api/authApi";
+import AuthApi from "../../api/authApi";
 import { CommonContext } from "../../context/CommonProvider";
 
 const tag = '[LoginLogout] COMPONENT'
@@ -8,7 +8,7 @@ export function LoginLogout() {
     console.log(tag);
     const { login, setLogin } = useContext(CommonContext);
     const handleLogout = async () => {
-        await logout();
+        await AuthApi.logout();
         setLogin(false);
         sessionStorage.clear();
     }

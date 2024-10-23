@@ -1,6 +1,6 @@
 
 import { Fragment, useEffect, useRef, useState } from "react";
-import { applyVacation } from "../../../api/vacationApi";
+import VacationApi from "../../../api/vacationApi";
 import { useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import { NOW_DATE } from "../../../constant/timeConst";
@@ -58,7 +58,7 @@ export default function MoreDayForm({ vacationType }) {
             delegatorName: delegator.delegatorName,
         }
 
-        const response = await applyVacation(requestVacationForm);
+        const response = await VacationApi.applyVacation(requestVacationForm);
 
         if (response.status === 200) {
             setVactionId(response.data.vacationId)

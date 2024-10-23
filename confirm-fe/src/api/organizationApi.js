@@ -2,7 +2,7 @@ import createAxiosInstance from "./GlobalApiConfiguration";
 
 const instance = createAxiosInstance('http://localhost:8080', true)
 
-export const getOrganizationTree = function () {
+const getOrganizationTree = function () {
 
     const companyId = sessionStorage.getItem('companyId');
 
@@ -11,6 +11,13 @@ export const getOrganizationTree = function () {
         .catch(err => err)
 }
 
-export const searchOrganization = function (params) {
+const searchOrganization = function (params) {
     return instance.get(`/api/organizations`, { params })
 }
+
+const OrganizationApi = {
+    getOrganizationTree,
+    searchOrganization
+}
+
+export default OrganizationApi;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getDepartmentConfirmDocuments } from "../../api/confirmApi";
+import ConfirmApi from "../../api/confirmApi";
 import Page from "../../components/layout/Page";
 import ConfirmSidebar from "./ConfirmSidebar";
 import { Header } from "../../components/layout/Header";
@@ -24,7 +24,7 @@ export function DepartmentConfirmDocumentPage() {
 
     const getDateToServer = async () => {
         try {
-            const response = await getDepartmentConfirmDocuments();
+            const response = await ConfirmApi.getDepartmentConfirmDocuments();
             setConfirms(response.data === undefined ? [] : response.data.data);
         } catch (error) {
         }

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import SearchModal from "../../../components/modal/SearchModal";
 import Button from "../../../components/button/Button";
-import { searchOrganization } from "../../../api/organizationApi";
+import OrganizationApi from "../../../api/organizationApi";
 import CheckModal from "../../../components/modal/CheckModal";
 
 
@@ -22,7 +22,7 @@ export default function OrgSearchModal({ setWorkTicket }) {
                 companyId: sessionStorage.getItem('companyId'),
                 departmentName: orgKeywordRef.current
             }
-            const { status, data } = await searchOrganization(params);
+            const { status, data } = await OrganizationApi.searchOrganization(params);
             if (status === 200) {
                 setOrgSearchResult(data.data);
             }

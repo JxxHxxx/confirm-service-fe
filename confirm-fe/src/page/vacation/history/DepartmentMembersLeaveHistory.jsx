@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import { getDeparmentMemberLeaves } from "../../../api/memberApi"
+import MemberApi from "../../../api/memberApi"
 import Pagination from "../../../components/pagination/Pagination";
 import { leaveHistoryContext } from "../../../context/PaginationContext";
 
@@ -18,7 +18,7 @@ export default function DepartmentMembersLeaveHistory() {
             page: memberLeaveHistPgn.pageable.pageNumber,
             size: size
         }
-        const response = await getDeparmentMemberLeaves(params);
+        const response = await MemberApi.getDeparmentMemberLeaves(params);
 
         setMemberLeaveHistPgn(response);
     }

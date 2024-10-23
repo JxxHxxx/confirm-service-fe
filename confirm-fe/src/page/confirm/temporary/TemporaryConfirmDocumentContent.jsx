@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ConfirmApi } from "../../../api/confirmApi"
+import ConfirmApi from "../../../api/confirmApi"
 import MainContainer from "../../../components/layout/container/MainContainer";
 import Title from "../../document/Title";
 import { DocumentConverter } from "../../../converter/DocumentConverter";
@@ -69,7 +69,7 @@ export default function TemporaryConfirmDocumentContent() {
                     padding: '0px',
                     color: 'gray',
                     fontFamily: 'Maruburi',
-                    fontSize : '13px',
+                    fontSize: '13px',
                 }}>임시 보관함이 비어있습니다.</p>
             }
             <ConfirmDocumentWrapper

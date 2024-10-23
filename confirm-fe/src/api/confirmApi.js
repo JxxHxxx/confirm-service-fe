@@ -2,21 +2,14 @@ import createAxiosInstance from './GlobalApiConfiguration';
 
 const instance = createAxiosInstance('http://localhost:8000', true)
 
-export const getConfirmDocumentWithApprovalLines = function (params) {
-
-  return instance.get(`/api/confirm-documents/fetch-approval-lines`, { params })
-    .then((res) => res)
-    .catch((err) => err)
-}
-
-export const getConfirmDocumentsWrittenSelf = function (params) {
+const getConfirmDocumentsWrittenSelf = function (params) {
 
   return instance.get(`/api/confirm-documents/written-self`, { params })
     .then((res) => res)
     .catch((err) => err)
 }
 
-export const getDepartmentConfirmDocuments = function () {
+const getDepartmentConfirmDocuments = function () {
   const params = {
     companyId: sessionStorage.getItem('companyId'),
     departmentId: sessionStorage.getItem('departmentId')
@@ -27,7 +20,7 @@ export const getDepartmentConfirmDocuments = function () {
     .catch((err) => err)
 }
 
-export const getApprovalPendingDocuments = function () {
+const getApprovalPendingDocuments = function () {
   const params = {
     approvalId: sessionStorage.getItem('memberId'),
     approvalStatus: 'PENDING',
@@ -39,14 +32,14 @@ export const getApprovalPendingDocuments = function () {
     .catch((err) => err)
 }
 
-export const searchConfirmDocuments = function (params) {
+const searchConfirmDocuments = function (params) {
 
   return instance.get(`/api/confirm-documents/search`, { params })
     .then((res) => res)
     .catch((err) => err)
 }
 
-export const getApprovalLines = function (confirmDocumentId) {
+const getApprovalLines = function (confirmDocumentId) {
   const params = {
     companyId : sessionStorage.getItem('companyId')
   }
@@ -55,26 +48,26 @@ export const getApprovalLines = function (confirmDocumentId) {
     .catch((err) => err)
 }
 
-export const postApprovalLines = function (confirmDocumentId, approvalLineForm) {
+const postApprovalLines = function (confirmDocumentId, approvalLineForm) {
 
   return instance.post(`/api/confirm-documents/${confirmDocumentId}/approval-lines`, approvalLineForm)
     .then((res) => res)
     .catch((err) => err)
 }
 
-export const acceptConfirmDocument = function (confirmDocumentPk, approvalForm) {
+const acceptConfirmDocument = function (confirmDocumentPk, approvalForm) {
   return instance.patch(`/api/confirm-documents/${confirmDocumentPk}/accept`, approvalForm)
     .then((res) => res)
     .catch((err) => err.response)
 }
 
-export const rejectConfirmDocument = function (confirmDocumentPk, approvalForm) {
+const rejectConfirmDocument = function (confirmDocumentPk, approvalForm) {
   return instance.patch(`/api/confirm-documents/${confirmDocumentPk}/reject`, approvalForm)
     .then((res) => res)
     .catch((err) => err.response)
 }
 
-export const getConfirmDocumentContent = function (confirmDocumentContentPk) {
+const getConfirmDocumentContent = function (confirmDocumentContentPk) {
   return instance.get(`/api/confirm-documents/contents/${confirmDocumentContentPk}`)
     .then((res) => res)
     .catch((err) => err)
@@ -87,17 +80,8 @@ export const getConfirmDocumentForm = function () {
   }
   return instance.get(`/api/confirm-document-forms`, { params: defaultParams })
 }
-// 서버단에서 companyId 조건이 IN 을 타도록 만들어야 함
-export const getConfirmDocumentElements = function (confirmDocumentFormId) {
-  const defaultParams = {
-    companyId: 'COM'
-  }
-  return instance.get(`/api/confirm-document-forms/${confirmDocumentFormId}/elements`, { params: defaultParams })
-    .then((res) => res)
-    .catch((err) => err)
-}
 
-export const getConfirmDocumentElementsV2 = function (confirmDocumentFormId) {
+const getConfirmDocumentElements = function (confirmDocumentFormId) {
   const defaultParams = {
     companyId: 'COM,' + sessionStorage.getItem('companyId')
   }
@@ -117,8 +101,18 @@ const raiseConfirmDocument = function (confirmDocumentId) {
     .catch((err) => alert(err.response.data.message))
 }
 
-export const ConfirmApi = {
+const ConfirmApi = {
+  getConfirmDocumentsWrittenSelf,
+  getDepartmentConfirmDocuments,
   getApprovalPendingDocuments,
   searchConfirmDocuments,
-  raiseConfirmDocument
+  getApprovalLines,
+  postApprovalLines,
+  raiseConfirmDocument,
+  acceptConfirmDocument,
+  rejectConfirmDocument,
+  getConfirmDocumentContent,
+  getConfirmDocumentElements
 }
+
+export default ConfirmApi;

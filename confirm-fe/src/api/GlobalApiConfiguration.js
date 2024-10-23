@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { checkMemberAuthentication } from './authApi';
+import AuthApi from './authApi';
 
 const createAxiosInstance = (baseURL = '', authentication = false) => {
     const instance = axios.create({
@@ -20,7 +20,7 @@ const createAxiosInstance = (baseURL = '', authentication = false) => {
                     departmentName: sessionStorage.getItem('departmentName')
                 }
 
-                const statusCode = await checkMemberAuthentication(authForm)
+                const statusCode = await AuthApi.checkMemberAuthentication(authForm)
                 if (statusCode !== 200) {
                     window.location.href = '/login'
                 }

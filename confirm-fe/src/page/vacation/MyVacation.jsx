@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import VacationSidebar from "./VacationSidebar";
-import { getVacations } from "../../api/vacationApi";
-import { getDeparmentMemberLeaves } from "../../api/memberApi";
+import  VacationApi  from "../../api/vacationApi";
+import MemberApi from "../../api/memberApi";
 import { convertVacationStatus, convertVacationType } from "../../converter/VacationConverter";
 import { convertDate } from "../../converter/DateTimeConvert";
 import { useNavigate } from "react-router-dom";
@@ -22,12 +22,12 @@ export default function MyVacation() {
         const addParams = {
             requesterId: sessionStorage.getItem("memberId")
         }
-        const result = await getVacations(addParams);
+        const result = await VacationApi.getVacations(addParams);
         setCreatedMyVacations(result);
     }
 
     const handleApprovalLine = async () => {
-        const findDepartmentMembers = await getDeparmentMemberLeaves();
+        const findDepartmentMembers = await MemberApi.getDeparmentMemberLeaves();
         setDepartmentMembers(findDepartmentMembers);
     }
 

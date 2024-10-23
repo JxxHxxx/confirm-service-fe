@@ -1,5 +1,5 @@
 import { Fragment, useContext, useState } from "react";
-import { signIn } from "../../api/authApi";
+import AuthApi from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
 import { CommonContext } from "../../context/CommonProvider";
 
@@ -45,7 +45,7 @@ export function LoginForm() {
             return;
         }
 
-        const loginResponse = await signIn(loginInfo);
+        const loginResponse = await AuthApi.signIn(loginInfo);
 
         if (loginResponse === undefined) {
             setLoginFailMessage('해당 서비스를 사용할 수 없습니다. 관리자에 문의하세요');
