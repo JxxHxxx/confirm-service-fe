@@ -81,7 +81,6 @@ export default function ApprovalLine({ vacationId }) {
 
     const handleOnClickRaiseConfirmDocument = async () => {
         // 휴가 신청서의 경우, 결재 문서를 상신할 때 휴가 서버를 거쳐야 한다.
-        if (location.state.documentType === 'VAC') {
             const result = await ConfirmApi.raiseConfirmDocument(params.confirmDocumentId);
 
             if (result.status === 200) {
@@ -94,21 +93,7 @@ export default function ApprovalLine({ vacationId }) {
                 alert(result.response.data.message);
                 return;
             }
-
-        } else {
-            try {
-                const result = await ConfirmApi.raiseConfirmDocument(location.state.confirmDocumentId);
-                if (result.status === 200) {
-                    alert('상신 완료');
-                    navigate('/confirm/my-confirm');
-                    return;
-                }
-            } 
-            catch(e) {
-                alert(e);
-            }
         }
-    }
 
     const [savedApprovalLines, setSavedApprovalLines] = useState([]);
     // 랜더링 시 사용

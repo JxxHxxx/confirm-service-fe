@@ -33,69 +33,53 @@ export default function ConfirmDocumentWrapper({
     }
 
     const handleOnClickConfirmDocumentRaise = async () => {
-        // 휴가 신청서의 경우, 결재 문서를 상신할 때 휴가 서버를 거쳐야 한다.
-        const documentType = confirmDocument.documentType;
-            // 휴가 문서일 경우, resourceId 를 보냄, 휴가 서버로 통신
-            if (documentType === 'VAC') {
-            const result = await ConfirmApi.raiseConfirmDocument(confirmDocument.confirmDocumentId);
+        const result = await ConfirmApi.raiseConfirmDocument(confirmDocument.confirmDocumentId);
 
-            if (result.status === 200) {
-                alert('상신 완료')
-                return;
-            }
-            else {
-                alert(result.response.data.message);
-                return;
-            }
-
-        } else {
-            try {
-                const result = await ConfirmApi.raiseConfirmDocument(confirmDocument.confirmDocumentId);
-                if (result.status === 200) {
-                    alert('상신 완료');
-                    return;
-                }
-            } 
-            catch(e) {
-                alert(e);
-            }
+        if (result.status === 200) {
+            alert('상신 완료')
+            return;
+        }
+        else {
+            alert(result.response.data.message);
+            return;
         }
     }
 
-    const handleNavApprovalLine = (confirmDocumentId) => {
-        nav(`/confirm/${confirmDocumentId}/ApprovalLine`)
-    }
+
+const handleNavApprovalLine = (confirmDocumentId) => {
+    nav(`/confirm/${confirmDocumentId}/ApprovalLine`)
+}
 
 
-    useEffect(() => {
-        requestToServer();
-    }, [confirmDocument])
+useEffect(() => {
+    requestToServer();
+}, [confirmDocument])
 
 
-    return (
-        <ConfirmDocumentModalV2
-            confirmDocument={confirmDocument}
-            setConfirmDocument={setConfirmDocument}
-            modalOpen={modalOpen}
-            setModalOpen={setModalOpen}>
-            {/* 기안자일 경우에 결재선 지정, 상신 버튼 표시 */}
-            {confirmDocument.requesterId === sessionStorage.getItem('memberId') &&
-                <div id="approvalLineAndRaiseDiv"
-                    style={{ display: 'flex', paddingBottom: '5px' }}>
-                    {raiseButtonDisplayStatus.includes(confirmDocument.confirmStatus) &&
-                        <Button cn="btnInsideConfirmDocument"
-                            name="상신"
-                            onClick={handleOnClickConfirmDocumentRaise}
-                            style={{ marginRight: '5px' }} />
-                    }
-                    {approvalLineButtonDisplayStatus.includes(confirmDocument.approvalLineLifecycle) &&
-                        <Button cn="btnInsideConfirmDocument"
-                            name="결재선 지정"
-                            onClick={() => handleNavApprovalLine(confirmDocument.confirmDocumentId)} />
-                    }
-                </div>
-            }
-            <DocumentContentV2 documentElements={documentElements} contents={documentContents} />
-        </ConfirmDocumentModalV2>
-    );
+return (
+    <ConfirmDocumentModalV2
+        confirmDocument={confirmDocument}
+        setConfirmDocument={setConfirmDocument}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}>
+        {/* 기안자일 경우에 결재선 지정, 상신 버튼 표시 */}
+        {confirmDocument.requesterId === sessionStorage.getItem('memberId') &&
+            <div id="approvalLineAndRaiseDiv"
+                style={{ display: 'flex', paddingBottom: '5px' }}>
+                {raiseButtonDisplayStatus.includes(confirmDocument.confirmStatus) &&
+                    <Button cn="btnInsideConfirmDocument"
+                        name="상신"
+                        onClick={handleOnClickConfirmDocumentRaise}
+                        style={{ marginRight: '5px' }} />
+                }
+                {approvalLineButtonDisplayStatus.includes(confirmDocument.approvalLineLifecycle) &&
+                    <Button cn="btnInsideConfirmDocument"
+                        name="결재선 지정"
+                        onClick={() => handleNavApprovalLine(confirmDocument.confirmDocumentId)} />
+                }
+            </div>
+        }
+        <DocumentContentV2 documentElements={documentElements} contents={documentContents} />
+    </ConfirmDocumentModalV2>
+);
 }
