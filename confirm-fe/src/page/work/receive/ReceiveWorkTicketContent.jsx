@@ -10,6 +10,7 @@ import ButtonGroup from "../../../components/button/ButtonGroup";
 
 export default function ReceiveWorkTicketContent() {
     const [workTickets, setWorkTickets] = useState([]);
+        const [onlyMy, setOnlyMy] = useState(false);
     const nav = useNavigate();
 
     const requestReadWorkTickets = async () => {
@@ -21,9 +22,8 @@ export default function ReceiveWorkTicketContent() {
             }
 
             const { data } = await WorkApi.searchWorkTicket(params);
-
             if (data.status === 200) {
-                setWorkTickets(data.data);
+                setWorkTickets(data.data.content);
             }
             else {
                 // 조회 결과 없음 처리
@@ -34,8 +34,6 @@ export default function ReceiveWorkTicketContent() {
             alert(e);
         }
     }
-
-    const [onlyMy, setOnlyMy] = useState(false);
 
     // 조건에 맞는 작업 티켓을 랜더링하는 함수, 즉시 실행 함수.
     const renderMeetTheCondWorkTickets = () => {
@@ -71,7 +69,8 @@ export default function ReceiveWorkTicketContent() {
                     </p>
                 </div>
                 <ButtonGroup style={{ marginBottom: '10px' }}>
-                    <Button name="내가 접수한 티켓만 보기" cn={onlyMy ? 'chip-clicked' : 'chip-unclicked'} onClick={() => setOnlyMy(!onlyMy)} />
+                    <Button name="내가 접수한 티켓만 보기" cn={onlyMy ? 'chip-clicked' : 'chip-unclicked'}
+                        onClick={() => setOnlyMy(!onlyMy)} />
                 </ButtonGroup>
                 {renderMeetTheCondWorkTickets().length > 0 ?
                     <div>

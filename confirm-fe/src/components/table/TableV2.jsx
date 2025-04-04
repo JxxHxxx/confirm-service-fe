@@ -6,7 +6,7 @@ export default function TableV2({ cn = {}, tableProperty = {}}) {
 
     return (
         <Fragment>
-            <table className={table}>
+            <table style={{width : '100%'}} className={table}>
                 <thead>
                     <tr key={"confirm-table-columns"}>
                         {columns.map((col) => (<td>{col}</td>))}
