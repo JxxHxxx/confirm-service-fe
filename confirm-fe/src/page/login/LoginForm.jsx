@@ -1,4 +1,4 @@
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import AuthApi from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
 import { CommonContext } from "../../context/CommonProvider";
@@ -17,6 +17,8 @@ const whiteSpace = '';
 export function LoginForm() {
     const { setLogin } = useContext(CommonContext);
     const navigaate = useNavigate();
+    const idInputRef = useRef(null);
+    const pwInputRef = useRef(null);
 
     const [loginInfo, setLoginInfo] = useState({
         id: whiteSpace,
@@ -76,6 +78,18 @@ export function LoginForm() {
         }
     }
 
+    const handleIdInputEnterDown = (event) => {
+        if(event.key === 'Enter') {
+            pwInputRef.current.focus();
+        }
+    }
+
+    const handlePWInputEnterDown = (event) => {
+        if(event.key === 'Enter') {
+            handleLogin(event);
+        }
+    }
+
     const handleOnChangeId = (event) => {
         setLoginInfo(prev => ({
             ...prev,
@@ -92,19 +106,27 @@ export function LoginForm() {
         }))
     }
 
+    useEffect(() => {
+        idInputRef.current?.focus();
+    }, []);
+
     return (
         <Fragment>
             <form className="login_form" id="login_form" method="post">
-                    <Input className="input_login" style={{ 'marginBottom': '5px' }}
-                        id="emp_no"
-                        type="text"
-                        placeholder="사번을 입력해주세요"
-                        onChange={handleOnChangeId} />
-                    <Input className="input_login"
-                        id="pw"
-                        type="password"
-                        placeholder="비밀번호를 입력해주세요"
-                        onChange={handleOnChangePassword} />
+                <Input className="input_login" style={{ 'marginBottom': '5px' }}
+                    id="emp_no"
+                    ref={idInputRef}
+                    type="text"
+                    placeholder="사번을 입력해주세요"
+                    onKeyDown={handleIdInputEnterDown}
+                    onChange={handleOnChangeId} />
+                <Input className="input_login"
+                    id="pw"
+                    ref={pwInputRef}
+                    type="password"
+                    placeholder="비밀번호를 입력해주세요"
+                    onKeyDown={handlePWInputEnterDown}
+                    onChange={handleOnChangePassword} />
                 <TextGroup style={{ 'height': '50px' }} id="lgn_err_msg_gr">
                     {Array.isArray(loginInfo.loginFailMessage) ?
                         loginInfo.loginFailMessage.map(msg => <Text className="lgn_err_msg" msg={msg} />) :
