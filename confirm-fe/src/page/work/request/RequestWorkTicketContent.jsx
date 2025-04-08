@@ -9,7 +9,9 @@ import { useNavigate } from "react-router-dom";
 export default function RequestWorkTicketContent() {
     const nav = useNavigate();
     
-    const [requestWorkTickets, setRequestWorkTickets] = useState([]);
+    const [requestWorkTickets, setRequestWorkTickets] = useState({
+        content : []
+    });
 
     const callIRequestWorkTicket = async () => {
         try {
@@ -48,7 +50,7 @@ export default function RequestWorkTicketContent() {
                         <br />티켓 조회가 필요할 시 클릭하세요. 티켓 조회 페이지로 이동합니다
                     </p>
                 </div>
-                {requestWorkTickets.length > 0 ? <WorkTicketTable workTickets={requestWorkTickets} readType='REQUEST'/> :
+                {requestWorkTickets.content.length > 0 ? <WorkTicketTable workTickets={requestWorkTickets.content} readType='REQUEST'/> :
                     <p style={{ marginTop: '20px' }} className="basicDesc">요청한 티켓이 없습니다</p>}
             </div>
         </MainContainer>

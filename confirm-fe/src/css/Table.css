@@ -141,3 +141,7 @@
 .tdMinWidthDate {
     min-width: 90px;
 }
+
+.defaultTable {
+    border-collapse: collapse;
+}
