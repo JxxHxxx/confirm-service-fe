@@ -79,13 +79,18 @@ export function LoginForm() {
     }
 
     const handleIdInputEnterDown = (event) => {
-        if(event.key === 'Enter') {
+        if (loginInfo.id === whiteSpace) {
+            setLoginFailMessage('아이디/비밀번호를 입력해주세요');
+            return
+        }
+
+        if (event.key === 'Enter') {
             pwInputRef.current.focus();
         }
     }
 
     const handlePWInputEnterDown = (event) => {
-        if(event.key === 'Enter') {
+        if (event.key === 'Enter') {
             handleLogin(event);
         }
     }
