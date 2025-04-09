@@ -104,6 +104,7 @@ export default function SearchWorkTicketContent() {
                         })
                     }}
                     placeholder="티켓 진행 상태"
+                    defaultValue={{ value: 'ALL', label: '전체' }}
                     options={
                         [
                             { value: 'ALL', label: '전체' },
