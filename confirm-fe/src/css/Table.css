@@ -145,3 +145,12 @@
 .defaultTable {
     border-collapse: collapse;
 }
+
+.defaultTable tbody td {
+    cursor: pointer;
+    padding: 5px;
+}
+
+.defaultTable thead td {
+    text-align: center;
+}
