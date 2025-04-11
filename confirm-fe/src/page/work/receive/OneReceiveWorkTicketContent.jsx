@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import WorkApi from "../../../api/workApi"
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import MainContainer from "../../../components/layout/container/MainContainer";
 import Title from "../../document/Title";
 import WorkConverter from "../../../converter/work/WorkConverter";
@@ -8,7 +8,7 @@ import Button from "../../../components/button/Button";
 import { format } from "date-fns";
 
 export default function OneReceiveWorkTicketContent() {
-    const params = useParams();
+    const location = useLocation();
     // 티켓 정보 접기/펴기 상태
     const [reqContent, setReqContent] = useState(true);
     // 분석 내용 접기/펴기 상태
@@ -38,7 +38,7 @@ export default function OneReceiveWorkTicketContent() {
 
     const fetchOneWorkTicket = async () => {
         try {
-            const { data, status } = await WorkApi.getOneWorkTicket(params.workTicketPk);
+            const { data, status } = await WorkApi.getOneWorkTicket(location.state.pk);
 
             if (status === 200) {
                 setOneWork(data.data)

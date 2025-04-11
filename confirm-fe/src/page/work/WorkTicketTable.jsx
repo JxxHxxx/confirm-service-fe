@@ -18,10 +18,13 @@ export default function WorkTicketTable({ workTickets, readType }) {
     else {
         throw new Error('Hey developer, readType props is invalid');
     }
-
     return <TableV2 tableProperty={{
         columns: ['요청일', '요청자', '제목', '접수자', '작업 티켓 상태'],
-        data: workTickets.map(wt => <tr key={wt.worktTicketPk} onClick={() => nav(url_prefix + "/" + wt.workTicketPk)}>
+        data: workTickets.map(wt => <tr key={wt.workTicketPk} onClick={() => nav(url_prefix + 'One', {
+            state : {
+                pk : wt.workTicketPk
+            }
+        })}>
             <td style={{ minWidth: '100px' }}>{format(wt.createdTime, 'yyyy-MM-dd')}</td>
             <td style={{ minWidth: '50px' }}>{wt.workRequester.name}</td>
             <td style={{ minWidth: '500px' }}>{wt.requestTitle}</td>

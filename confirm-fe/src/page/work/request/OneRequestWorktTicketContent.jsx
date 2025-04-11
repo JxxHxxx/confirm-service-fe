@@ -4,12 +4,12 @@ import MainContainer from "../../../components/layout/container/MainContainer";
 import WorkConverter from "../../../converter/work/WorkConverter";
 import Title from "../../document/Title";
 import WorkApi from "../../../api/workApi";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { format } from "date-fns";
 
 
 export default function OneRequestWorktTicketContent() {
-    const params = useParams();
+    const location = useLocation();
     const [contentPresent, setContentPresent] = useState({
         reqContent: true,
         analContent: true,
@@ -32,7 +32,7 @@ export default function OneRequestWorktTicketContent() {
 
     const fetchOneWorkTicket = async () => {
         try {
-            const { data, status } = await WorkApi.getOneWorkTicket(params.workTicketPk);
+            const { data, status } = await WorkApi.getOneWorkTicket(location.state.pk);
 
             if (status === 200) {
                 setOneWork(data.data)
