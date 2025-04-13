@@ -21,6 +21,30 @@ export default function WorkTicketApplicationContent() {
         ref.current = event.target.value;
     }
 
+    // 첨부파일 state
+    const [attachMents, setAttachMents] = useState([]);
+
+    const inputRef = useRef(null);
+
+    const handleInputAttachMent = () => {
+        if (inputRef.current) {
+            inputRef.current.click();
+        }
+    }
+    // 첨부파일 input onchange 이벤트 처리리
+    const handleOnchangeAttachMentInput = (event) => {
+        let files = event.target.files;
+        if (files.length > 0) {
+            let tmpArr = [];
+            for (let i = 0; i < files.length; i++) {
+                tmpArr.push({name : files[i].name , idx : i});
+            }
+
+            setAttachMents(prevFiles => prevFiles.concat(tmpArr));
+        }
+
+    }
+
     const handleOnclickApplyWorkTicket = async () => {
         if (workTicket.chargeCompanyId === '' || workTicket.chargeDepartmentId === '') {
             alert("업무를 요청할 부서를 선택해주세요")
@@ -54,11 +78,10 @@ export default function WorkTicketApplicationContent() {
         } catch (e) {
             alert(e);
         }
-
-        useEffect(() => {
-
-        }, [applyFlag])
     }
+    useEffect(() => {
+
+    }, [applyFlag])
     return <>
         <MainContainer profile='dev'>
             <div id="applyWorkTicketFormContainer" style={{ border: '1px dashed blue', width: '500px', margin: '0px 0px 50px 0px', padding: '20px' }}>
@@ -92,6 +115,29 @@ export default function WorkTicketApplicationContent() {
                     <textarea style={{ width: '495px', height: '315px', resize: 'none' }}
                         readOnly={applyFlag === 'SUCCESS' ? true : false}
                         onChange={(event) => handleOnChangeTextarea(requestContentRef, event)} />
+                </div>
+                <div id="requestAttachMentDiv">
+                    <p id='requestContentDesc' className="basicDesc">첨부 파일</p>
+                    <div>
+                        <div style={{
+                            border: '1px dashed gray',
+                            padding: '20px',
+                            cursor: 'pointer',
+                            textAlign: 'center',
+                            fontFamily: 'maruBuri',
+                            color: 'gray'
+                        }}
+                            onClick={handleInputAttachMent}>
+                            {attachMents.length <= 0 ?  '파일 첨부' : attachMents.map((am, idx) => <p key={idx}>{am.name}</p>)}
+                            <input
+                                id="requestTicketAttachMent"
+                                ref={inputRef}
+                                onChange={handleOnchangeAttachMentInput}
+                                type="file"
+                                multiple
+                                style={{ display: 'none' }}></input>
+                        </div>
+                    </div>
                 </div>
             </div>
         </MainContainer>
