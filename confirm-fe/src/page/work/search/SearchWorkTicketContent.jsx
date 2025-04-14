@@ -13,6 +13,13 @@ export default function SearchWorkTicketContent() {
         data: []
     });
 
+    const [searchCond, setSearchCond] = useState({
+        workStatus: {
+            label: '전체',
+            value: 'ALL'
+        }
+    });
+
     const [selectTicket, setSelectTicket] = useState({
         workTicketPk: undefined,
         workTicketId: undefined,
@@ -48,15 +55,48 @@ export default function SearchWorkTicketContent() {
         }
     }
 
-    const content = searchtickets.data.map(({ workTicketPk, workTicketId, requestTitle, workRequester, workStatus, receiverName }) => ({
-        uniqueKey: workTicketPk,
-        workTicketId,
-        requestTitle,
-        reqesterName: workRequester.name,
-        a: null,
-        receiverName,
-        workStatus: WorkConverter.convertWorkStatus(workStatus)
-    }));
+    const content = () => {
+        if (searchCond.workStatus.value === 'ALL') {
+            return searchtickets.data
+                .map(({ workTicketPk, workTicketId, requestTitle, workRequester, workStatus, receiverName }) => ({
+                    uniqueKey: workTicketPk,
+                    workTicketId,
+                    requestTitle,
+                    reqesterName: workRequester.name,
+                    a: null,
+                    receiverName,
+                    workStatus: WorkConverter.convertWorkStatus(workStatus)
+                }))
+        }
+
+        if (searchCond.workStatus.value === 'End') {
+            return searchtickets.data
+                .filter((ticket) => ticket.workStatus === 'DONE')
+                .map(({ workTicketPk, workTicketId, requestTitle, workRequester, workStatus, receiverName }) => ({
+                    uniqueKey: workTicketPk,
+                    workTicketId,
+                    requestTitle,
+                    reqesterName: workRequester.name,
+                    a: null,
+                    receiverName,
+                    workStatus: WorkConverter.convertWorkStatus(workStatus)
+                }))
+        }
+
+        if (searchCond.workStatus.value === 'Processing') {
+            return searchtickets.data
+                .filter((ticket) => !['DONE', 'DELETE'].includes(ticket.workStatus))
+                .map(({ workTicketPk, workTicketId, requestTitle, workRequester, workStatus, receiverName }) => ({
+                    uniqueKey: workTicketPk,
+                    workTicketId,
+                    requestTitle,
+                    reqesterName: workRequester.name,
+                    a: null,
+                    receiverName,
+                    workStatus: WorkConverter.convertWorkStatus(workStatus)
+                }))
+        }
+    }
 
     const handleOnClickTableData = (event) => {
         const workTicketPk = event.currentTarget.getAttribute('searchCondition');
@@ -71,9 +111,15 @@ export default function SearchWorkTicketContent() {
         }
     }
 
+    // 페이지 최초 랜더링 시 호출
     useEffect(() => {
         requestSearchTickets();
     }, [])
+
+    // 검색 조건을 변경했을 때 호출
+    useEffect(() => {
+
+    }, [searchCond])
 
     return <MainContainer profile='dev'>
         <div id="requestWorkTicketContainerTitle"
@@ -93,7 +139,7 @@ export default function SearchWorkTicketContent() {
                 padding: '20px'
             }}>
             <div style={{ display: 'inline-block' }}>
-                <div style={{ paddingBottom: '5px' ,fontSize : '14px' }}>
+                <div style={{ paddingBottom: '5px', fontSize: '14px' }}>
                     <label htmlFor="searchCondTicketId">티켓 상태</label>
                 </div>
                 <Select id="searchCondTicketId"
@@ -104,6 +150,10 @@ export default function SearchWorkTicketContent() {
                         })
                     }}
                     placeholder="티켓 진행 상태"
+                    onChange={(option) => setSearchCond({
+                        ...searchCond,
+                        workStatus: option
+                    })}
                     defaultValue={{ value: 'ALL', label: '전체' }}
                     options={
                         [
@@ -123,7 +173,8 @@ export default function SearchWorkTicketContent() {
             }}>
             <ReactModal isOpen={modalOpen}
                 onRequestClose={() => {
-                    // const closeConfirm = confirm('종료하겠습니까?');
+                    // const closeConfirm = confirm('종료하겠습니까?'); 
+                    // 현재 불편해서 경고 창 안뜨게 변경해둠
                     if (true) {
                         setModalOpen(false);
                     }
@@ -150,7 +201,7 @@ export default function SearchWorkTicketContent() {
             <div style={{ marginBottom: '20px' }}></div>
             <DefaultTable className={'defaultTable'}
                 columnNames={['ID', '제목', '요청자', '요청부서', '접수자', '티켓 진행 상태']}
-                items={content}
+                items={content()}
                 onClick={(event) => handleOnClickTableData(event)}
             />
 
