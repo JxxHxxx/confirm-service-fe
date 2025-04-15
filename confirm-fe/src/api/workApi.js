@@ -6,7 +6,7 @@ const instance = createAxiosInstance('http://localhost:8080', true)
 const createWorkTicket = (requestBody) => {
     return instance.post(`/api/work-tickets`, requestBody)
         .then(res => res)
-        .catch(err => alert(err))
+        .catch(err => err.response)
 }
 // 작업 티켓 검색 API
 const searchWorkTicket = (params) => {

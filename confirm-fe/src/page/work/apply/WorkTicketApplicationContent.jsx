@@ -81,6 +81,10 @@ export default function WorkTicketApplicationContent() {
                 alert(data.message);
                 setApplyFlag('SUCCESS');
                 concurrentBlockRef.current = false;
+            } 
+            else {
+                alert(data.message);
+                concurrentBlockRef.current = false;
             }
 
         } catch (e) {
