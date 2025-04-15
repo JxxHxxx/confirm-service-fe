@@ -6,6 +6,11 @@ import Title from "../../document/Title";
 import MainContainer from "../../../components/layout/container/MainContainer";
 
 export default function WorkTicketApplicationContent() {
+    const requestTitleRef = useRef('');
+    const requestContentRef = useRef('');
+    const concurrentBlockRef = useRef(false);
+
+
     const [workTicket, setWorkTicket] = useState({
         chargeDepartmentName: '',
         chargeCompanyId: '',
@@ -13,10 +18,6 @@ export default function WorkTicketApplicationContent() {
     });
 
     const [applyFlag, setApplyFlag] = useState('PENDING');
-
-    const requestTitleRef = useRef('');
-    const requestContentRef = useRef('');
-
     const handleOnChangeTextarea = (ref, event) => {
         ref.current = event.target.value;
     }
@@ -56,6 +57,11 @@ export default function WorkTicketApplicationContent() {
             throw new Error("요청 제목은 2자 이상이여야 합니다.");
         }
 
+        if (concurrentBlockRef.current) {
+            alert('이전 요청을 처리중입니다');
+            return;
+        }
+
         try {
             const requestBody = {
                 chargeCompanyId: workTicket.chargeCompanyId,
@@ -69,10 +75,12 @@ export default function WorkTicketApplicationContent() {
                 }
             }
             // 응답 실패, 성공 케이스 처리해야함
+            concurrentBlockRef.current = true;
             const { status, data } = await WorkApi.createWorkTicket(requestBody);
             if (status === 201) {
                 alert(data.message);
                 setApplyFlag('SUCCESS');
+                concurrentBlockRef.current = false;
             }
 
         } catch (e) {

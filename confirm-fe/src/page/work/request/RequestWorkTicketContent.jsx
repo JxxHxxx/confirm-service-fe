@@ -16,7 +16,8 @@ export default function RequestWorkTicketContent() {
     const callIRequestWorkTicket = async () => {
         try {
             const params = {
-                memberId: sessionStorage.getItem('memberId')
+                memberId: sessionStorage.getItem('memberId'),
+                notWorkStatus: 'DELETE'
             }
             const { status, data } = await WorkApi.searchWorkTicket(params);
 
