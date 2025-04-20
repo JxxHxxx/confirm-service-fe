@@ -38,7 +38,11 @@ export default function WorkTicketApplicationContent() {
         if (files.length > 0) {
             let tmpArr = [];
             for (let i = 0; i < files.length; i++) {
-                tmpArr.push({name : files[i].name , idx : i});
+                tmpArr.push({
+                    name: files[i].name,
+                    idx: i,
+                    file: files[i]
+                });
             }
 
             setAttachMents(prevFiles => prevFiles.concat(tmpArr));
@@ -81,11 +85,19 @@ export default function WorkTicketApplicationContent() {
                 alert(data.message);
                 setApplyFlag('SUCCESS');
                 concurrentBlockRef.current = false;
-            } 
+            }
             else {
                 alert(data.message);
                 concurrentBlockRef.current = false;
             }
+
+            // 파일 저장
+            const workTicketId = data.data.workTicketId;
+            WorkApi.storeWorkTicketAttachment({
+                file : attachMents[0].file,
+                workTicketId : workTicketId,
+
+            })
 
         } catch (e) {
             alert(e);
@@ -140,7 +152,7 @@ export default function WorkTicketApplicationContent() {
                             color: 'gray'
                         }}
                             onClick={handleInputAttachMent}>
-                            {attachMents.length <= 0 ?  '파일 첨부' : attachMents.map((am, idx) => <p key={idx}>{am.name}</p>)}
+                            {attachMents.length <= 0 ? '파일 첨부' : attachMents.map((am, idx) => <p key={idx}>{am.name}</p>)}
                             <input
                                 id="requestTicketAttachMent"
                                 ref={inputRef}

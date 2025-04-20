@@ -1,3 +1,4 @@
+import axios from 'axios';
 import createAxiosInstance from './GlobalApiConfiguration';
 
 const instance = createAxiosInstance('http://localhost:8080', true)
@@ -144,6 +145,20 @@ const completeWork = (workTicketId) => {
         .catch(err => err.response)
 }
 
+const storeWorkTicketAttachment = (params) => {
+    const formData = new FormData();
+    formData.append('file', params.file);
+    formData.append('workTicketId', params.workTicketId);
+
+    return axios.create({
+        baseURL: 'http://localhost:8080',
+        timeout: 3000
+    }).post(`/api/work-ticket-attachments`, formData, {
+        headers: {
+            'content-type': 'multipart/form-data' }
+    })
+}
+
 const WorkApi = {
     createWorkTicket,
     searchWorkTicket,
@@ -156,7 +171,8 @@ const WorkApi = {
     requestConfirmWorkTicket,
     rejectTicketFromReceiver,
     beginWork,
-    completeWork
+    completeWork,
+    storeWorkTicketAttachment
 }
 
 export default WorkApi;
