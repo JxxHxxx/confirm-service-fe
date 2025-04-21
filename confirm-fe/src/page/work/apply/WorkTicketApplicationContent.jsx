@@ -8,6 +8,7 @@ import MainContainer from "../../../components/layout/container/MainContainer";
 export default function WorkTicketApplicationContent() {
     const requestTitleRef = useRef('');
     const requestContentRef = useRef('');
+    // 따닥 방지
     const concurrentBlockRef = useRef(false);
 
 
@@ -50,6 +51,13 @@ export default function WorkTicketApplicationContent() {
 
     }
 
+    const handleRequestWorkTicketAttachment = (workTicketId) => {
+        return WorkApi.storeWorkTicketAttachment({
+            file: attachMents[0].file,
+            workTicketId: workTicketId,
+        });
+    }
+
     const handleOnclickApplyWorkTicket = async () => {
         if (workTicket.chargeCompanyId === '' || workTicket.chargeDepartmentId === '') {
             alert("업무를 요청할 부서를 선택해주세요")
@@ -82,22 +90,23 @@ export default function WorkTicketApplicationContent() {
             concurrentBlockRef.current = true;
             const { status, data } = await WorkApi.createWorkTicket(requestBody);
             if (status === 201) {
-                alert(data.message);
                 setApplyFlag('SUCCESS');
                 concurrentBlockRef.current = false;
+
+                // 티켓 생성이 성공하면 이후, 티켓 첨부 파일 저장 API 호출
+                if (attachMents.length > 0) {
+                    const response = await handleRequestWorkTicketAttachment(data.data.workTicketId);
+                    if(response.status !== 201) {
+                        alert(response.data.message);
+                        return;
+                    }
+                }
+                alert(data.message);
             }
             else {
                 alert(data.message);
                 concurrentBlockRef.current = false;
             }
-
-            // 파일 저장
-            const workTicketId = data.data.workTicketId;
-            WorkApi.storeWorkTicketAttachment({
-                file : attachMents[0].file,
-                workTicketId : workTicketId,
-
-            })
 
         } catch (e) {
             alert(e);

@@ -155,8 +155,10 @@ const storeWorkTicketAttachment = (params) => {
         timeout: 3000
     }).post(`/api/work-ticket-attachments`, formData, {
         headers: {
-            'content-type': 'multipart/form-data' }
-    })
+            'content-type': 'multipart/form-data'
+        }
+    }).then(res => res)
+      .catch(err => err.response)
 }
 
 const WorkApi = {
