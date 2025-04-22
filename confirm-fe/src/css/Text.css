@@ -41,6 +41,23 @@
 .basicDesc {
     margin : 0px;
     font-size: 12px;
-    color: gray;
+    color: black;
     font-family: 'MaruBuri';
+}
+
+.attachmentText {
+    display: flex;
+    text-align: start;
+    justify-content: space-between;
+    margin : 8px 0px 8px 0px;
+    padding: 12px 8px 12px 8px;
+    border-radius: 2px;
+    border : 1px dashed black;
+    font-size: 14px;
+}
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

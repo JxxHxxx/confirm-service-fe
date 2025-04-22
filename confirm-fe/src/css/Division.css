@@ -1,0 +1,14 @@
+.attachmentDiv {
+    border: 1px dashed gray;
+    padding: 16px 10px 13px 10px;
+    cursor: pointer;
+    font-family: 'maruBuri';
+    color: gray;
+    text-align: center;
+}
+
+.attachmentDiv:hover {
+    color: black;
+    border: 1px dashed black;
+
+}

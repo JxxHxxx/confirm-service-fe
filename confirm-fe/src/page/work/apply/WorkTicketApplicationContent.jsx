@@ -3,7 +3,13 @@ import Button from "../../../components/button/Button";
 import OrgSearchModal from "./OrgSearchModal";
 import WorkApi from "../../../api/workApi";
 import Title from "../../document/Title";
+import '../../../css/Division.css';
 import MainContainer from "../../../components/layout/container/MainContainer";
+import { GrAdd } from "react-icons/gr";
+import { IoCheckmarkSharp, IoCloseOutline } from "react-icons/io5";
+
+// 파일 크기 제한 10MB
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 export default function WorkTicketApplicationContent() {
     const requestTitleRef = useRef('');
@@ -22,38 +28,42 @@ export default function WorkTicketApplicationContent() {
     const handleOnChangeTextarea = (ref, event) => {
         ref.current = event.target.value;
     }
-
     // 첨부파일 state
-    const [attachMents, setAttachMents] = useState([]);
-
-    const inputRef = useRef(null);
-
-    const handleInputAttachMent = () => {
-        if (inputRef.current) {
-            inputRef.current.click();
-        }
-    }
+    const [attachments, setAttachments] = useState([]);
     // 첨부파일 input onchange 이벤트 처리리
-    const handleOnchangeAttachMentInput = (event) => {
+    const handleOnchangeAttachmentInput = (event) => {
         let files = event.target.files;
         if (files.length > 0) {
             let tmpArr = [];
             for (let i = 0; i < files.length; i++) {
+                let tmpFile = files[i];
+                if (tmpFile.size > MAX_FILE_SIZE) {
+                    alert('10MB가 넘는 파일은 첨부할 수 없습니다. \n첨부 파일 :' + tmpFile.name)
+                    break;
+                }
                 tmpArr.push({
-                    name: files[i].name,
+                    name: tmpFile.name,
                     idx: i,
-                    file: files[i]
+                    file: tmpFile
                 });
             }
-
-            setAttachMents(prevFiles => prevFiles.concat(tmpArr));
+            setAttachments(prevFiles => prevFiles.concat(tmpArr));
+        }
+    }
+    // 첨부 파일 취소 이벤트 처리
+    const handleOnClickAttachRemove = (file) => {
+        if (applyFlag === 'SUCCESS') {
+            return;
         }
 
+        setAttachments(
+            attachments.filter(item => item.file !== file)
+        )
     }
-
-    const handleRequestWorkTicketAttachment = (workTicketId) => {
+    // 작업 티켓 요청 후, 첨부 파일 처리 API
+    const handleRequestWorkTicketAttachment = (attachment, workTicketId) => {
         return WorkApi.storeWorkTicketAttachment({
-            file: attachMents[0].file,
+            file: attachment.file,
             workTicketId: workTicketId,
         });
     }
@@ -93,10 +103,10 @@ export default function WorkTicketApplicationContent() {
                 setApplyFlag('SUCCESS');
                 concurrentBlockRef.current = false;
 
-                // 티켓 생성이 성공하면 이후, 티켓 첨부 파일 저장 API 호출
-                if (attachMents.length > 0) {
-                    const response = await handleRequestWorkTicketAttachment(data.data.workTicketId);
-                    if(response.status !== 201) {
+                // 첨부 파일 처리
+                for (let idx = 0; idx < attachments.length; idx++) {
+                    const response = await handleRequestWorkTicketAttachment(attachments[idx], data.data.workTicketId);
+                    if (response.status !== 201) {
                         alert(response.data.message);
                         return;
                     }
@@ -152,27 +162,36 @@ export default function WorkTicketApplicationContent() {
                 <div id="requestAttachMentDiv">
                     <p id='requestContentDesc' className="basicDesc">첨부 파일</p>
                     <div>
-                        <div style={{
-                            border: '1px dashed gray',
-                            padding: '20px',
-                            cursor: 'pointer',
-                            textAlign: 'center',
-                            fontFamily: 'maruBuri',
-                            color: 'gray'
-                        }}
-                            onClick={handleInputAttachMent}>
-                            {attachMents.length <= 0 ? '파일 첨부' : attachMents.map((am, idx) => <p key={idx}>{am.name}</p>)}
+                        <div>
+                            {attachments.length > 0 &&
+                                <div>{attachments.map((item, idx) =>
+                                    <div className="attachmentText" key={idx}>
+                                        <div className="text-ellipsis" style={{ padding: '5px' }}>{item.name}</div>
+                                        <div className={applyFlag === 'SUCCESS' ? '' : 'pointer'}
+                                            style={{ padding: '5px' }}
+                                            onClick={() => handleOnClickAttachRemove(item.file)}>
+                                            {applyFlag === 'SUCCESS' ? <IoCheckmarkSharp size={'14px'} /> : <IoCloseOutline size={'14px'} />}
+                                        </div>
+                                    </div>)}
+                                </div>}
+                        </div>
+                        {applyFlag === 'SUCCESS' ? <></> : <>
+                            <label htmlFor="requestTicketAttachment">
+                                <div className="attachmentDiv">
+                                    <GrAdd />
+                                </div>
+                            </label>
                             <input
-                                id="requestTicketAttachMent"
-                                ref={inputRef}
-                                onChange={handleOnchangeAttachMentInput}
+                                id="requestTicketAttachment"
+                                onChange={handleOnchangeAttachmentInput}
                                 type="file"
                                 multiple
-                                style={{ display: 'none' }}></input>
-                        </div>
+                                style={{ display: 'none' }}
+                            />
+                        </>}
                     </div>
                 </div>
             </div>
-        </MainContainer>
+        </MainContainer >
     </>
 }
