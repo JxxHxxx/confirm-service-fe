@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import Button from "../../../components/button/Button";
 import OrgSearchModal from "./OrgSearchModal";
 import WorkApi from "../../../api/workApi";
 import Title from "../../document/Title";
 import '../../../css/Division.css';
+import '../../../css/Text.css';
 import MainContainer from "../../../components/layout/container/MainContainer";
 import { GrAdd } from "react-icons/gr";
 import { IoCheckmarkSharp, IoCloseOutline } from "react-icons/io5";
+import FileInput from "../../../components/input/FileInput";
+import DualStateButton from "../../../components/button/DualStateButton";
+import TextArea from "../../../components/text/TextArea";
 
 // 파일 크기 제한 10MB
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
@@ -24,7 +27,7 @@ export default function WorkTicketApplicationContent() {
         chargeDepartmentId: '',
     });
 
-    const [applyFlag, setApplyFlag] = useState('PENDING');
+    const [applyFlag, setApplyFlag] = useState(false);
     const handleOnChangeTextarea = (ref, event) => {
         ref.current = event.target.value;
     }
@@ -52,7 +55,7 @@ export default function WorkTicketApplicationContent() {
     }
     // 첨부 파일 취소 이벤트 처리
     const handleOnClickAttachRemove = (file) => {
-        if (applyFlag === 'SUCCESS') {
+        if (applyFlag) {
             return;
         }
 
@@ -100,7 +103,7 @@ export default function WorkTicketApplicationContent() {
             concurrentBlockRef.current = true;
             const { status, data } = await WorkApi.createWorkTicket(requestBody);
             if (status === 201) {
-                setApplyFlag('SUCCESS');
+                setApplyFlag(true);
                 concurrentBlockRef.current = false;
 
                 // 첨부 파일 처리
@@ -130,65 +133,62 @@ export default function WorkTicketApplicationContent() {
             <div id="applyWorkTicketFormContainer" style={{ border: '1px dashed blue', width: '500px', margin: '0px 0px 50px 0px', padding: '20px' }}>
                 <div id="applyWorkTicketTitleDiv" style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid black', marginBottom: '10px' }}>
                     <Title className="basicTitle" name="업무 요청" />
-                    {applyFlag === 'SUCCESS' ?
-                        <Button cn="btn_normal" name="확인 완료" onClick={() => window.location.reload()} /> :
-                        <Button cn="btn_normal" name="요청" onClick={handleOnclickApplyWorkTicket} />}
+                    <DualStateButton flag={applyFlag}
+                        trueButtonName="확인 완료"
+                        trueButtonOnclick={() => window.location.reload()}
+                        falseButtonName="요청"
+                        falseButtonOnclick={handleOnclickApplyWorkTicket}
+                    />
                 </div>
                 <div id="chargeDepartmentDiv">
-                    {applyFlag === 'SUCCESS' ?
+                    {applyFlag ?
                         <p className="basicDesc">요청 부서</p> :
                         <p className="basicDesc">업무를 요청할 부서를 선택해주세요</p>}
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <span style={{ margin: '0px' }}>
                             {workTicket.chargeDepartmentName ? workTicket.chargeDepartmentName : ''}
                         </span>
-                        {applyFlag === 'SUCCESS' ? <></> : <OrgSearchModal setWorkTicket={setWorkTicket} />}
+                        {!applyFlag && <OrgSearchModal setWorkTicket={setWorkTicket} />}
                     </div>
                 </div>
                 <div style={{ marginBottom: '10px' }}></div>
-                <div id="requestTitleDiv">
-                    <p id='requestTitleDesc' className="basicDesc">요청 제목</p>
-                    <textarea style={{ width: '495px', height: '21px', resize: 'none' }}
-                        readOnly={applyFlag === 'SUCCESS' ? true : false}
-                        onChange={(event) => handleOnChangeTextarea(requestTitleRef, event)} />
-                </div>
+                <TextArea divId="requestTitleDiv"
+                    textareaId="requestTitleArea"
+                    textAreaClassName="workTicketRequestTitleArea"
+                    title="요청 제목"
+                    readOnly={applyFlag}
+                    onChange={(event) => handleOnChangeTextarea(requestTitleRef, event)} />
                 <div style={{ marginBottom: '10px' }}></div>
-                <div id="requestContentDiv">
-                    <p id='requestContentDesc' className="basicDesc">요청 내용</p>
-                    <textarea style={{ width: '495px', height: '315px', resize: 'none' }}
-                        readOnly={applyFlag === 'SUCCESS' ? true : false}
-                        onChange={(event) => handleOnChangeTextarea(requestContentRef, event)} />
-                </div>
+                <TextArea
+                    divId="requestContentDiv"
+                    textareaId="requestContentArea"
+                    textAreaClassName="workTicketRequestContentArea"
+                    title="요청 내용"
+                    readOnly={applyFlag}
+                    onChange={(event) => handleOnChangeTextarea(requestContentRef, event)} />
                 <div id="requestAttachMentDiv">
-                    <p id='requestContentDesc' className="basicDesc">첨부 파일</p>
-                    <div>
+                    <p id='requestAttachment' className="basicDesc">첨부 파일</p>
+                    <div style={{paddingTop : '2px', border : '1px dashed black', backgroundColor : 'rgb(245, 245, 245)'}}>
                         <div>
                             {attachments.length > 0 &&
                                 <div>{attachments.map((item, idx) =>
                                     <div className="attachmentText" key={idx}>
                                         <div className="text-ellipsis" style={{ padding: '5px' }}>{item.name}</div>
-                                        <div className={applyFlag === 'SUCCESS' ? '' : 'pointer'}
+                                        <div className={applyFlag ? '' : 'pointer'}
                                             style={{ padding: '5px' }}
                                             onClick={() => handleOnClickAttachRemove(item.file)}>
-                                            {applyFlag === 'SUCCESS' ? <IoCheckmarkSharp size={'14px'} /> : <IoCloseOutline size={'14px'} />}
+                                            {applyFlag ? <IoCheckmarkSharp size={'14px'} /> : <IoCloseOutline size={'14px'} />}
                                         </div>
                                     </div>)}
                                 </div>}
                         </div>
-                        {applyFlag === 'SUCCESS' ? <></> : <>
-                            <label htmlFor="requestTicketAttachment">
+                        {!applyFlag &&
+                            <FileInput inputId='attachmentInput' onChange={handleOnchangeAttachmentInput} isMultiple={true}>
                                 <div className="attachmentDiv">
                                     <GrAdd />
                                 </div>
-                            </label>
-                            <input
-                                id="requestTicketAttachment"
-                                onChange={handleOnchangeAttachmentInput}
-                                type="file"
-                                multiple
-                                style={{ display: 'none' }}
-                            />
-                        </>}
+                            </FileInput>
+                        }
                     </div>
                 </div>
             </div>

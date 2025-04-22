@@ -47,17 +47,35 @@
 
 .attachmentText {
     display: flex;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     text-align: start;
     justify-content: space-between;
-    margin : 8px 0px 8px 0px;
+    margin : 8px 8px 8px 8px;
     padding: 12px 8px 12px 8px;
     border-radius: 2px;
-    border : 1px dashed black;
+    border: 1px solid gray;
+    background-color: white;
     font-size: 14px;
+}
+
+.attachmentText:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .text-ellipsis {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.workTicketRequestTitleArea {
+    width: 495px;
+    height: 21px;
+    resize: none;
+}
+
+.workTicketRequestContentArea {
+    width: 495px;
+    height: 315px;
+    resize: none;
 }
